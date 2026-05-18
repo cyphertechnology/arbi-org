@@ -5,7 +5,7 @@ import { Target, Eye, Heart, Users, Calendar, Award, ArrowRight } from "lucide-r
 
 const teamMembers = [
   {
-    name: "Dr. Mary Nakamya",
+    name: "Dr. Mary Mosetoro",
     role: "Founder & Executive Director",
     bio: "With over 15 years in community development, Dr. Nakamya founded arbi to address the educational needs of underprivileged children.",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
