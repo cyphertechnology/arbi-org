@@ -118,8 +118,8 @@ const Programs = () => {
               Our <span>Programs</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:100ms]">
-              Comprehensive initiatives designed to address the most pressing needs 
-              of children and families in our community. Each program is carefully 
+              Comprehensive initiatives designed to address the most pressing needs
+              of children and families in our community. Each program is carefully
               crafted to create lasting, transformational impact.
             </p>
           </div>
@@ -134,9 +134,8 @@ const Programs = () => {
               <div
                 key={program.id}
                 id={program.id}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${
-                  index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+                className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                  }`}
               >
                 <div className={index % 2 === 1 ? "lg:order-2" : ""}>
                   <div className="relative">
@@ -145,21 +144,20 @@ const Programs = () => {
                       alt={program.title}
                       className="rounded-3xl shadow-card w-full aspect-[4/3] object-cover"
                     />
-                   
+
                   </div>
                 </div>
 
                 <div className={index % 2 === 1 ? "lg:order-1" : ""}>
                   <p
-                    className={`text-sm font-semibold mb-2 ${
-                      program.color === "primary"
+                    className={`text-sm font-semibold mb-2 ${program.color === "primary"
                         ? "text-primary"
                         : program.color === "teal"
-                        ? "text-teal"
-                        : program.color === "gold"
-                        ? "text-gold"
-                        : "text-destructive"
-                    }`}
+                          ? "text-teal"
+                          : program.color === "gold"
+                            ? "text-gold"
+                            : "text-destructive"
+                      }`}
                   >
                     {program.tagline}
                   </p>
@@ -213,7 +211,7 @@ const Programs = () => {
                     </ul>
                   </div>
 
-                  <Link to="/get-involved">
+                  <Link to="/donate">
                     <Button variant="hero">
                       Support This Program
                       <ArrowRight className="w-4 h-4" />
@@ -234,11 +232,11 @@ const Programs = () => {
               Every Contribution Matters
             </h2>
             <p className="text-lg text-primary-foreground/90 mb-8">
-              Whether you donate, volunteer, or spread the word, you're helping us 
+              Whether you donate, volunteer, or spread the word, you're helping us
               create a brighter future for children in need.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/get-involved">
+              <Link to="/donate">
                 <Button
                   size="lg"
                   className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"

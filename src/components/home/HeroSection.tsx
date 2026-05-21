@@ -26,19 +26,19 @@ const HeroSection = () => {
             </h1>
 
             <p className="text-lg text-muted-foreground leading-relaxed max-w-lg animate-fade-in-up [animation-delay:200ms]">
-              arbi org is dedicated to transforming lives through education, 
-              healthcare, and community support. Join us in creating a brighter future 
+              arbi org is dedicated to transforming lives through education,
+              healthcare, and community support. Join us in creating a brighter future
               for children and families in need.
             </p>
 
             <div className="flex flex-wrap gap-4 animate-fade-in-up [animation-delay:300ms]">
-              <Link to="/get-involved">
+              <Link to="/donate">
                 <Button className="text-white" size="xl">
                   Donate Now
                   <ArrowRight className="w-5 h-5" />
                 </Button>
               </Link>
-              <Link to="/get-involved">
+              <Link to="/donate">
                 <Button variant="hero-outline" size="xl">
                   Volunteer
                 </Button>
@@ -74,7 +74,7 @@ const HeroSection = () => {
                   <p className="text-sm text-muted-foreground">Blood Units Collected</p>
                 </div>
               </div>
-              
+
             </div>
           </div>
 

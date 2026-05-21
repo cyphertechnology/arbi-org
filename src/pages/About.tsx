@@ -49,9 +49,9 @@ const About = () => {
               Our Story of <span>Compassion</span>
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:100ms]">
-              Born from a deep desire to see every child thrive, arbi org has been 
-              transforming lives since 2015. What started as a small initiative to help 
-              50 children access education has grown into a comprehensive support system 
+              Born from a deep desire to see every child thrive, arbi org has been
+              transforming lives since 2015. What started as a small initiative to help
+              50 children access education has grown into a comprehensive support system
               for thousands of families.
             </p>
           </div>
@@ -84,13 +84,13 @@ const About = () => {
                 How It All Began
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                In 2015, Dr. Mary Nakamya witnessed firsthand the struggles of children 
-                in her community who couldn't afford school fees. Driven by compassion 
+                In 2015, Dr. Mary Nakamya witnessed firsthand the struggles of children
+                in her community who couldn't afford school fees. Driven by compassion
                 and a vision for change, she started arbi org in her living room.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Today, we've grown into a full-fledged organization with dedicated staff, 
-                hundreds of volunteers, and programs that touch every aspect of a child's 
+                Today, we've grown into a full-fledged organization with dedicated staff,
+                hundreds of volunteers, and programs that touch every aspect of a child's
                 life – from education and nutrition to mental health and community support.
               </p>
               <Link to="/programs">
@@ -163,22 +163,20 @@ const About = () => {
                 className="bg-card p-8 rounded-2xl shadow-soft hover:shadow-card transition-shadow"
               >
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
-                    item.color === "primary"
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${item.color === "primary"
                       ? "bg-primary/10"
                       : item.color === "teal"
-                      ? "bg-teal/10"
-                      : "bg-gold/10"
-                  }`}
+                        ? "bg-teal/10"
+                        : "bg-gold/10"
+                    }`}
                 >
                   <item.icon
-                    className={`w-8 h-8 ${
-                      item.color === "primary"
+                    className={`w-8 h-8 ${item.color === "primary"
                         ? "text-primary"
                         : item.color === "teal"
-                        ? "text-teal"
-                        : "text-gold"
-                    }`}
+                          ? "text-teal"
+                          : "text-gold"
+                      }`}
                   />
                 </div>
                 <h3 className="text-xl font-serif font-semibold text-foreground mb-3">
@@ -238,17 +236,17 @@ const About = () => {
               Join Our Mission
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-              Together, we can reach more children, support more families, and create 
+              Together, we can reach more children, support more families, and create
               lasting change in our communities.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/get-involved">
+              <Link to="/donate">
                 <Button variant="hero" size="lg">
                   <Heart className="w-4 h-4" fill="currentColor" />
                   Donate Now
                 </Button>
               </Link>
-              <Link to="/get-involved">
+              <Link to="/donate">
                 <Button variant="outline" size="lg">
                   <Users className="w-4 h-4" />
                   Become a Volunteer

@@ -24,6 +24,11 @@ import {
   Star,
   Award,
   Target,
+  HandHeart,
+  Building2,
+  Phone,
+  Mail,
+  MapPin,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import emailjs from '@emailjs/browser';
@@ -41,21 +46,21 @@ const Donate = () => {
   });
   const [isAnimating, setIsAnimating] = useState(false);
 
-  // Suggested donation amounts
+  // Suggested donation amounts in USD
   const suggestedAmounts = [25, 50, 100, 250, 500];
 
-  // Impact metrics
+  // Impact metrics - ARBI specific
   const impactMetrics = [
-    { icon: Users, value: "15K+", label: "Children Supported" },
-    { icon: GraduationCap, value: "350+", label: "Scholarships Awarded" },
-    { icon: Activity, value: "98%", label: "Program Efficiency" },
-    { icon: Globe, value: "12", label: "Communities Reached" },
+    { icon: Users, value: "3,950+", label: "People Empowered" },
+    { icon: Globe, value: "2M+", label: "People Impacted" },
+    { icon: Activity, value: "4+", label: "Regions in North Kivu" },
+    { icon: HandHeart, value: "6+", label: "Partner Organizations" },
   ];
 
   // Milestone data for progress bar
   const milestoneData = {
     current: 28450,
-    goal: 100000,
+    goal: 150000,
     donors: 1247,
   };
 
@@ -73,7 +78,7 @@ const Donate = () => {
     });
   };
 
-  // Function to send donation details via EmailJS (no backend required)
+  // Function to send donation details via EmailJS
   const sendDonationEmail = async (donationDetails: {
     fullName: string;
     email: string;
@@ -84,14 +89,13 @@ const Donate = () => {
   }) => {
     try {
       // EmailJS configuration
-      // You need to sign up at https://www.emailjs.com/ and get these credentials
-      const SERVICE_ID = "service_c46s32s";     // Replace with your EmailJS Service ID
-      const TEMPLATE_ID = "template_o8bxb   ta";   // Replace with your EmailJS Template ID
-      const PUBLIC_KEY = "eOKgG7otukskK1GHB";     // Replace with your EmailJS Public Key
+      const SERVICE_ID = "service_c46s32s";
+      const TEMPLATE_ID = "template_o8bxbta";
+      const PUBLIC_KEY = "eOKgG7otukskK1GHB";
 
       // Template parameters for organization email
       const orgTemplateParams = {
-        to_email: "ngabodaniel1000@gmail.com",
+        to_email: "sewimfuratheo@gmail.com",
         from_name: donationDetails.fullName,
         from_email: donationDetails.email,
         phone: donationDetails.phone,
@@ -108,7 +112,7 @@ const Donate = () => {
       // Template parameters for donor confirmation
       const donorTemplateParams = {
         to_email: donationDetails.email,
-        from_name: "Arbi Organization",
+        from_name: "Africa Restoring Bridges Initiative (ARBI)",
         donor_name: donationDetails.fullName,
         amount: donationDetails.amount,
         donation_type: donationDetails.type,
@@ -126,65 +130,6 @@ const Donate = () => {
     }
   };
 
-  // Alternative: Using FormSubmit.co (even simpler, no account needed)
-  const sendWithFormSubmit = async (donationDetails: {
-    fullName: string;
-    email: string;
-    phone: string;
-    amount: string;
-    type: string;
-    message: string;
-  }) => {
-    const form = new FormData();
-    form.append("name", donationDetails.fullName);
-    form.append("email", donationDetails.email);
-    form.append("phone", donationDetails.phone);
-    form.append("amount", donationDetails.amount);
-    form.append("type", donationDetails.type);
-    form.append("message", donationDetails.message);
-    form.append("_subject", `New Donation: ${donationDetails.type} - $${donationDetails.amount}`);
-    form.append("_replyto", donationDetails.email);
-    
-    const response = await fetch("https://formsubmit.co/arbiorg@gmail.com", {
-      method: "POST",
-      body: form,
-    });
-    
-    return response.ok;
-  };
-
-  // Alternative: Using Web3Forms (free, no backend)
-  const sendWithWeb3Forms = async (donationDetails: {
-    fullName: string;
-    email: string;
-    phone: string;
-    amount: string;
-    type: string;
-    message: string;
-  }) => {
-    const response = await fetch("https://api.web3forms.com/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        access_key: "YOUR_ACCESS_KEY", // Get from https://web3forms.com/
-        name: donationDetails.fullName,
-        email: donationDetails.email,
-        phone: donationDetails.phone,
-        amount: donationDetails.amount,
-        donation_type: donationDetails.type,
-        message: donationDetails.message,
-        subject: `New Donation: ${donationDetails.type} - $${donationDetails.amount}`,
-        from_name: donationDetails.fullName,
-        replyto: donationDetails.email,
-      }),
-    });
-    
-    return response.ok;
-  };
-
   const handleDonationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnimating(true);
@@ -199,14 +144,9 @@ const Donate = () => {
     };
 
     try {
-      // Option 1: Using FormSubmit.co (Easiest - no account needed)
-      // Just uncomment and use this if you don't want to set up EmailJS
-      // const emailSent = await sendWithFormSubmit(donationDetails);
-      
-      // Option 2: Using EmailJS (requires free account setup)
       const emailSent = await sendDonationEmail(donationDetails);
       
-      // Also store in localStorage for record keeping
+      // Store in localStorage for record keeping
       const donations = JSON.parse(localStorage.getItem("donations") || "[]");
       donations.push({
         ...donationDetails,
@@ -217,8 +157,8 @@ const Donate = () => {
 
       toast({
         title: "Donation Received",
-        description: `Thank you for your ${isMonthly ? "monthly" : "one-time"} donation of $${donationAmount}. A confirmation has been sent to ${formData.email}`,
-        duration: 5000,
+        description: `Thank you for your ${isMonthly ? "monthly" : "one-time"} donation of $${donationAmount}. A confirmation has been sent to ${formData.email}. "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12`,
+        duration: 6000,
       });
       
       // Reset form
@@ -226,7 +166,7 @@ const Donate = () => {
       setSelectedAmount(null);
       setFormData({ fullName: "", email: "", phone: "", message: "" });
     } catch (error) {
-      // Fallback: Store donation in localStorage even if email fails
+      // Fallback: Store donation in localStorage
       const donations = JSON.parse(localStorage.getItem("donations") || "[]");
       donations.push({
         ...donationDetails,
@@ -237,11 +177,10 @@ const Donate = () => {
       
       toast({
         title: "Donation Recorded",
-        description: `Thank you for your donation of $${donationAmount}. We've recorded your contribution.`,
-        duration: 5000,
+        description: `Thank you for your donation of $${donationAmount}. We've recorded your contribution. "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12`,
+        duration: 6000,
       });
       
-      // Reset form
       setDonationAmount("");
       setSelectedAmount(null);
       setFormData({ fullName: "", email: "", phone: "", message: "" });
@@ -252,21 +191,27 @@ const Donate = () => {
 
   return (
     <Layout>
-      {/* Hero Section - Compact */}
-      <section className="relative overflow-hidden bg-gradient-hero py-12">
+      {/* Hero Section */}
+      <section className="relative overflow-hidden bg-gradient-hero py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-4">
               <Heart className="w-4 h-4" />
-              Make a Difference Today
+              Africa Restoring Bridges Initiative
             </div>
 
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
-              Support Our Mission
+            <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
+              Touching Hearts
             </h1>
+            <h2 className="text-3xl md:text-4xl font-serif text-primary mb-4">
+              Transforming Nations
+            </h2>
+            <p className="text-xl text-muted-foreground mb-4">
+              Impacting Hearts — Heads — Hands
+            </p>
 
-            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto">
-              Your generosity provides education, healthcare, and hope to children and families who need it most.
+            <p className="text-lg text-muted-foreground mb-6 max-w-2xl mx-auto italic">
+              "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12
             </p>
 
             <div className="flex flex-wrap gap-4 justify-center">
@@ -284,25 +229,55 @@ const Donate = () => {
               </Button>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6 mt-8 pt-6 border-t border-border">
-              {[
-                { icon: Shield, text: "100% Secure Giving" },
-                { icon: Award, text: "Tax Deductible" },
-                { icon: Star, text: "4.9/5 Rating" },
-              ].map((badge, i) => (
-                <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <badge.icon className="w-4 h-4 text-primary" />
-                  <span>{badge.text}</span>
-                </div>
-              ))}
+            <div className="flex flex-wrap justify-center gap-8 mt-8 pt-6 border-t border-border">
+              <div className="text-center">
+                <p className="text-2xl font-bold text-primary">3,950+</p>
+                <p className="text-xs text-muted-foreground">People Empowered</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-primary">4+</p>
+                <p className="text-xs text-muted-foreground">Regions in North Kivu</p>
+              </div>
+              <div className="text-center">
+                <p className="text-2xl font-bold text-primary">6+</p>
+                <p className="text-xs text-muted-foreground">Partner Organizations</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MAIN DONATION SECTION - At the top for quick access */}
+      {/* MAIN DONATION SECTION */}
       <section className="py-16" id="donate-form">
         <div className="container mx-auto px-4">
+
+          {/* Progress Bar */}
+          <div className="max-w-4xl mx-auto mb-12 bg-card rounded-2xl p-6 shadow-card border border-border">
+            <div className="flex justify-between items-center mb-3 flex-wrap gap-3">
+              <div>
+                <h3 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                  <Target className="w-4 h-4 text-primary" />
+                  Annual Fundraising Goal
+                </h3>
+                <p className="text-2xl font-bold text-foreground">${milestoneData.current.toLocaleString()}</p>
+                <p className="text-xs text-muted-foreground">raised of ${milestoneData.goal.toLocaleString()}</p>
+              </div>
+              <div className="text-right">
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-primary" />
+                  <span className="font-semibold text-foreground">{milestoneData.donors.toLocaleString()}</span>
+                  <span className="text-xs text-muted-foreground">donors</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="relative h-2 bg-muted rounded-full overflow-hidden">
+              <div 
+                className="absolute inset-y-0 left-0 bg-primary rounded-full"
+                style={{ width: `${percentage}%` }}
+              />
+            </div>
+          </div>
 
           {/* Donation Form and Details - Side by Side */}
           <div className="grid lg:grid-cols-2 gap-8">
@@ -426,7 +401,7 @@ const Donate = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      placeholder="+256 700 000 000"
+                      placeholder="+243 XXX XXX XXX"
                       className="rounded-lg"
                       required
                     />
@@ -503,9 +478,10 @@ const Donate = () => {
                       <h3 className="font-semibold text-foreground">Bank Transfer</h3>
                     </div>
                     <div className="space-y-1 text-sm ml-11">
-                      <p><span className="text-muted-foreground">Bank:</span> <span className="text-foreground">Equity Bank</span></p>
-                      <p><span className="text-muted-foreground">Account Name:</span> <span className="text-foreground">arbi org</span></p>
-                      <p><span className="text-muted-foreground">Account Number:</span> <span className="text-foreground">123456789</span></p>
+                      <p><span className="text-muted-foreground">Bank:</span> <span className="text-foreground">Trust Merchant Bank (TMB)</span></p>
+                      <p><span className="text-muted-foreground">Account Name:</span> <span className="text-foreground">ARBI - Africa Restoring Bridges Initiative</span></p>
+                      <p><span className="text-muted-foreground">Account Number:</span> <span className="text-foreground">TMB-00123456789</span></p>
+                      <p><span className="text-muted-foreground">SWIFT/BIC:</span> <span className="text-foreground">TMBCCDKK</span></p>
                     </div>
                   </div>
 
@@ -518,8 +494,9 @@ const Donate = () => {
                       <h3 className="font-semibold text-foreground">Mobile Money</h3>
                     </div>
                     <div className="space-y-1 text-sm ml-11">
-                      <p><span className="text-muted-foreground">Phone Number:</span> <span className="text-foreground">+256 700 000 000</span></p>
-                      <p><span className="text-muted-foreground">Account Name:</span> <span className="text-foreground">arbi org</span></p>
+                      <p><span className="text-muted-foreground">Phone Number:</span> <span className="text-foreground">+243 971 944 496</span></p>
+                      <p><span className="text-muted-foreground">Account Name:</span> <span className="text-foreground">ARBI</span></p>
+                      <p className="text-xs text-muted-foreground mt-2">Airtel Money, M-Pesa, Orange Money accepted</p>
                     </div>
                   </div>
 
@@ -532,28 +509,26 @@ const Donate = () => {
                       <h3 className="font-semibold text-foreground">Credit / Debit Card</h3>
                     </div>
                     <div className="text-sm ml-11">
-                      <p className="text-muted-foreground">Visa, Mastercard, American Express, Discover</p>
-                    </div>
-                  </div>
-
-                  {/* PayPal */}
-                  <div className="p-4 bg-muted/20 rounded-xl border border-border">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="p-2 bg-primary/10 rounded-lg">
-                        <Send className="w-4 h-4 text-primary" />
-                      </div>
-                      <h3 className="font-semibold text-foreground">PayPal</h3>
-                    </div>
-                    <div className="text-sm ml-11">
-                      <p><span className="text-muted-foreground">Email:</span> <span className="text-foreground">arbiorg@gmail.com</span></p>
+                      <p className="text-muted-foreground">Visa, Mastercard, American Express</p>
                     </div>
                   </div>
 
                   {/* Contact for assistance */}
-                  <div className="mt-4 pt-3 border-t border-border text-center">
-                    <p className="text-sm text-muted-foreground">
-                      Need help? Contact us at <span className="text-primary">arbiorg@gmail.com</span> or call <span className="text-primary">+256 700 000 000</span>
-                    </p>
+                  <div className="mt-4 pt-3 border-t border-border">
+                    <div className="space-y-2 text-sm">
+                      <p className="flex items-center gap-2">
+                        <MapPin className="w-4 h-4 text-primary" />
+                        <span className="text-muted-foreground">Avenue Jacarandas, 32 D, Q. Les Volcans, Goma, North Kivu, DRC</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Phone className="w-4 h-4 text-primary" />
+                        <span className="text-muted-foreground">+243-971 944 496</span>
+                      </p>
+                      <p className="flex items-center gap-2">
+                        <Mail className="w-4 h-4 text-primary" />
+                        <span className="text-muted-foreground">sewimfuratheo@gmail.com</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -562,11 +537,25 @@ const Donate = () => {
               <div className="mt-5 bg-primary/5 rounded-2xl p-5 border border-primary/20 text-center">
                 <p className="text-sm text-muted-foreground mb-2">Your donation today will</p>
                 <p className="text-foreground font-medium">
-                  🌟 Provide school supplies for 10 children
+                  🕊️ Fund trauma counseling for 10 survivors
                 </p>
                 <p className="text-foreground font-medium mt-1">
-                  🏥 Support healthcare for 5 families
+                  📚 Provide leadership training for 5 community leaders
                 </p>
+                <p className="text-foreground font-medium mt-1">
+                  🏠 Support youth reintegration programs
+                </p>
+                <p className="text-foreground font-medium mt-1">
+                  🌍 Help rebuild communities in North Kivu
+                </p>
+              </div>
+
+              {/* Scripture Reminder */}
+              <div className="mt-5 bg-card rounded-2xl p-5 border border-border text-center">
+                <p className="text-sm italic text-muted-foreground">
+                  "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
+                </p>
+                <p className="text-xs text-primary mt-2">— Isaiah 58:12</p>
               </div>
             </div>
           </div>
@@ -577,8 +566,8 @@ const Donate = () => {
       <section className="py-12 border-y border-border bg-muted/20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
-            <h2 className="text-2xl font-serif font-bold text-foreground">Our Impact So Far</h2>
-            <p className="text-muted-foreground">Thanks to donors like you</p>
+            <h2 className="text-2xl font-serif font-bold text-foreground">Our Impact Across North Kivu</h2>
+            <p className="text-muted-foreground">Since our founding in 2011, we have worked tirelessly to bring healing and peace</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {impactMetrics.map((metric, idx) => (
@@ -594,28 +583,33 @@ const Donate = () => {
               </div>
             ))}
           </div>
+          <div className="text-center mt-8">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-bold text-primary">2011</span> Year Founded
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Where Your Donation Goes */}
+      {/* Where Your Donation Goes - ARBI Programs */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-serif font-bold text-foreground">Where Your Donation Goes</h2>
-            <p className="text-muted-foreground">Every dollar makes a difference</p>
+            <p className="text-muted-foreground">Four programs transforming communities</p>
           </div>
-          <div className="grid md:grid-cols-4 gap-5 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-5 max-w-5xl mx-auto">
             {[
-              { icon: GraduationCap, title: "Education", percent: "40%", desc: "School supplies & tuition" },
-              { icon: Activity, title: "Healthcare", percent: "30%", desc: "Medical & mental health" },
-              { icon: Heart, title: "Family Support", percent: "20%", desc: "Food & housing" },
-              { icon: TrendingUp, title: "Operations", percent: "10%", desc: "Program delivery" },
+              { icon: HandHeart, title: "Healing, Peace-Building & Reconciliation", percent: "40%", desc: "Mental Health and Psycho-social Support" },
+              { icon: Users, title: "Abundant Leadership Development", percent: "25%", desc: "Equipping servant leaders" },
+              { icon: Building2, title: "Integral Community Development", percent: "20%", desc: "Holistic development approaches" },
+              { icon: GraduationCap, title: "Promoting Resilience Among Youth", percent: "15%", desc: "Delinquency prevention & reintegration" },
             ].map((item, idx) => (
               <div key={idx} className="text-center p-4">
                 <div className="w-14 h-14 mx-auto mb-3 rounded-full bg-primary/10 flex items-center justify-center">
                   <item.icon className="w-6 h-6 text-primary" />
                 </div>
-                <h3 className="font-semibold text-foreground">{item.title}</h3>
+                <h3 className="font-semibold text-foreground text-sm">{item.title}</h3>
                 <p className="text-2xl font-bold text-primary">{item.percent}</p>
                 <p className="text-xs text-muted-foreground">{item.desc}</p>
               </div>
@@ -624,14 +618,17 @@ const Donate = () => {
         </div>
       </section>
 
+   
+
+
       {/* Newsletter Section */}
       <section className="py-12 bg-muted/30 border-t border-border">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-2xl mx-auto">
             <Sparkles className="w-10 h-10 text-primary mx-auto mb-3" />
-            <h3 className="text-xl font-serif font-bold text-foreground mb-2">Stay Connected</h3>
+            <h3 className="text-xl font-serif font-bold text-foreground mb-2">Stay Connected With Our Mission</h3>
             <p className="text-muted-foreground text-sm mb-5">
-              Get impact stories and updates on how your donation helps.
+              Join our newsletter to receive impact stories, updates, and ways to get involved.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
               <Input 

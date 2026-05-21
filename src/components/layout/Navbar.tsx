@@ -38,7 +38,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Donate", path: "/get-involved" },
+    { name: "Donate", path: "/donate" },
     { name: "Programs", path: "/programs" },
     { name: "News & Updates", path: "/news" },
     { name: "About", path: "/about" },
@@ -50,8 +50,8 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled
-          ? "bg-background/95 backdrop-blur-md shadow-soft"
-          : "bg-transparent"
+        ? "bg-background/95 backdrop-blur-md shadow-soft"
+        : "bg-transparent"
         }`}
     >
       <div className="container mx-auto px-4">
@@ -73,8 +73,8 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 className={`relative text-sm font-medium transition-colors duration-300 ${isActive(link.path)
-                    ? "text-primary"
-                    : "text-foreground/70 hover:text-foreground"
+                  ? "text-primary"
+                  : "text-foreground/70 hover:text-foreground"
                   }`}
               >
                 {link.name}
@@ -142,15 +142,15 @@ const Navbar = () => {
                   to={link.path}
                   onClick={() => setIsOpen(false)}
                   className={`px-4 py-3 rounded-lg transition-colors duration-300 ${isActive(link.path)
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-foreground/70 hover:bg-secondary"
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "text-foreground/70 hover:bg-secondary"
                     }`}
                 >
                   {link.name}
                 </Link>
               ))}
               <div className="mt-4 px-4">
-                <Link to="/get-involved" onClick={() => setIsOpen(false)}>
+                <Link to="/donate" onClick={() => setIsOpen(false)}>
                   <Button variant="hero" className="w-full">
                     Donate Now
                   </Button>
