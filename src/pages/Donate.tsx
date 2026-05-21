@@ -26,6 +26,7 @@ import {
   Target,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import emailjs from '@emailjs/browser';
 
 const Donate = () => {
   const { toast } = useToast();
@@ -72,22 +73,181 @@ const Donate = () => {
     });
   };
 
-  const handleDonationSubmit = (e: React.FormEvent) => {
+  // Function to send donation details via EmailJS (no backend required)
+  const sendDonationEmail = async (donationDetails: {
+    fullName: string;
+    email: string;
+    phone: string;
+    amount: string;
+    type: string;
+    message: string;
+  }) => {
+    try {
+      // EmailJS configuration
+      // You need to sign up at https://www.emailjs.com/ and get these credentials
+      const SERVICE_ID = "service_c46s32s";     // Replace with your EmailJS Service ID
+      const TEMPLATE_ID = "template_o8bxb   ta";   // Replace with your EmailJS Template ID
+      const PUBLIC_KEY = "eOKgG7otukskK1GHB";     // Replace with your EmailJS Public Key
+
+      // Template parameters for organization email
+      const orgTemplateParams = {
+        to_email: "ngabodaniel1000@gmail.com",
+        from_name: donationDetails.fullName,
+        from_email: donationDetails.email,
+        phone: donationDetails.phone,
+        amount: donationDetails.amount,
+        donation_type: donationDetails.type,
+        message: donationDetails.message || "No message provided",
+        reply_to: donationDetails.email,
+        date: new Date().toLocaleString(),
+      };
+
+      // Send to organization
+      const orgResponse = await emailjs.send(SERVICE_ID, TEMPLATE_ID, orgTemplateParams, PUBLIC_KEY);
+      
+      // Template parameters for donor confirmation
+      const donorTemplateParams = {
+        to_email: donationDetails.email,
+        from_name: "Arbi Organization",
+        donor_name: donationDetails.fullName,
+        amount: donationDetails.amount,
+        donation_type: donationDetails.type,
+        message: donationDetails.message || "Thank you for your support!",
+        year: new Date().getFullYear(),
+      };
+
+      // Send confirmation to donor
+      await emailjs.send(SERVICE_ID, "donor_confirmation_template", donorTemplateParams, PUBLIC_KEY);
+
+      return true;
+    } catch (error) {
+      console.error("Email sending error:", error);
+      return false;
+    }
+  };
+
+  // Alternative: Using FormSubmit.co (even simpler, no account needed)
+  const sendWithFormSubmit = async (donationDetails: {
+    fullName: string;
+    email: string;
+    phone: string;
+    amount: string;
+    type: string;
+    message: string;
+  }) => {
+    const form = new FormData();
+    form.append("name", donationDetails.fullName);
+    form.append("email", donationDetails.email);
+    form.append("phone", donationDetails.phone);
+    form.append("amount", donationDetails.amount);
+    form.append("type", donationDetails.type);
+    form.append("message", donationDetails.message);
+    form.append("_subject", `New Donation: ${donationDetails.type} - $${donationDetails.amount}`);
+    form.append("_replyto", donationDetails.email);
+    
+    const response = await fetch("https://formsubmit.co/arbiorg@gmail.com", {
+      method: "POST",
+      body: form,
+    });
+    
+    return response.ok;
+  };
+
+  // Alternative: Using Web3Forms (free, no backend)
+  const sendWithWeb3Forms = async (donationDetails: {
+    fullName: string;
+    email: string;
+    phone: string;
+    amount: string;
+    type: string;
+    message: string;
+  }) => {
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        access_key: "YOUR_ACCESS_KEY", // Get from https://web3forms.com/
+        name: donationDetails.fullName,
+        email: donationDetails.email,
+        phone: donationDetails.phone,
+        amount: donationDetails.amount,
+        donation_type: donationDetails.type,
+        message: donationDetails.message,
+        subject: `New Donation: ${donationDetails.type} - $${donationDetails.amount}`,
+        from_name: donationDetails.fullName,
+        replyto: donationDetails.email,
+      }),
+    });
+    
+    return response.ok;
+  };
+
+  const handleDonationSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnimating(true);
     
-    setTimeout(() => {
+    const donationDetails = {
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      amount: donationAmount,
+      type: isMonthly ? "Monthly" : "One-time",
+      message: formData.message || "No message provided",
+    };
+
+    try {
+      // Option 1: Using FormSubmit.co (Easiest - no account needed)
+      // Just uncomment and use this if you don't want to set up EmailJS
+      // const emailSent = await sendWithFormSubmit(donationDetails);
+      
+      // Option 2: Using EmailJS (requires free account setup)
+      const emailSent = await sendDonationEmail(donationDetails);
+      
+      // Also store in localStorage for record keeping
+      const donations = JSON.parse(localStorage.getItem("donations") || "[]");
+      donations.push({
+        ...donationDetails,
+        date: new Date().toISOString(),
+        status: emailSent ? "email_sent" : "stored_locally",
+      });
+      localStorage.setItem("donations", JSON.stringify(donations));
+
       toast({
         title: "Donation Received",
-        description: `Thank you for your ${isMonthly ? "monthly" : "one-time"} donation of $${donationAmount}. We will contact you shortly.`,
+        description: `Thank you for your ${isMonthly ? "monthly" : "one-time"} donation of $${donationAmount}. A confirmation has been sent to ${formData.email}`,
         duration: 5000,
       });
-      setIsAnimating(false);
       
+      // Reset form
       setDonationAmount("");
       setSelectedAmount(null);
       setFormData({ fullName: "", email: "", phone: "", message: "" });
-    }, 1500);
+    } catch (error) {
+      // Fallback: Store donation in localStorage even if email fails
+      const donations = JSON.parse(localStorage.getItem("donations") || "[]");
+      donations.push({
+        ...donationDetails,
+        date: new Date().toISOString(),
+        status: "stored_locally_only",
+      });
+      localStorage.setItem("donations", JSON.stringify(donations));
+      
+      toast({
+        title: "Donation Recorded",
+        description: `Thank you for your donation of $${donationAmount}. We've recorded your contribution.`,
+        duration: 5000,
+      });
+      
+      // Reset form
+      setDonationAmount("");
+      setSelectedAmount(null);
+      setFormData({ fullName: "", email: "", phone: "", message: "" });
+    } finally {
+      setIsAnimating(false);
+    }
   };
 
   return (
