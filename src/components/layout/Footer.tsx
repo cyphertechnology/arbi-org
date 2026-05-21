@@ -48,7 +48,7 @@ const Footer = () => {
               {[
                 { name: "About Us", path: "/about" },
                 { name: "Our Programs", path: "/programs" },
-                { name: "Get Involved", path: "/get-involved" },
+                { name: "Get Involved", path: "/donate" },
                 { name: "News & Updates", path: "/news" },
                 { name: "Contact Us", path: "/contact" },
               ].map((link) => (

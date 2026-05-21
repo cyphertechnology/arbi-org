@@ -13,12 +13,12 @@ const CTASection = () => {
             Be Part of the Change
           </h2>
           <p className="text-lg text-primary-foreground/90 mb-10 leading-relaxed">
-            Your support can transform lives. Whether through donations or volunteering, 
+            Your support can transform lives. Whether through donations or volunteering,
             every contribution brings us closer to a world where every child thrives.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/get-involved">
+            <Link to="/donate">
               <Button
                 size="xl"
                 className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
@@ -27,7 +27,7 @@ const CTASection = () => {
                 Make a Donation
               </Button>
             </Link>
-            <Link to="/get-involved">
+            <Link to="/donate">
               <Button
                 size="xl"
                 variant="outline"
