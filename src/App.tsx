@@ -6,12 +6,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Programs from "./pages/Programs";
-import GetInvolved from "./pages/GetInvolved";
 import News from "./pages/News";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import NewsPost from "./pages/NewsPost";
-import LoginPage from "./pages/Signin";
+import Donate from "./pages/Donate";
 
 const queryClient = new QueryClient();
 
@@ -23,10 +22,9 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/signin" element={<LoginPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/programs" element={<Programs />} />
-          <Route path="/get-involved" element={<GetInvolved />} />
+          <Route path="/donate" element={<Donate />} />
           <Route path="/news" element={<News />} />
           <Route path="/news/:id" element={<NewsPost />} />
           <Route path="/contact" element={<Contact />} />

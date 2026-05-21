@@ -38,7 +38,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Donate & Volunteer", path: "/get-involved" },
+    { name: "Donate", path: "/get-involved" },
     { name: "Programs", path: "/programs" },
     { name: "News & Updates", path: "/news" },
     { name: "About", path: "/about" },
@@ -98,9 +98,9 @@ const Navbar = () => {
                 <Moon className="w-5 h-5 text-foreground" />
               )}
             </button>
-            <Link to="/signin">
+            <Link to="/donate">
               <Button variant="hero" size="default">
-                Sign in
+                Donate
               </Button>
             </Link>
           </div>
