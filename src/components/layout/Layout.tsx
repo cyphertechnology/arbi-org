@@ -13,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
   useEffect(() => {
     // Compute navbar height dynamically if possible
     const nav = document.querySelector("nav");
-    const navHeight = nav ? (nav as HTMLElement).offsetHeight : 80;
+    const navHeight = nav ? (nav as HTMLElement).offsetHeight : 64; // Changed from 80 to 64
 
     // If there's a hash (anchor), scroll to the element adjusted by nav height
     if (location.hash) {
@@ -36,7 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      <main className="flex-1 pt-20">{children}</main>
+      <main className="flex-1 pt-16">{children}</main> {/* Changed from pt-24 to pt-16 */}
       <Footer />
     </div>
   );
