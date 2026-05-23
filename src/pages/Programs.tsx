@@ -2,219 +2,224 @@ import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import {
-  GraduationCap,
-  Home,
   Heart,
-  Droplets,
+  Home,
   Target,
   Users,
   CheckCircle,
   ArrowRight,
 } from "lucide-react";
-import Imagekid from "@/assets/kids.jpg";
-import Imagekid2 from "@/assets/kids 5.jpg";
-import Imagekid4 from "@/assets/kids 4.jpg";
-import Blood from "@/assets/blood.jpg";
+
+import { useState, useEffect, useRef } from "react";
+
+import img1 from "@/assets/kids 2.jpg";
+import img2 from "@/assets/kids 3.jpg";
+import img3 from "@/assets/kids 4.jpg";
+import img4 from "@/assets/kids 5.jpg";
+import img5 from "@/assets/kids 6.jpg";
+import img6 from "@/assets/kids.jpg";
+import img7 from "@/assets/kids7.jpg";
+
+const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const programs = [
   {
-    id: "kids-uplift",
-    icon: GraduationCap,
-    title: "Kids Uplift Program",
-    tagline: "Education for Every Child",
-    description:
-      "Our flagship education program ensures that financial barriers never stand between a child and their dreams. We provide comprehensive educational support including school fees, learning materials, and uniforms.",
-    color: "primary",
-    image: Imagekid4,
-    goals: [
-      "Ensure 100% school enrollment for registered children",
-      "Provide quality learning materials for academic success",
-      "Support students through primary and secondary education",
-    ],
-    targetGroup: "Children aged 5-18 from low-income families",
-    impact: "2,500+ children currently enrolled",
-    howToHelp: [
-      "Sponsor a child's education ($30/month)",
-      "Donate school supplies",
-      "Volunteer as a tutor",
-    ],
-  },
-  {
-    id: "home-support",
-    icon: Home,
-    title: "Home Support Program",
-    tagline: "Dignity for Every Family",
-    description:
-      "We believe that a stable home environment is crucial for a child's development. This program provides essential support to families including food, clothing, and hygiene supplies.",
-    color: "teal",
-    image: Imagekid2,
-    goals: [
-      "Eliminate food insecurity in registered families",
-      "Provide dignity through access to basic necessities",
-      "Build sustainable household practices",
-    ],
-    targetGroup: "Families with children in our programs",
-    impact: "850+ families supported monthly",
-    howToHelp: [
-      "Donate food or household items",
-      "Support our monthly family packages",
-      "Help with home improvement projects",
-    ],
-  },
-  {
-    id: "kidssupport-care",
+    id: "healing-peace",
     icon: Heart,
-    title: "KidsSupport Care Initiative",
-    tagline: "Nurturing Minds, Building Futures",
+    title: "Healing, Peace-Building & Reconciliation",
+    tagline: "Program 1",
     description:
-      "Mental health matters. Our care initiative provides psychological support, mentorship, and life skills training to help children build resilience and confidence.",
-    color: "gold",
-    image: Imagekid,
-    goals: [
-      "Provide accessible mental health support",
-      "Connect every child with a mentor",
-      "Build emotional intelligence and life skills",
-    ],
-    targetGroup: "Children and youth facing emotional challenges",
-    impact: "1,200+ children in mentorship programs",
-    howToHelp: [
-      "Become a mentor (training provided)",
-      "Support counseling sessions",
-      "Sponsor life skills workshops",
+      "We facilitate genuine healing and reconciliation through empowering and working with influential leaders and community members through running Mental Health and Psycho-social Support projects and other related initiatives.",
+    color: "primary",
+    image: img1,
+    projects: [
+      "Healing the Wounds of Ethnic Conflicts (HWEC)",
+      "Community Based Socio-therapy (CBS) — Niponye Nikuponye",
+      "Active Bystandership Development — Sindebera",
+      "Prevention of the ideology of hate, genocide and hate crimes in Africa",
+      "Cultural Festival of songs and dances for peace",
+      "Self-Care and Debriefing",
     ],
   },
   {
-    id: "blood-donation",
-    icon: Droplets,
-    title: "Health & Blood Donation Program",
-    tagline: "Every Drop Saves Lives",
+    id: "leadership",
+    icon: Users,
+    title: "Abundant Leadership Development",
+    tagline: "Program 2",
     description:
-      "Our health initiative addresses critical blood shortages in local hospitals through regular donation drives and health awareness campaigns.",
-    color: "destructive",
-    image: Blood,
-    goals: [
-      "Organize monthly community blood drives",
-      "Maintain adequate blood supply in partner hospitals",
-      "Educate community on health and blood donation",
+      "Having witnessed what toxic leaders are capable of — destruction, corruption, exploitation and violence — providing communities with servant leaders having a heart for serving their fellows, promoting unity and innovating economic opportunities remains the most vital path to community transformation.",
+    color: "teal",
+    image: img2,
+    projects: [
+      "Active Bystandership Development for positive changes",
+      "Servant leadership training",
+      "Corruption fighting initiatives",
     ],
-    targetGroup: "Community members aged 18-65",
-    impact: "1,200+ blood units collected annually",
-    howToHelp: [
-      "Donate blood at our drives",
-      "Volunteer at donation events",
-      "Spread awareness in your community",
+  },
+  {
+    id: "community-dev",
+    icon: Home,
+    title: "Integral Community Development",
+    tagline: "Program 3",
+    description:
+      "We empower and strengthen community members as the assets, resources and strengths of their own communities, enabling them to take ownership of their development.",
+    color: "gold",
+    image: img3,
+    projects: [
+      "BAHO for Development (10-day school: ABCD, Gift that Releases)",
+      "Environmental prevention, promotion and protection",
+      "Community Based Tourism",
+      "Pathway for generosity",
+      "Women and Children's rights (advocacy)",
+    ],
+  },
+  {
+    id: "youth-resilience",
+    icon: Target,
+    title: "Promoting Resilience Among Youth (PRAY)",
+    tagline: "Program 4",
+    description:
+      "The risk factors related to delinquency among youth are compounded by drug abuse, poverty, political instability, urbanization, and dysfunctional family situations. Young people are at risk not just because they may turn to substance abuse or street living, but also because they are ambitious and in danger of being exploited.",
+    color: "destructive",
+    image: img4,
+    projects: [
+      "Establish sustainable measures to prevent the incidence of delinquency",
+      "Define and implement appropriate measures to respond to cases of delinquency",
+      "Develop and implement a sustainable mechanism for reintegration and follow-up of former delinquents",
     ],
   },
 ];
 
 const Programs = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [visiblePrograms, setVisiblePrograms] = useState<number[]>([]);
+  const programRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const ctaRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const index = programRefs.current.findIndex(
+              (ref) => ref === entry.target
+            );
+            if (index !== -1 && !visiblePrograms.includes(index)) {
+              setVisiblePrograms((prev) => [...prev, index]);
+            }
+          }
+        });
+      },
+      { threshold: 0.2, rootMargin: "100px" }
+    );
+
+    programRefs.current.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    if (ctaRef.current) observer.observe(ctaRef.current);
+
+    return () => observer.disconnect();
+  }, [visiblePrograms]);
+
   return (
     <Layout>
-      {/* Hero */}
-      <section className="py-20 bg-gradient-hero">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6 animate-fade-in-up">
-              Our <span>Programs</span>
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:100ms]">
-              Comprehensive initiatives designed to address the most pressing needs
-              of children and families in our community. Each program is carefully
-              crafted to create lasting, transformational impact.
-            </p>
+      {/* Hero Section - Original transitions preserved */}
+      <section 
+        className="relative min-h-[400px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
+        style={{ backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-8 h-0.5 bg-primary"></div>
+            <span className="text-sm font-bold text-white tracking-[2px] uppercase">Our Work</span>
           </div>
+          <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
+            Touching Hearts Transforming Nations
+          </h1>
+          <p className="text-white/75 text-xl max-w-xl">
+            Comprehensive initiatives designed to heal, empower, and transform communities in the DRC.
+          </p>
         </div>
       </section>
 
-      {/* Programs */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="space-y-24">
+      {/* Programs with scroll animations */}
+      <section className="py-24">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
+          <div className="space-y-32">
             {programs.map((program, index) => (
               <div
                 key={program.id}
+                ref={(el) => (programRefs.current[index] = el)}
                 id={program.id}
-                className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                  }`}
+                className={`grid lg:grid-cols-2 gap-16 items-center transition-all duration-700 ease-out ${
+                  visiblePrograms.includes(index)
+                    ? "opacity-100 translate-y-0"
+                    : "opacity-0 translate-y-16"
+                }`}
               >
-                <div className={index % 2 === 1 ? "lg:order-2" : ""}>
-                  <div className="relative">
+                <div className={`${index % 2 === 1 ? "lg:order-2" : ""} transition-all duration-700 delay-300 ${
+                  visiblePrograms.includes(index)
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-12"
+                }`}>
+                  <div className="relative group">
                     <img
                       src={program.image}
                       alt={program.title}
-                      className="rounded-3xl shadow-card w-full aspect-[4/3] object-cover"
+                      className="rounded-[24px] shadow-soft w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-[24px] transition-all duration-500"></div>
                   </div>
                 </div>
 
-                <div className={index % 2 === 1 ? "lg:order-1" : ""}>
-                  <p
-                    className={`text-sm font-semibold mb-2 ${program.color === "primary"
-                        ? "text-primary"
-                        : program.color === "teal"
-                          ? "text-teal"
-                          : program.color === "gold"
-                            ? "text-gold"
-                            : "text-destructive"
-                      }`}
-                  >
+                <div className={`${index % 2 === 1 ? "lg:order-1" : ""} transition-all duration-700 delay-500 ${
+                  visiblePrograms.includes(index)
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 translate-x-12"
+                }`}>
+                  <p className="text-sm font-bold uppercase tracking-[2px] text-muted-foreground mb-4 transition-all duration-300 hover:text-primary">
                     {program.tagline}
                   </p>
-                  <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+                  <h2 className="text-3xl lg:text-[40px] font-bold text-foreground leading-tight mb-4 transition-all duration-300 hover:scale-105 hover:text-primary inline-block">
                     {program.title}
                   </h2>
-                  <p className="text-muted-foreground leading-relaxed mb-6">
+                  <p className="text-muted-foreground leading-relaxed mb-8 text-lg">
                     {program.description}
                   </p>
 
-                  {/* Goals */}
-                  <div className="mb-6">
-                    <h4 className="font-semibold text-foreground mb-3 flex items-center gap-2">
-                      <Target className="w-4 h-4 text-primary" />
-                      Goals
+                  {/* Key Projects */}
+                  <div className="mb-8">
+                    <h4 className="font-bold text-foreground mb-4 uppercase tracking-[1px] text-sm flex items-center gap-2">
+                      <program.icon className="w-4 h-4 text-primary" />
+                      Key Projects
                     </h4>
-                    <ul className="space-y-2">
-                      {program.goals.map((goal) => (
-                        <li key={goal} className="flex items-start gap-2 text-muted-foreground">
-                          <CheckCircle className="w-4 h-4 text-primary mt-1 shrink-0" />
-                          {goal}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="flex flex-wrap gap-6 mb-6">
-                    <div>
-                      <p className="text-sm text-muted-foreground">Target Group</p>
-                      <p className="font-medium text-foreground">{program.targetGroup}</p>
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">Impact</p>
-                      <p className="font-medium text-foreground">{program.impact}</p>
-                    </div>
-                  </div>
-
-                  {/* How to Help */}
-                  <div className="bg-secondary/50 rounded-xl p-4 mb-6">
-                    <h4 className="font-semibold text-foreground mb-2 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-primary" />
-                      How You Can Help
-                    </h4>
-                    <ul className="space-y-1">
-                      {program.howToHelp.map((help) => (
-                        <li key={help} className="text-sm text-muted-foreground">
-                          • {help}
+                    <ul className="space-y-3">
+                      {program.projects.map((project, idx) => (
+                        <li 
+                          key={project} 
+                          className="flex items-start gap-3 text-muted-foreground text-sm transition-all duration-300 hover:translate-x-2 hover:text-primary group/project"
+                          style={{ transitionDelay: `${idx * 50}ms` }}
+                        >
+                          <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0 transition-transform duration-300 group-hover/project:scale-110" />
+                          <span className="transition-colors duration-300">{project}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
 
                   <Link to="/donate">
-                    <Button variant="hero">
+                    <Button className="w-full sm:w-auto font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-lg group" size="lg">
                       Support This Program
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </div>
@@ -224,26 +229,40 @@ const Programs = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-20 bg-gradient-cta">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-primary-foreground mb-6">
-              Every Contribution Matters
-            </h2>
-            <p className="text-lg text-primary-foreground/90 mb-8">
-              Whether you donate, volunteer, or spread the word, you're helping us
-              create a brighter future for children in need.
-            </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/donate">
-                <Button
-                  size="lg"
-                  className="bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+      {/* CTA with animation */}
+      <section className="py-24">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
+          <div
+            ref={ctaRef}
+            className="relative overflow-hidden min-h-[384px] flex items-center justify-center text-center px-8 py-16 rounded-[20px] transition-all duration-1000 ease-out"
+            style={{ 
+              backgroundImage: `url(${img7})`, 
+              backgroundSize: 'cover', 
+              backgroundPosition: 'center',
+              opacity: visiblePrograms.length === programs.length ? 1 : 0,
+              transform: visiblePrograms.length === programs.length ? 'translateY(0)' : 'translateY(50px)'
+            }}
+          >
+            <div className="absolute inset-0 bg-black/60 transition-all duration-500 group-hover:bg-black/50"></div>
+            <div className="relative z-10">
+              <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8 transition-all duration-500 hover:scale-105">
+                You can help us rebuild bridges and restore hope in the DRC
+              </h2>
+              <div className="flex flex-wrap justify-center gap-4">
+                <Link 
+                  to="/donate" 
+                  className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-xl group"
                 >
-                  Get Involved Today
-                </Button>
-              </Link>
+                  Donate Now 
+                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
+                </Link>
+                <Link 
+                  to="/contact" 
+                  className="flex items-center gap-2 px-8 py-4 bg-white text-black font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-100"
+                >
+                  Get in Touch
+                </Link>
+              </div>
             </div>
           </div>
         </div>
