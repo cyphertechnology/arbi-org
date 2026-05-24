@@ -1,26 +1,27 @@
-import { Target, Eye, Heart } from "lucide-react";
+// MissionSection.tsx
+import { Target, Eye, Heart, Shield, Users, HandHeart } from "lucide-react";
 
 const MissionSection = () => {
   const items = [
     {
-      icon: Target,
-      title: "Our Mission",
-      description:
-        "To provide holistic support to underprivileged children and families through education, healthcare, and community development programs.",
-      color: "primary",
-    },
-    {
       icon: Eye,
       title: "Our Vision",
       description:
-        "A world where every child has access to quality education, healthcare, and the opportunity to reach their full potential.",
+        "To see healed, reconciled, and prosperous communities living in peace in the DRC and other regions of Africa affected through violence.",
+      color: "primary",
+    },
+    {
+      icon: Target,
+      title: "Our Mission",
+      description:
+        "To rebuild bridges within and between affected communities through integral community-based approaches fostering inclusive cooperation, capacity building for sustainable healing, peace building, and development.",
       color: "teal",
     },
     {
       icon: Heart,
-      title: "Core Purpose",
+      title: "Who We Are",
       description:
-        "To create lasting change by empowering communities with the resources, knowledge, and support they need to thrive.",
+        "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
       color: "gold",
     },
   ];
@@ -30,10 +31,10 @@ const MissionSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-            What Drives Us
+            Restoring Bridges Within and Between Communities
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Our commitment to compassion, integrity, and community guides everything we do.
+            Since 2011, ARBI has worked tirelessly to bring healing and peace to communities torn apart by violence in Eastern DRC.
           </p>
         </div>
 
@@ -69,6 +70,12 @@ const MissionSection = () => {
               <p className="text-muted-foreground leading-relaxed">{item.description}</p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <p className="text-sm italic text-muted-foreground">
+            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12
+          </p>
         </div>
       </div>
     </section>

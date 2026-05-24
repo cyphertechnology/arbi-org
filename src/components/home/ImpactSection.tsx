@@ -1,38 +1,40 @@
+// ImpactSection.tsx
 import { useEffect, useState, useRef } from "react";
-import { Users, Home, Droplets, HandHeart } from "lucide-react";
+import { Users, MapPin, HandHeart, Calendar, Globe, Heart } from "lucide-react";
 
 const stats = [
   {
     icon: Users,
-    value: 75,
+    value: 3950,
     suffix: "+",
-    label: "Children Supported",
+    label: "People Empowered",
     color: "primary",
   },
   {
-    icon: Home,
-    value: 25,
+    icon: Globe,
+    value: 2000000,
     suffix: "+",
-    label: "Families Helped",
+    label: "People Impacted",
     color: "teal",
+    format: true,
   },
   {
-    icon: Droplets,
-    value: 1200,
+    icon: MapPin,
+    value: 4,
     suffix: "+",
-    label: "Blood Units Collected",
-    color: "destructive",
+    label: "Areas Reached",
+    color: "gold",
   },
   {
     icon: HandHeart,
-    value: 50,
+    value: 6,
     suffix: "+",
-    label: "Active Volunteers",
-    color: "gold",
+    label: "Partner Organizations",
+    color: "destructive",
   },
 ];
 
-const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
+const Counter = ({ value, suffix, format }: { value: number; suffix: string; format?: boolean }) => {
   const [count, setCount] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -75,10 +77,12 @@ const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
     return () => clearInterval(timer);
   }, [isVisible, value]);
 
+  const displayValue = format && count >= 1000000 ? (count / 1000000).toFixed(1) + "M" : count.toLocaleString();
+
   return (
     <div ref={ref} className="text-4xl md:text-5xl font-bold text-foreground">
-      {count.toLocaleString()}
-      {suffix}
+      {displayValue}
+      {!format && suffix}
     </div>
   );
 };
@@ -91,10 +95,11 @@ const ImpactSection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-            Our Impact in Numbers
+            Our Impact Across North Kivu
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            Every number represents a life touched, a family supported, and hope restored.
+            Since our founding in 2011, we have worked tirelessly to bring healing and peace to communities 
+            torn apart by violence in Eastern DRC.
           </p>
         </div>
 
@@ -127,10 +132,18 @@ const ImpactSection = () => {
                   }`}
                 />
               </div>
-              <Counter value={stat.value} suffix={stat.suffix} />
+              <Counter value={stat.value} suffix={stat.suffix} format={stat.format} />
               <p className="text-muted-foreground mt-2">{stat.label}</p>
             </div>
           ))}
+        </div>
+
+        <div className="text-center mt-12">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-card rounded-full shadow-soft">
+            <Calendar className="w-5 h-5 text-primary" />
+            <span className="text-foreground font-semibold">2011</span>
+            <span className="text-muted-foreground">Year Founded</span>
+          </div>
         </div>
       </div>
     </section>

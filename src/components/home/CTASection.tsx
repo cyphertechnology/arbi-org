@@ -1,6 +1,7 @@
+// CTASection.tsx
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Heart, Users } from "lucide-react";
+import { Heart, HandHeart } from "lucide-react";
 
 const CTASection = () => {
   return (
@@ -10,11 +11,15 @@ const CTASection = () => {
       <div className="container mx-auto px-4 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-primary-foreground mb-6">
-            Be Part of the Change
+            Be Part of the Restoration
           </h2>
-          <p className="text-lg text-primary-foreground/90 mb-10 leading-relaxed">
-            Your support can transform lives. Whether through donations or volunteering,
-            every contribution brings us closer to a world where every child thrives.
+          <p className="text-lg text-primary-foreground/90 mb-6 leading-relaxed italic">
+            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
+          </p>
+          <p className="text-md text-primary-foreground/80 mb-10 leading-relaxed">
+            Your support can help rebuild bridges within and between communities. Whether through donations, 
+            partnerships, or volunteering, every contribution brings us closer to healed, reconciled, 
+            and prosperous communities in the DRC.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -23,18 +28,18 @@ const CTASection = () => {
                 size="xl"
                 className="bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-lg"
               >
-                <Heart className="w-5 h-5" fill="currentColor" />
+                <Heart className="w-5 h-5 mr-2" />
                 Make a Donation
               </Button>
             </Link>
-            <Link to="/donate">
+            <Link to="/contact">
               <Button
                 size="xl"
                 variant="outline"
                 className="border-2 border-primary-foreground text-primary-foreground bg-transparent hover:bg-primary-foreground/10"
               >
-                <Users className="w-5 h-5" />
-                Become a Volunteer
+                <HandHeart className="w-5 h-5 mr-2" />
+                Become a Partner
               </Button>
             </Link>
           </div>

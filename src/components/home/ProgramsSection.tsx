@@ -1,42 +1,44 @@
+// ProgramsSection.tsx
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { GraduationCap, Home, Heart, Droplets, ArrowRight } from "lucide-react";
-import Imagekid from "@/assets/kids.jpg";
-import Imagekid2 from "@/assets/kids 2.jpg";
-import Imagekid4 from "@/assets/kids 4.jpg";
-import Blood from "@/assets/blood.jpg";
+import { Heart, Users, Globe, GraduationCap, ArrowRight, HandHeart, Shield } from "lucide-react";
+import ProgramImage1 from "@/assets/kids 2.jpg";
+import ProgramImage2 from "@/assets/kids 4.jpg";
+import ProgramImage3 from "@/assets/kids 3.jpg";
+import ProgramImage4 from "@/assets/kids 6.jpg";
+
 const ProgramsSection = () => {
   const programs = [
     {
-      icon: GraduationCap,
-      title: "Kids Uplift Program",
+      icon: Heart,
+      title: "Healing, Peace-Building & Reconciliation",
       description:
-        "Providing school fees, books, and uniforms to ensure every child has access to quality education.",
-      image: Imagekid,
+        "Facilitating genuine healing through Mental Health and Psycho-social Support projects, empowering influential leaders and community members.",
+      image: ProgramImage1,
       color: "primary",
     },
     {
-      icon: Home,
-      title: "Home Support Program",
+      icon: Users,
+      title: "Abundant Leadership Development",
       description:
-        "Supporting families with food, clothing, and essential hygiene supplies for a dignified life.",
-      image: Imagekid4,
+        "Equipping communities with servant leaders who promote unity, innovate economic opportunities, and fight corruption.",
+      image: ProgramImage2,
       color: "teal",
     },
     {
-      icon: Heart,
-      title: "KidsSupport Care",
+      icon: Globe,
+      title: "Integral Community Development",
       description:
-        "Mental health support and mentorship programs helping children build resilience and confidence.",
-      image: Imagekid2,
+        "Empowering community members as assets and resources of their own communities through holistic development approaches.",
+      image: ProgramImage3,
       color: "gold",
     },
     {
-      icon: Droplets,
-      title: "Blood Donation Program",
+      icon: GraduationCap,
+      title: "Promoting Resilience Among Youth",
       description:
-        "Organizing regular blood drives to save lives and support healthcare facilities in our community.",
-      image: Blood,
+        "Preventing delinquency, addressing substance abuse, and creating reintegration pathways for vulnerable young people.",
+      image: ProgramImage4,
       color: "destructive",
     },
   ];
@@ -47,11 +49,11 @@ const ProgramsSection = () => {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-              Our Programs
+              What We Do
             </h2>
             <p className="text-muted-foreground max-w-2xl">
-              Comprehensive initiatives designed to address the most pressing needs of 
-              children and families in our community.
+              Four programs transforming communities. Since 2011, ARBI has run comprehensive initiatives 
+              designed to heal, empower, and transform communities across North Kivu, DRC.
             </p>
           </div>
           <Link to="/programs">
@@ -100,10 +102,10 @@ const ProgramsSection = () => {
                     }`}
                   />
                 </div>
-                <h3 className="text-lg font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">
+                <h3 className="text-md font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
                   {program.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
                   {program.description}
                 </p>
               </div>
