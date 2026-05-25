@@ -1,60 +1,106 @@
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { Target, Eye, Heart, Users, Calendar, Award, ArrowRight } from "lucide-react";
+import { Target, Eye, Heart, Users, Calendar, Award, ArrowRight, Globe, HandHeart, Shield, MapPin } from "lucide-react";
+import { useState, useEffect } from "react";
+
+// Import hero images for slideshow
+import img1 from "@/assets/kids 2.jpg";
+import img2 from "@/assets/kids 3.jpg";
+import img3 from "@/assets/kids 4.jpg";
+import img4 from "@/assets/kids 5.jpg";
+import img5 from "@/assets/kids 6.jpg";
+import img6 from "@/assets/kids.jpg";
+import img7 from "@/assets/kids7.jpg";
+
+const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const teamMembers = [
   {
     name: "Dr. Mary Mosetorozoro",
     role: "Founder & Executive Director",
-    bio: "With over 15 years in community development, Dr. Nakamya founded arbi to address the educational needs of underprivileged children.",
+    bio: "With over 15 years in community development and peace-building, Dr. Mosetorozoro founded ARBI to address the deep wounds of conflict and restore hope in North Kivu.",
     image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&auto=format&fit=crop&q=80",
   },
   {
     name: "John Ssempala",
     role: "Programs Director",
-    bio: "John brings 10 years of nonprofit experience, overseeing all educational and home support initiatives.",
+    bio: "John brings 12 years of nonprofit experience, overseeing all healing, peace-building, and community development initiatives across North Kivu.",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&auto=format&fit=crop&q=80",
   },
   {
     name: "Grace Auma",
-    role: "Community Outreach Manager",
-    bio: "Grace connects with local communities, building partnerships that extend our reach and impact.",
+    role: "Community Outreach & Psychosocial Manager",
+    bio: "Grace leads our mental health and psychosocial support programs, connecting with communities to provide trauma healing and reconciliation services.",
     image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&auto=format&fit=crop&q=80",
   },
   {
     name: "Peter Okello",
-    role: "Health Programs Coordinator",
-    bio: "Peter leads our blood donation drives and health initiatives, saving countless lives in our community.",
+    role: "Youth Resilience Coordinator",
+    bio: "Peter leads our youth programs, focusing on delinquency prevention, substance abuse awareness, and reintegration pathways for vulnerable young people.",
     image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80",
   },
 ];
 
 const milestones = [
-  { year: "2015", event: "arbi org established with 50 children in the program" },
-  { year: "2017", event: "Launched Home Support Program reaching 200 families" },
-  { year: "2019", event: "Started Blood Donation Program with first community drive" },
-  { year: "2021", event: "Expanded to 5 districts, serving 1,500+ children" },
-  { year: "2023", event: "Reached milestone of 2,500 children supported annually" },
+  { year: "2011", event: "ARBI founded to bring healing and peace to communities in Eastern DRC" },
+  { year: "2013", event: "Launched Healing, Peace-Building & Reconciliation program in Goma" },
+  { year: "2015", event: "Expanded operations to Rutshuru and Masisi territories" },
+  { year: "2018", event: "Started Abundant Leadership Development program" },
+  { year: "2020", event: "Launched Promoting Resilience Among Youth (PRAY) initiative" },
+  { year: "2023", event: "Reached 2M+ people impacted across 4+ regions in North Kivu" },
+  { year: "2024", event: "Established 6+ partner organizations for greater impact" },
 ];
 
 const About = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-hero">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-6 animate-fade-in-up">
-              Our Story of <span>Compassion</span>
-            </h1>
-            <p className="text-lg text-muted-foreground leading-relaxed animate-fade-in-up [animation-delay:100ms]">
-              Born from a deep desire to see every child thrive, arbi org has been
-              transforming lives since 2015. What started as a small initiative to help
-              50 children access education has grown into a comprehensive support system
-              for thousands of families.
-            </p>
+      {/* Hero Section with Slideshow Background */}
+      <section 
+        className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
+        style={{ 
+          backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center'
+        }}
+      >
+        <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
+        
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-8 h-0.5 bg-primary"></div>
+            <span className="text-sm font-bold text-white tracking-[2px] uppercase">About Us</span>
           </div>
+          <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
+            Our Story of Healing & Restoration
+          </h1>
+          <p className="text-white/75 text-xl max-w-xl">
+            Since 2011, ARBI has been rebuilding bridges within and between communities in North Kivu, DRC.
+          </p>
+        </div>
+
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+          {HERO_IMAGES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`transition-all duration-300 rounded-full ${
+                index === currentImageIndex
+                  ? "w-8 h-2 bg-primary"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
@@ -65,14 +111,14 @@ const About = () => {
             <div className="relative">
               <img
                 src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&auto=format&fit=crop&q=80"
-                alt="Children learning together"
+                alt="Community healing in North Kivu"
                 className="rounded-3xl shadow-card"
               />
               <div className="absolute -bottom-6 -right-6 bg-card p-6 rounded-2xl shadow-card">
                 <div className="flex items-center gap-4">
                   <Calendar className="w-10 h-10 text-primary" />
                   <div>
-                    <p className="text-3xl font-bold text-foreground">9+</p>
+                    <p className="text-3xl font-bold text-foreground">14+</p>
                     <p className="text-sm text-muted-foreground">Years of Service</p>
                   </div>
                 </div>
@@ -80,23 +126,42 @@ const About = () => {
             </div>
 
             <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium">
+                <Heart className="w-4 h-4" />
+                Africa Restoring Bridges Initiative
+              </div>
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
-                How It All Began
+                Restoring Bridges Within and Between Communities
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                In 2015, Dr. Mary Nakamya witnessed firsthand the struggles of children
-                in her community who couldn't afford school fees. Driven by compassion
-                and a vision for change, she started arbi org in her living room.
+              In 2011, Dr. Mary Mosetorozoro witnessed the devastating impact of conflict on communities in North Kivu. 
+              Driven by a vision of healed, reconciled, and prosperous communities, she founded ARBI to rebuild the 
+              bridges that violence had broken.
               </p>
               <p className="text-muted-foreground leading-relaxed">
-                Today, we've grown into a full-fledged organization with dedicated staff,
-                hundreds of volunteers, and programs that touch every aspect of a child's
-                life – from education and nutrition to mental health and community support.
+              Today, we've grown into a comprehensive organization serving 4+ regions across North Kivu, 
+              empowering over 3,950 people and impacting more than 2 million lives. Our programs touch every 
+              aspect of community healing – from mental health and peace-building to leadership development 
+              and youth resilience.
               </p>
+              <div className="flex gap-4">
+                <div className="text-center p-3 bg-muted/20 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">3,950+</p>
+                  <p className="text-xs text-muted-foreground">People Empowered</p>
+                </div>
+                <div className="text-center p-3 bg-muted/20 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">2M+</p>
+                  <p className="text-xs text-muted-foreground">People Impacted</p>
+                </div>
+                <div className="text-center p-3 bg-muted/20 rounded-xl">
+                  <p className="text-2xl font-bold text-primary">6+</p>
+                  <p className="text-xs text-muted-foreground">Partners</p>
+                </div>
+              </div>
               <Link to="/programs">
                 <Button variant="hero">
                   Explore Our Programs
-                  <ArrowRight className="w-4 h-4" />
+                  <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
             </div>
@@ -107,9 +172,14 @@ const About = () => {
       {/* Timeline */}
       <section className="py-20 bg-secondary/30">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground text-center mb-12">
-            Our Journey
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+              Our Journey of Impact
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Since our founding in 2011, we have worked tirelessly to bring healing and peace to communities in Eastern DRC.
+            </p>
+          </div>
           <div className="max-w-3xl mx-auto">
             {milestones.map((milestone, index) => (
               <div key={milestone.year} className="flex gap-6 mb-8 last:mb-0">
@@ -137,24 +207,24 @@ const About = () => {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                icon: Target,
-                title: "Our Mission",
-                description:
-                  "To provide holistic support to underprivileged children and families through education, healthcare, and community development programs, ensuring every child has the opportunity to thrive.",
-                color: "primary",
-              },
-              {
                 icon: Eye,
                 title: "Our Vision",
                 description:
-                  "A world where every child, regardless of their circumstances, has access to quality education, healthcare, and the support they need to reach their full potential.",
+                  "To see healed, reconciled, and prosperous communities living in peace in the DRC and other regions of Africa affected through violence.",
+                color: "primary",
+              },
+              {
+                icon: Target,
+                title: "Our Mission",
+                description:
+                  "To rebuild bridges within and between affected communities through integral community-based approaches fostering inclusive cooperation, capacity building for sustainable healing, peace building, and development.",
                 color: "teal",
               },
               {
                 icon: Heart,
-                title: "Core Purpose",
+                title: "Who We Are",
                 description:
-                  "To create lasting, transformational change by empowering communities with resources, knowledge, and compassionate support that builds resilience and hope.",
+                  "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
                 color: "gold",
               },
             ].map((item) => (
@@ -163,7 +233,8 @@ const About = () => {
                 className="bg-card p-8 rounded-2xl shadow-soft hover:shadow-card transition-shadow"
               >
                 <div
-                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${item.color === "primary"
+                  className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
+                    item.color === "primary"
                       ? "bg-primary/10"
                       : item.color === "teal"
                         ? "bg-teal/10"
@@ -171,18 +242,48 @@ const About = () => {
                     }`}
                 >
                   <item.icon
-                    className={`w-8 h-8 ${item.color === "primary"
+                    className={`w-8 h-8 ${
+                      item.color === "primary"
                         ? "text-primary"
                         : item.color === "teal"
                           ? "text-teal"
                           : "text-gold"
-                      }`}
+                    }`}
                   />
                 </div>
                 <h3 className="text-xl font-serif font-semibold text-foreground mb-3">
                   {item.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Reach Section */}
+      <section className="py-20 bg-muted/20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+              Our Reach Across North Kivu
+            </h2>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Making a difference across five territories in Eastern DRC
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+            {[
+              { location: "Goma", desc: "Headquarters & main operational center", icon: MapPin },
+              { location: "Rutshuru", desc: "Community development & peace-building", icon: Shield },
+              { location: "Masisi", desc: "Psychosocial support & advocacy", icon: Heart },
+              { location: "Walikale", desc: "Environmental protection & community health", icon: Globe },
+              { location: "Beni", desc: "Relief operations & community empowerment", icon: HandHeart },
+            ].map((item) => (
+              <div key={item.location} className="text-center p-4 bg-card rounded-xl border border-border">
+                <item.icon className="w-8 h-8 text-primary mx-auto mb-2" />
+                <h4 className="font-bold text-foreground">{item.location}</h4>
+                <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -197,7 +298,7 @@ const About = () => {
               Meet Our Team
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              Dedicated individuals working tirelessly to bring hope and change to our community.
+              Dedicated individuals working tirelessly to bring healing and restoration to communities in North Kivu.
             </p>
           </div>
 
@@ -227,6 +328,62 @@ const About = () => {
         </div>
       </section>
 
+      {/* Our Values Section */}
+      <section className="py-20">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+            Our Core Values
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
+            These values guide everything we do as we work towards healed, reconciled, and prosperous communities.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
+            {[
+              "Dedication with excellence",
+              "Humanity and compassion",
+              "Equality",
+              "Unity in diversity",
+              "Transparency",
+              "Stewardship",
+            ].map((value, idx) => (
+              <span key={idx} className="px-6 py-3 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                {value}
+              </span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-20 bg-secondary/30">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+            Our Partners
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
+            We work together with like-minded organizations to maximize our impact
+          </p>
+          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+            {["CPA", "IICBS", "Rucher", "MICAH", "PDD"].map((partner, idx) => (
+              <div key={idx} className="bg-card px-8 py-4 rounded-xl shadow-soft border border-border">
+                <p className="font-bold text-foreground text-xl">{partner}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Scripture Verse */}
+      <section className="py-16 bg-primary/5">
+        <div className="container mx-auto px-4 text-center">
+          <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
+          <p className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto">
+            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
+          </p>
+          <p className="text-md text-primary mt-3">— Isaiah 58:12</p>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="py-20">
         <div className="container mx-auto px-4">
@@ -236,20 +393,19 @@ const About = () => {
               Join Our Mission
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
-              Together, we can reach more children, support more families, and create
-              lasting change in our communities.
+              Together, we can rebuild bridges, restore hope, and create lasting peace in North Kivu and beyond.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link to="/donate">
                 <Button variant="hero" size="lg">
-                  <Heart className="w-4 h-4" fill="currentColor" />
+                  <Heart className="w-4 h-4 mr-2" />
                   Donate Now
                 </Button>
               </Link>
-              <Link to="/donate">
+              <Link to="/contact">
                 <Button variant="outline" size="lg">
-                  <Users className="w-4 h-4" />
-                  Become a Volunteer
+                  <Users className="w-4 h-4 mr-2" />
+                  Become a Partner
                 </Button>
               </Link>
             </div>

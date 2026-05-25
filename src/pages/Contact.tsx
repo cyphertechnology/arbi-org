@@ -19,9 +19,29 @@ import {
   Users,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
+
+// Import hero images for slideshow
+import img1 from "@/assets/kids 2.jpg";
+import img2 from "@/assets/kids 3.jpg";
+import img3 from "@/assets/kids 4.jpg";
+import img4 from "@/assets/kids 5.jpg";
+import img5 from "@/assets/kids 6.jpg";
+import img6 from "@/assets/kids.jpg";
+import img7 from "@/assets/kids7.jpg";
+
+const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const Contact = () => {
   const { toast } = useToast();
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,24 +55,45 @@ const Contact = () => {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="py-20 bg-gradient-hero">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-4">
-              <Heart className="w-4 h-4" />
-              Africa Restoring Bridges Initiative
-            </div>
-            <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-4">
-              Get in <span>Touch</span>
-            </h1>
-            <p className="text-xl text-muted-foreground mb-4">
-              Touching Hearts — Transforming Nations
-            </p>
-            <p className="text-lg text-muted-foreground leading-relaxed italic">
-              "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12
-            </p>
+      {/* Hero Section with Slideshow Background */}
+      <section 
+        className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
+        style={{ 
+          backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center'
+        }}
+      >
+        {/* Dark overlay for text readability */}
+        <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
+        
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full animate-fade-in-up">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-8 h-0.5 bg-primary"></div>
+            <span className="text-sm font-bold text-white tracking-[2px] uppercase">Contact Us</span>
           </div>
+          <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
+            Get in Touch
+          </h1>
+          <p className="text-white/75 text-xl max-w-xl">
+            Have questions about our programs, want to volunteer, or need support? Our team is ready to assist you.
+          </p>
+        </div>
+
+        {/* Slideshow indicator dots */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+          {HERO_IMAGES.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`transition-all duration-300 rounded-full ${
+                index === currentImageIndex
+                  ? "w-8 h-2 bg-primary"
+                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
         </div>
       </section>
 
@@ -62,6 +103,10 @@ const Contact = () => {
           <div className="grid lg:grid-cols-2 gap-12">
             {/* Contact Info - ARBI Specific */}
             <div>
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-4">
+                <Heart className="w-4 h-4" />
+                Africa Restoring Bridges Initiative
+              </div>
               <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4">
                 Contact Information
               </h2>
