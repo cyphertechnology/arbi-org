@@ -1,36 +1,38 @@
+// TestimonialsSection.tsx
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
 const testimonials = [
   {
     quote:
-      "arbi org has truly transformed our lives in ways we never imagined. Before their support, my children struggled to attend school due to lack of proper uniforms, books, and essential learning materials. Today, they attend school confidently and are excited to learn, knowing that their basic needs are fully met. We are endlessly grateful for the generosity and dedication of the arbi team, who continue to support our family and countless others in our community.",
-    author: "Sarah Nakato",
-    role: "Parent & Beneficiary",
+      "ARBI's healing and peace-building program transformed our community. The mental health and psychosocial support we received helped us process trauma and begin the journey of reconciliation. Today, we work together across former divides to rebuild our village.",
+    author: "Marie Uwimana",
+    role: "Community Leader, Masisi",
     image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
-      "Volunteering with arbi has been one of the most enriching and life-changing experiences of my life. Every day, I witness the joy and hope that our efforts bring to children and families who face incredible challenges. Being part of a team that works tirelessly to uplift communities, provide education, and support basic needs has deepened my understanding of compassion and humanity. The smiles, laughter, and gratitude of those we serve make every hour of effort completely worthwhile and inspiring.",
-    author: "James Mugisha",
-    role: "Volunteer Coordinator",
+      "The leadership development training equipped me with skills to serve my community with integrity. I've learned to promote unity, create economic opportunities, and fight corruption. ARBI's servant leadership model is changing how we lead in North Kivu.",
+    author: "Jean-Paul Birindwa",
+    role: "Youth Leader, Goma",
     image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
-      "The blood donation program organized by arbi org was nothing short of a miracle for my family. During a sudden medical emergency, my daughter urgently needed blood, and thanks to arbi's well-coordinated drive, she received the life-saving support she needed in time. The care, dedication, and professionalism of the arbi team went beyond our expectations. Their continuous commitment to saving lives and educating the community about health awareness makes a profound difference every day.",
-    author: "Grace Achieng",
-    role: "Community Member",
+      "Before ARBI's youth resilience program, I was lost and involved in substance abuse. The mentorship and reintegration support gave me a second chance. Now I'm helping other young people find hope and purpose.",
+    author: "Amani Kabasha",
+    role: "Program Beneficiary, Rutshuru",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
-      "Being part of the arbi org mentorship program has been an incredible journey that completely changed my outlook on life. Before joining, I struggled with self-doubt and lacked the guidance to pursue higher education. Through the mentorship sessions, workshops, and personal support, I gained the confidence, skills, and motivation to aim higher. Today, I am proud to be the first in my family to attend university, and I credit the mentors and programs at arbi for giving me the tools and belief to achieve this milestone.",
-    author: "David Ssemakula",
-    role: "Program Beneficiary",
+      "As a partner organization, we've seen ARBI's commitment to integral community development firsthand. Their holistic approach empowers communities as assets and resources of their own development. Together, we're building sustainable healing and prosperity.",
+    author: "Pastor David Mubake",
+    role: "Partner Organization, MICAH",
     image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80",
   },
 ];
-
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -43,82 +45,170 @@ const TestimonialsSection = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+    }),
+  };
+
+  const dotVariants = {
+    inactive: { width: 8, opacity: 0.5, backgroundColor: "var(--border-color)" },
+    active: {
+      width: 32,
+      opacity: 1,
+      backgroundColor: "var(--primary-color)",
+      transition: { duration: 0.3 },
+    },
+  };
+
   return (
-    <section className="py-20">
+    <motion.section
+      className="py-20"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
-            Stories of Hope
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Hear from the families and volunteers whose lives have been touched by our work.
-          </p>
-        </div>
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <motion.h2
+            className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            Stories of Healing and Restoration
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            Hear from community members, leaders, and partners whose lives have been transformed through ARBI's programs.
+          </motion.p>
+        </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-card rounded-3xl p-8 md:p-12 shadow-card">
+          <motion.div
+            className="relative bg-card rounded-3xl p-8 md:p-12 shadow-card overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Quote className="w-12 h-12 text-primary/20 absolute top-8 left-8" />
 
-            <div className="relative z-10">
-              <p className="text-xl md:text-2xl text-foreground leading-relaxed mb-8 font-serif italic">
-                "{testimonials[currentIndex].quote}"
-              </p>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                custom={1}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="relative z-10"
+              >
+                <motion.p
+                  className="text-xl md:text-2xl text-foreground leading-relaxed mb-8 font-serif italic"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  "{testimonials[currentIndex].quote}"
+                </motion.p>
 
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].author}
-                  className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">
-                    {testimonials[currentIndex].author}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonials[currentIndex].role}
-                  </p>
-                </div>
-              </div>
-            </div>
+                <motion.div
+                  className="flex items-center gap-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <motion.img
+                    src={testimonials[currentIndex].image}
+                    alt={testimonials[currentIndex].author}
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div>
+                    <p className="font-semibold text-foreground">
+                      {testimonials[currentIndex].author}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonials[currentIndex].role}
+                    </p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Navigation */}
-            <div className="flex items-center justify-between mt-8 pt-8 border-t border-border">
+            <motion.div
+              className="flex items-center justify-between mt-8 pt-8 border-t border-border"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              viewport={{ once: true }}
+            >
               <div className="flex gap-2">
                 {testimonials.map((_, index) => (
-                  <button
+                  <motion.button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex
-                        ? "w-8 bg-primary"
-                        : "bg-border hover:bg-muted-foreground"
-                    }`}
+                    className="h-2 rounded-full transition-all duration-300"
+                    variants={dotVariants}
+                    animate={index === currentIndex ? "active" : "inactive"}
                     aria-label={`Go to testimonial ${index + 1}`}
                   />
                 ))}
               </div>
 
               <div className="flex gap-2">
-                <button
+                <motion.button
                   onClick={prev}
                   className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   aria-label="Previous testimonial"
                 >
                   <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={next}
                   className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   aria-label="Next testimonial"
                 >
                   <ChevronRight className="w-5 h-5" />
-                </button>
+                </motion.button>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 

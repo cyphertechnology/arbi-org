@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LogoARBI from "@/assets/LogoARBIPNG.png";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,19 @@ const Navbar = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [isPublicationsOpen, setIsPublicationsOpen] = useState(false);
+  const [isProgramsOpen, setIsProgramsOpen] = useState(false);
+  const publicationsDropdownRef = useRef<HTMLDivElement>(null);
+  const programsDropdownRef = useRef<HTMLDivElement>(null);
   const location = useLocation();
+
+  // Program items for dropdown
+  const programItems = [
+    { name: "Healing, Peace-Building & Reconciliation", path: "/programs#healing-peace", shortName: "Healing & Peace" },
+    { name: "Abundant Leadership Development", path: "/programs#leadership", shortName: "Leadership" },
+    { name: "Integral Community Development", path: "/programs#community-dev", shortName: "Community Development" },
+    { name: "Promoting Resilience Among Youth (PRAY)", path: "/programs#youth-resilience", shortName: "Youth Resilience" },
+  ];
 
   useEffect(() => {
     const dark = localStorage.getItem("theme") === "dark";
@@ -21,7 +34,23 @@ const Navbar = () => {
   // Close mobile menu on route change
   useEffect(() => {
     setIsOpen(false);
+    setIsPublicationsOpen(false);
+    setIsProgramsOpen(false);
   }, [location.pathname]);
+
+  // Close dropdowns when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (publicationsDropdownRef.current && !publicationsDropdownRef.current.contains(event.target as Node)) {
+        setIsPublicationsOpen(false);
+      }
+      if (programsDropdownRef.current && !programsDropdownRef.current.contains(event.target as Node)) {
+        setIsProgramsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,7 +59,7 @@ const Navbar = () => {
 
       if (currentScrollY > lastScrollY && currentScrollY > 100) {
         setIsVisible(false);
-        setIsOpen(false); // also close menu when hiding
+        setIsOpen(false);
       } else if (currentScrollY < lastScrollY) {
         setIsVisible(true);
       }
@@ -53,12 +82,28 @@ const Navbar = () => {
     }
   };
 
+  // Check if any program route is active
+  const isProgramsActive = location.pathname === "/programs";
+
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
-    { name: "Programs", path: "/programs" },
+    {
+      name: "Programs",
+      isDropdown: true,
+      isProgramsDropdown: true,
+      items: programItems,
+    },
     { name: "Where We Work", path: "/where-we-work" },
     { name: "Partners", path: "/partners" },
+    {
+      name: "Publications",
+      isDropdown: true,
+      items: [
+        { name: "News", path: "/news" },
+        { name: "Events", path: "/events" },
+      ],
+    },
     { name: "Contact", path: "/contact" },
   ];
 
@@ -66,68 +111,11 @@ const Navbar = () => {
 
   return (
     <>
-      <style>{`
-        @keyframes navSlideDown {
-          from { opacity: 0; transform: translateY(-8px); }
-          to   { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes mobileMenuOpen {
-          from { opacity: 0; transform: translateY(-6px) scaleY(0.97); }
-          to   { opacity: 1; transform: translateY(0)  scaleY(1); }
-        }
-        .nav-link-item {
-          animation: navSlideDown 0.4s ease both;
-        }
-        .mobile-menu-enter {
-          animation: mobileMenuOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
-          transform-origin: top center;
-        }
-        /* Sliding underline on hover */
-        .nav-underline::after {
-          content: '';
-          position: absolute;
-          bottom: -3px;
-          left: 0;
-          width: 0;
-          height: 2px;
-          background: hsl(var(--primary));
-          border-radius: 9999px;
-          transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .nav-underline:hover::after { width: 100%; }
-        .nav-underline.active-link::after { width: 100%; }
-
-        /* Mobile link slide-in stagger */
-        .mobile-link {
-          opacity: 0;
-          transform: translateX(-10px);
-          animation: mobileLinkIn 0.3s ease forwards;
-        }
-        @keyframes mobileLinkIn {
-          to { opacity: 1; transform: translateX(0); }
-        }
-
-        /* Icon spin on theme toggle */
-        .theme-icon {
-          transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
-        }
-        .theme-icon:hover { transform: rotate(30deg) scale(1.15); }
-
-        /* Hamburger icon morph */
-        .menu-icon {
-          transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.2s ease;
-        }
-        .menu-icon-enter { animation: iconPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
-        @keyframes iconPop {
-          from { transform: scale(0.6) rotate(-90deg); opacity: 0; }
-          to   { transform: scale(1)   rotate(0deg);   opacity: 1; }
-        }
-      `}</style>
-
-      <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${
-          isVisible ? "translate-y-0" : "-translate-y-full"
-        } ${
+      <motion.nav
+        initial={false}
+        animate={{ y: isVisible ? 0 : -100 }}
+        transition={{ duration: 0.3 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
             ? "bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-lg"
             : "bg-white/80 dark:bg-black/80 backdrop-blur-sm shadow-sm"
@@ -136,126 +124,233 @@ const Navbar = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
 
-            {/* Logo with ARBI Text */}
-            <Link
-              to="/"
-              className="flex items-center gap-3 group"
-              style={{ transition: "transform 0.3s cubic-bezier(0.34,1.56,0.64,1)" }}
-              onMouseEnter={e => (e.currentTarget.style.transform = "scale(1.05)")}
-              onMouseLeave={e => (e.currentTarget.style.transform = "scale(1)")}
-            >
-              <img src={LogoARBI} alt="ARBI logo" className="h-8 w-auto rounded-lg" />
-              <span className="text-xl font-bold text-foreground tracking-tight transition-all duration-300 group-hover:text-primary">
-                ARBI
-              </span>
-            </Link>
+            {/* Logo */}
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+              <Link to="/" className="flex items-center gap-3 group">
+                <img src={LogoARBI} alt="ARBI logo" className="h-8 w-auto rounded-lg" />
+                <span className="text-xl font-bold text-foreground tracking-tight transition-all duration-300 group-hover:text-primary">
+                  ARBI
+                </span>
+              </Link>
+            </motion.div>
 
             {/* Desktop Navigation */}
             <div className="hidden lg:flex items-center gap-6">
               {navLinks.map((link, i) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`nav-link-item nav-underline relative text-sm font-medium transition-colors duration-300 ${
-                    isActive(link.path)
-                      ? "text-primary active-link"
-                      : "text-foreground/70 hover:text-foreground"
-                  }`}
-                  style={{ animationDelay: `${i * 60}ms` }}
+                <motion.div
+                  key={link.path || link.name}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -2 }}
+                  ref={link.isProgramsDropdown ? programsDropdownRef : link.isDropdown ? publicationsDropdownRef : null}
                 >
-                  {link.name}
-                </Link>
+                  {link.isDropdown ? (
+                    <div className="relative">
+                      <button
+                        onClick={() => {
+                          if (link.isProgramsDropdown) {
+                            setIsProgramsOpen(!isProgramsOpen);
+                            setIsPublicationsOpen(false);
+                          } else {
+                            setIsPublicationsOpen(!isPublicationsOpen);
+                            setIsProgramsOpen(false);
+                          }
+                        }}
+                        className={`nav-link-item flex items-center gap-1 text-sm font-medium transition-colors duration-300 ${
+                          (link.isProgramsDropdown && isProgramsActive) ||
+                          (link.isProgramsDropdown && location.pathname === "/programs") ||
+                          (!link.isProgramsDropdown && (location.pathname === "/news" || location.pathname === "/events"))
+                            ? "text-primary"
+                            : "text-foreground/70 hover:text-foreground"
+                        }`}
+                      >
+                        {link.name}
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
+                          (link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen) ? "rotate-180" : ""
+                        }`} />
+                      </button>
+                      
+                      <AnimatePresence>
+                        {((link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen)) && (
+                          <motion.div
+                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                            transition={{ duration: 0.2 }}
+                            className="absolute top-full left-0 mt-2 w-64 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50"
+                          >
+                            {link.items.map((item) => (
+                              <Link
+                                key={item.path}
+                                to={item.path}
+                                onClick={() => {
+                                  if (link.isProgramsDropdown) setIsProgramsOpen(false);
+                                  else setIsPublicationsOpen(false);
+                                }}
+                                className={`block px-4 py-3 text-sm transition-colors ${
+                                  (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
+                                  (!link.isProgramsDropdown && location.pathname === item.path)
+                                    ? "bg-primary/10 text-primary font-medium"
+                                    : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                                }`}
+                              >
+                                <div>
+                                  <div className="font-medium">{item.shortName || item.name}</div>
+                                  {link.isProgramsDropdown && item.name !== item.shortName && (
+                                    <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
+                                      {item.name}
+                                    </div>
+                                  )}
+                                </div>
+                              </Link>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  ) : (
+                    <Link
+                      to={link.path!}
+                      className={`nav-link-item nav-underline relative text-sm font-medium transition-colors duration-300 ${
+                        isActive(link.path!)
+                          ? "text-primary active-link"
+                          : "text-foreground/70 hover:text-foreground"
+                      }`}
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </motion.div>
               ))}
             </div>
 
             {/* Actions */}
             <div className="hidden lg:flex items-center gap-3">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1, rotate: 20 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={toggleTheme}
-                className="p-1.5 rounded-lg hover:bg-secondary transition-colors duration-300 overflow-hidden"
+                className="p-1.5 rounded-lg hover:bg-secondary transition-colors duration-300"
                 aria-label="Toggle theme"
               >
-                <span key={isDark ? "sun" : "moon"} className="theme-icon menu-icon-enter block">
-                  {isDark
-                    ? <Sun className="w-4 h-4 text-foreground" />
-                    : <Moon className="w-4 h-4 text-foreground" />
-                  }
-                </span>
-              </button>
-              <Link to="/donate">
-                <Button
-                  variant="hero"
-                  size="default"
-                  className="py-1.5 text-sm transition-all duration-300 hover:scale-105 hover:shadow-md active:scale-95"
-                >
-                  Donate
-                </Button>
-              </Link>
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </motion.button>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/donate">
+                  <Button variant="hero" size="default" className="py-1.5 text-sm">
+                    Donate
+                  </Button>
+                </Link>
+              </motion.div>
             </div>
 
             {/* Mobile Controls */}
             <div className="flex lg:hidden items-center gap-1">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={toggleTheme}
                 className="p-1.5 rounded-lg hover:bg-secondary transition-colors"
                 aria-label="Toggle theme"
               >
-                <span key={isDark ? "sun-m" : "moon-m"} className="theme-icon menu-icon-enter block">
-                  {isDark
-                    ? <Sun className="w-4 h-4 text-foreground" />
-                    : <Moon className="w-4 h-4 text-foreground" />
-                  }
-                </span>
-              </button>
-              <button
+                {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
                 onClick={() => setIsOpen(!isOpen)}
                 className="p-1.5 rounded-lg hover:bg-secondary transition-colors"
                 aria-label="Toggle menu"
               >
-                <span key={isOpen ? "close" : "open"} className="menu-icon-enter block">
-                  {isOpen
-                    ? <X className="w-5 h-5 text-foreground" />
-                    : <Menu className="w-5 h-5 text-foreground" />
-                  }
-                </span>
-              </button>
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </motion.button>
             </div>
           </div>
 
           {/* Mobile Menu */}
-          {isOpen && (
-            <div className="mobile-menu-enter lg:hidden py-3 border-t border-border bg-background rounded-lg mt-2">
-              <div className="flex flex-col gap-1">
-                {navLinks.map((link, i) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`mobile-link px-4 py-2 rounded-lg transition-colors duration-200 ${
-                      isActive(link.path)
-                        ? "bg-primary/10 text-primary font-medium"
-                        : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                    }`}
-                    style={{ animationDelay: `${i * 45}ms` }}
-                  >
-                    {link.name}
-                  </Link>
-                ))}
-                <div className="mt-3 px-4 mobile-link" style={{ animationDelay: `${navLinks.length * 45}ms` }}>
-                  <Link to="/donate" onClick={() => setIsOpen(false)}>
-                    <Button
-                      variant="hero"
-                      className="w-full py-1.5 text-sm transition-all duration-300 active:scale-95"
+          <AnimatePresence>
+            {isOpen && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="lg:hidden overflow-hidden"
+              >
+                <div className="py-3 border-t border-border bg-card rounded-lg mt-2">
+                  <div className="flex flex-col gap-1">
+                    {navLinks.map((link, i) => (
+                      <motion.div
+                        key={link.path || link.name}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: i * 0.05, duration: 0.3 }}
+                      >
+                        {link.isDropdown ? (
+                          <>
+                            <div className="px-4 py-2 text-sm font-medium text-foreground/70">
+                              {link.name}
+                            </div>
+                            <div className="pl-6 flex flex-col gap-1">
+                              {link.items.map((item) => (
+                                <Link
+                                  key={item.path}
+                                  to={item.path}
+                                  onClick={() => setIsOpen(false)}
+                                  className={`px-4 py-2 rounded-lg transition-colors text-sm ${
+                                    (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
+                                    (!link.isProgramsDropdown && location.pathname === item.path)
+                                      ? "bg-primary/10 text-primary font-medium"
+                                      : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                                  }`}
+                                >
+                                  <div>
+                                    <div>{item.shortName || item.name}</div>
+                                    {link.isProgramsDropdown && item.name !== item.shortName && (
+                                      <div className="text-xs text-muted-foreground mt-0.5">
+                                        {item.name}
+                                      </div>
+                                    )}
+                                  </div>
+                                </Link>
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <Link
+                            to={link.path!}
+                            onClick={() => setIsOpen(false)}
+                            className={`block px-4 py-2 rounded-lg transition-colors duration-200 ${
+                              isActive(link.path!)
+                                ? "bg-primary/10 text-primary font-medium"
+                                : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                            }`}
+                          >
+                            {link.name}
+                          </Link>
+                        )}
+                      </motion.div>
+                    ))}
+                    <motion.div
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: navLinks.length * 0.05, duration: 0.3 }}
+                      className="mt-3 px-4"
                     >
-                      Donate Now
-                    </Button>
-                  </Link>
+                      <Link to="/donate" onClick={() => setIsOpen(false)}>
+                        <Button variant="hero" className="w-full py-1.5 text-sm">
+                          Donate Now
+                        </Button>
+                      </Link>
+                    </motion.div>
+                  </div>
                 </div>
-              </div>
-            </div>
-          )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-      </nav>
+      </motion.nav>
     </>
   );
 };

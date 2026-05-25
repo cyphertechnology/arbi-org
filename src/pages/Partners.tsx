@@ -1,7 +1,9 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Heart, Users, HandHeart, Globe, Target } from "lucide-react";
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants, cardHoverVariants } from "@/lib/animationVariants";
 
 import img1 from "@/assets/kids 2.jpg";
 import img2 from "@/assets/kids 3.jpg";
@@ -86,56 +88,173 @@ const Partners = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // CSS marquee will handle smooth continuous sliding of logos
-
   return (
     <Layout>
       <main className="pt-24">
-        {/* Hero */}
-        <section
-          className="relative min-h-[400px] flex flex-col justify-center transition-all duration-1000 ease-in-out -mt-24"
-          style={{ backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+        {/* Hero Section with Slideshow Background */}
+        <motion.section
+          className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed -mt-24"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          style={{ 
+            backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center'
+          }}
         >
           <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out" />
+          
           <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-0.5 bg-foreground" />
-              <span className="text-sm font-bold text-white tracking-[2px] uppercase">Collaboration</span>
-            </div>
-            <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
-              Touching Hearts Transforming Nations
-            </h1>
-            <p className="text-white/75 text-xl max-w-xl">Alone, we go faster. Together, we go further.</p>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <motion.div 
+                className="flex items-center gap-3 mb-5"
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <motion.div 
+                  className="w-8 h-0.5 bg-primary"
+                  initial={{ scaleX: 0 }}
+                  animate={{ scaleX: 1 }}
+                  transition={{ duration: 0.6 }}
+                />
+                <span className="text-sm font-bold text-white tracking-[2px] uppercase">Collaboration</span>
+              </motion.div>
+              
+              <motion.h1 
+                className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                Touching Hearts <br />Transforming Nations
+              </motion.h1>
+              
+              <motion.p 
+                className="text-white/75 text-xl max-w-xl"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                Alone, we go faster. Together, we go further.
+              </motion.p>
+            </motion.div>
           </div>
-        </section>
+
+          {/* Slideshow indicator dots */}
+          <motion.div
+            className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5 }}
+          >
+            {HERO_IMAGES.map((_, index) => (
+              <motion.button
+                key={index}
+                onClick={() => setCurrentImageIndex(index)}
+                className="rounded-full transition-all"
+                animate={{
+                  width: index === currentImageIndex ? 32 : 8,
+                  height: 8,
+                  backgroundColor: index === currentImageIndex ? "hsl(var(--primary))" : "rgba(255, 255, 255, 0.5)",
+                }}
+                transition={{ duration: 0.3 }}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            ))}
+          </motion.div>
+        </motion.section>
 
         {/* Intro + Featured Logos */}
-        <section className="py-24">
+        <motion.section 
+          className="py-24"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
             <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
+              <motion.div
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-8 h-0.5 bg-primary" />
                   <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Our Partners</span>
                 </div>
-                <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight mb-6">Building a network of change-makers</h2>
-                <p className="text-muted-foreground leading-relaxed mb-4">ARBI works with a diverse network of local and international partner organizations who share our vision for healed, reconciled, and prosperous communities.</p>
-                <p className="text-muted-foreground leading-relaxed">Our partnerships strengthen our capacity to reach more communities and deliver more effective programs across Northern Kivu.</p>
-              </div>
+                <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight mb-6">
+                  Building a network of change-makers
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-4">
+                  ARBI works with a diverse network of local and international partner organizations who share our vision for healed, reconciled, and prosperous communities.
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  Our partnerships strengthen our capacity to reach more communities and deliver more effective programs across North Kivu.
+                </p>
+                
+                {/* Quick stats */}
+                <motion.div 
+                  className="flex gap-6 mt-8"
+                  variants={containerVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                >
+                  {[
+                    { icon: Users, value: "3,950+", label: "People Empowered" },
+                    { icon: Globe, value: "4+", label: "Regions Reached" },
+                    { icon: HandHeart, value: "7+", label: "Partners" },
+                  ].map((stat, idx) => (
+                    <motion.div
+                      key={idx}
+                      className="text-center p-3 bg-primary/5 rounded-xl flex-1"
+                      variants={itemVariants}
+                      whileHover={{ scale: 1.05, backgroundColor: "hsl(var(--primary) / 0.1)" }}
+                    >
+                      <stat.icon className="w-5 h-5 text-primary mx-auto mb-1" />
+                      <p className="text-xl font-bold text-foreground">{stat.value}</p>
+                      <p className="text-xs text-muted-foreground">{stat.label}</p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </motion.div>
 
-              <div className="relative">
-                <div className="overflow-hidden">
+              {/* Logo Marquee */}
+              <motion.div 
+                className="relative"
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="overflow-hidden rounded-2xl">
                   <div className="marquee">
                     <div className="marquee-track flex items-center gap-6 py-6">
                       {PARTNER_LOGOS.map((l) => (
-                        <div key={l.src} className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-[#e5e5e5] p-6">
+                        <motion.div 
+                          key={l.src} 
+                          className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
+                          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
+                        >
                           <img src={l.src} alt={l.alt} className="max-h-20 max-w-full object-contain" />
-                        </div>
+                        </motion.div>
                       ))}
                       {PARTNER_LOGOS.map((l) => (
-                        <div key={l.src + "-dup"} className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-[#e5e5e5] p-6">
+                        <motion.div 
+                          key={l.src + "-dup"} 
+                          className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
+                          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
+                        >
                           <img src={l.src} alt={l.alt} className="max-h-20 max-w-full object-contain" />
-                        </div>
+                        </motion.div>
                       ))}
                     </div>
                   </div>
@@ -149,69 +268,229 @@ const Partners = () => {
                     100% { transform: translateX(-50%); }
                   }
                   .marquee-track { animation: marqueeAnim 20s linear infinite; }
-                  .marquee-track > * { /* ensure no flex-basis shrinking weirdness */ flex: 0 0 auto; }
+                  .marquee-track:hover { animation-play-state: paused; }
+                  .marquee-track > * { flex: 0 0 auto; }
                 `}</style>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* All Partners */}
-        <section className="py-24 relative bg-fixed" style={{ backgroundImage: `url(${img3})`, backgroundSize: 'cover', backgroundPosition: 'center', backgroundAttachment: 'fixed' }}>
-          <div className="absolute inset-0 bg-black/40" />
+        {/* All Partners Section with Parallax Background */}
+        <motion.section 
+          className="py-24 relative bg-fixed"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+          style={{ 
+            backgroundImage: `url(${img3})`, 
+            backgroundSize: 'cover', 
+            backgroundPosition: 'center', 
+            backgroundAttachment: 'fixed'
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60" />
+          
           <div className="max-w-[1280px] mx-auto px-4 sm:px-8 relative z-10">
-            <div className="text-center mb-16">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <div className="flex items-center gap-3 mb-5 justify-center">
-                <div className="w-8 h-0.5 bg-foreground" />
+                <div className="w-8 h-0.5 bg-primary" />
                 <span className="text-sm font-bold text-white tracking-[2px] uppercase">All Partners</span>
               </div>
-              <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-xl mx-auto">Our partner organizations</h2>
-            </div>
+              <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-xl mx-auto">
+                Our partner organizations
+              </h2>
+            </motion.div>
 
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {ALL_PARTNERS.map((p) => (
-                <div key={p.key} className="bg-slate-950 p-8 rounded-[20px] border border-slate-800 hover:shadow-xl transition-shadow">
-                  <div className="h-20 flex items-center justify-center mb-4 bg-white rounded-xl p-3 shadow-sm">
+            <motion.div 
+              className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+            >
+              {ALL_PARTNERS.map((p, idx) => (
+                <motion.div 
+                  key={p.key} 
+                  className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft"
+                  variants={itemVariants}
+                  whileHover={{ 
+                    y: -8, 
+                    boxShadow: "0 20px 40px -12px rgba(0,0,0,0.2)",
+                    transition: { duration: 0.3 }
+                  }}
+                >
+                  <motion.div 
+                    className="h-20 flex items-center justify-center mb-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 shadow-sm"
+                    whileHover={{ scale: 1.02 }}
+                  >
                     <img src={p.img} alt={p.title} className="max-h-full max-w-full object-contain" />
-                  </div>
-                  <p className="text-sm font-medium text-white mb-1">{p.title}</p>
-                  <p className="text-slate-300 text-sm leading-relaxed">{p.desc}</p>
-                </div>
+                  </motion.div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
 
-        {/* Join Us */}
-        <section className="py-24">
+        {/* Join Us Section */}
+        <motion.section 
+          className="py-24"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
           <div className="max-w-[1280px] mx-auto px-4 sm:px-8 text-center">
-            <div className="flex items-center gap-3 mb-5 justify-center">
-              <div className="w-8 h-0.5 bg-primary" />
-              <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Join Us</span>
-            </div>
-            <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight max-w-xl mx-auto mt-2 mb-6">Interested in Partnership?</h2>
-            <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10">Join us in our mission to transform communities in the DRC. Whether you are an NGO, faith organization, or institution, we welcome collaboration.</p>
-            <Link to="/contact" className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 text-white font-medium rounded hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-colors">
-              Contact Us <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-24">
-          <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
-            <div className="relative overflow-hidden min-h-[384px] flex items-center justify-center text-center px-8 py-16 rounded-[20px]" style={{ backgroundImage: `url(${img4})`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-              <div className="absolute inset-0 bg-black/60" />
-              <div className="relative z-10">
-                <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8">You can help us rebuild bridges and restore hope in the DRC</h2>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <Link to="/donate" className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded hover:opacity-90 transition-opacity">Donate Now <ArrowRight className="w-4 h-4" /></Link>
-                  <Link to="/contact" className="flex items-center gap-2 px-8 py-4 bg-white text-black font-medium rounded hover:opacity-90 transition-opacity">Get in Touch</Link>
-                </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <div className="flex items-center gap-3 mb-5 justify-center">
+                <div className="w-8 h-0.5 bg-primary" />
+                <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Join Us</span>
               </div>
-            </div>
+              <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight max-w-xl mx-auto mt-2 mb-6">
+                Interested in Partnership?
+              </h2>
+              <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10">
+                Join us in our mission to transform communities in the DRC. Whether you are an NGO, faith organization, or institution, we welcome collaboration.
+              </p>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link 
+                  to="/contact" 
+                  className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
+                >
+                  Contact Us 
+                  <motion.span
+                    whileHover={{ x: 5 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ArrowRight className="w-4 h-4" />
+                  </motion.span>
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </motion.section>
+
+        {/* CTA Section */}
+        <motion.section 
+          className="py-24"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
+            <motion.div 
+              className="relative overflow-hidden min-h-[384px] flex items-center justify-center text-center px-8 py-16 rounded-[20px]"
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+              style={{ 
+                backgroundImage: `url(${img4})`, 
+                backgroundSize: 'cover', 
+                backgroundPosition: 'center'
+              }}
+            >
+              <motion.div 
+                className="absolute inset-0 bg-black/60"
+                initial={{ opacity: 0.6 }}
+                whileHover={{ opacity: 0.5 }}
+                transition={{ duration: 0.3 }}
+              />
+              
+              <div className="relative z-10">
+                <motion.h2 
+                  className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  You can help us rebuild bridges and restore hope in the DRC
+                </motion.h2>
+                
+                <motion.div 
+                  className="flex flex-wrap justify-center gap-4"
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 0.4 }}
+                >
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Link 
+                      to="/donate" 
+                      className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
+                    >
+                      Donate Now 
+                      <motion.span whileHover={{ x: 5 }}>
+                        <ArrowRight className="w-4 h-4" />
+                      </motion.span>
+                    </Link>
+                  </motion.div>
+                  <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Link 
+                      to="/contact" 
+                      className="flex items-center gap-2 px-8 py-4 bg-white text-gray-900 font-medium rounded-lg shadow-lg hover:shadow-xl transition-all"
+                    >
+                      Get in Touch
+                    </Link>
+                  </motion.div>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </motion.section>
+
+        {/* Scripture Verse Section */}
+        <motion.section 
+          className="py-16 bg-primary/5"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.2 }}
+        >
+          <div className="container mx-auto px-4 text-center">
+            <motion.div
+              animate={{ scale: [1, 1.05, 1] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
+            </motion.div>
+            <motion.p 
+              className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
+            </motion.p>
+            <motion.p 
+              className="text-md text-primary mt-3"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              viewport={{ once: true }}
+            >
+              — Isaiah 58:12
+            </motion.p>
+          </div>
+        </motion.section>
       </main>
     </Layout>
   );
