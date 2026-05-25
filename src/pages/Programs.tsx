@@ -1,6 +1,6 @@
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
   Heart,
   Home,
@@ -8,8 +8,10 @@ import {
   Users,
   CheckCircle,
   ArrowRight,
+  ChevronDown,
 } from "lucide-react";
-
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants, cardHoverVariants, pulseVariants } from "@/lib/animationVariants";
 import { useState, useEffect, useRef } from "react";
 
 import img1 from "@/assets/kids 2.jpg";
@@ -27,6 +29,7 @@ const programs = [
     id: "healing-peace",
     icon: Heart,
     title: "Healing, Peace-Building & Reconciliation",
+    shortTitle: "Healing & Peace",
     tagline: "Program 1",
     description:
       "We facilitate genuine healing and reconciliation through empowering and working with influential leaders and community members through running Mental Health and Psycho-social Support projects and other related initiatives.",
@@ -45,6 +48,7 @@ const programs = [
     id: "leadership",
     icon: Users,
     title: "Abundant Leadership Development",
+    shortTitle: "Leadership Development",
     tagline: "Program 2",
     description:
       "Having witnessed what toxic leaders are capable of — destruction, corruption, exploitation and violence — providing communities with servant leaders having a heart for serving their fellows, promoting unity and innovating economic opportunities remains the most vital path to community transformation.",
@@ -60,6 +64,7 @@ const programs = [
     id: "community-dev",
     icon: Home,
     title: "Integral Community Development",
+    shortTitle: "Community Development",
     tagline: "Program 3",
     description:
       "We empower and strengthen community members as the assets, resources and strengths of their own communities, enabling them to take ownership of their development.",
@@ -77,6 +82,7 @@ const programs = [
     id: "youth-resilience",
     icon: Target,
     title: "Promoting Resilience Among Youth (PRAY)",
+    shortTitle: "Youth Resilience",
     tagline: "Program 4",
     description:
       "The risk factors related to delinquency among youth are compounded by drug abuse, poverty, political instability, urbanization, and dysfunctional family situations. Young people are at risk not just because they may turn to substance abuse or street living, but also because they are ambitious and in danger of being exploited.",
@@ -93,8 +99,43 @@ const programs = [
 const Programs = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [visiblePrograms, setVisiblePrograms] = useState<number[]>([]);
+  const [isProgramDropdownOpen, setIsProgramDropdownOpen] = useState(false);
   const programRefs = useRef<(HTMLDivElement | null)[]>([]);
   const ctaRef = useRef<HTMLDivElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const location = useLocation();
+
+  // Get current program from URL hash
+  const getCurrentProgramFromHash = () => {
+    const hash = window.location.hash.replace("#", "");
+    if (hash) {
+      const program = programs.find(p => p.id === hash);
+      if (program) return program;
+    }
+    return programs[0];
+  };
+
+  const [currentProgram, setCurrentProgram] = useState(getCurrentProgramFromHash());
+
+  // Update current program when hash changes
+  useEffect(() => {
+    const handleHashChange = () => {
+      setCurrentProgram(getCurrentProgramFromHash());
+    };
+    window.addEventListener("hashchange", handleHashChange);
+    return () => window.removeEventListener("hashchange", handleHashChange);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsProgramDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -129,146 +170,367 @@ const Programs = () => {
     return () => observer.disconnect();
   }, [visiblePrograms]);
 
+  const scrollToProgram = (programId: string) => {
+    setIsProgramDropdownOpen(false);
+    const element = document.getElementById(programId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+      window.location.hash = programId;
+    }
+  };
+
   return (
     <Layout>
-      {/* Hero Section - Original transitions preserved */}
-      <section 
-        className="relative min-h-[400px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
-        style={{ backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      {/* Hero Section with Slideshow Background */}
+      <motion.section 
+        className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
+        style={{ 
+          backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
+          backgroundSize: 'cover', 
+          backgroundPosition: 'center'
+        }}
       >
         <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
-        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full animate-fade-in-up">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-0.5 bg-primary"></div>
-            <span className="text-sm font-bold text-white tracking-[2px] uppercase">Our Work</span>
-          </div>
-          <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
-            Touching Hearts Transforming Nations
-          </h1>
-          <p className="text-white/75 text-xl max-w-xl">
-            Comprehensive initiatives designed to heal, empower, and transform communities in the DRC.
-          </p>
+        
+        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            <motion.div
+              className="flex items-center gap-3 mb-5"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="w-8 h-0.5 bg-primary"></div>
+              <span className="text-sm font-bold text-white tracking-[2px] uppercase">Our Programs</span>
+            </motion.div>
+            
+            <motion.h1
+              className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              Touching Hearts <br />Transforming Nations
+            </motion.h1>
+            
+            <motion.p
+              className="text-white/75 text-xl max-w-xl"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Comprehensive initiatives designed to heal, empower, and transform communities in the DRC.
+            </motion.p>
+
+            {/* Program Dropdown Menu */}
+            <motion.div 
+              className="mt-8"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setIsProgramDropdownOpen(!isProgramDropdownOpen)}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white rounded-lg transition-all duration-300 border border-white/20"
+                >
+                  <span className="text-sm font-medium">Jump to Program:</span>
+                  <span className="text-sm font-semibold">{currentProgram.shortTitle}</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isProgramDropdownOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                <AnimatePresence>
+                  {isProgramDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50"
+                    >
+                      {programs.map((program) => (
+                        <button
+                          key={program.id}
+                          onClick={() => scrollToProgram(program.id)}
+                          className={`w-full text-left px-4 py-3 transition-colors flex items-center gap-3 ${
+                            currentProgram.id === program.id
+                              ? "bg-primary/10 text-primary"
+                              : "text-foreground/80 hover:bg-secondary hover:text-foreground"
+                          }`}
+                        >
+                          <program.icon className="w-4 h-4" />
+                          <div>
+                            <div className="text-sm font-medium">{program.shortTitle}</div>
+                            <div className="text-xs text-muted-foreground">{program.title.substring(0, 50)}...</div>
+                          </div>
+                        </button>
+                      ))}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+          {HERO_IMAGES.map((_, index) => (
+            <motion.button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className="rounded-full transition-all"
+              animate={{
+                width: index === currentImageIndex ? 32 : 8,
+                height: 8,
+                backgroundColor: index === currentImageIndex ? "hsl(var(--primary))" : "rgba(255, 255, 255, 0.5)",
+              }}
+              transition={{ duration: 0.3 }}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </motion.div>
+      </motion.section>
 
       {/* Programs with scroll animations */}
-      <section className="py-24">
+      <motion.section 
+        className="py-24"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.1 }}
+      >
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
-          <div className="space-y-32">
+          <motion.div 
+            className="space-y-32"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {programs.map((program, index) => (
-              <div
+              <motion.div
                 key={program.id}
                 ref={(el) => (programRefs.current[index] = el)}
                 id={program.id}
-                className={`grid lg:grid-cols-2 gap-16 items-center transition-all duration-700 ease-out ${
-                  visiblePrograms.includes(index)
-                    ? "opacity-100 translate-y-0"
-                    : "opacity-0 translate-y-16"
-                }`}
+                className="grid lg:grid-cols-2 gap-16 items-center scroll-mt-24"
+                variants={itemVariants}
               >
-                <div className={`${index % 2 === 1 ? "lg:order-2" : ""} transition-all duration-700 delay-300 ${
-                  visiblePrograms.includes(index)
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 -translate-x-12"
-                }`}>
-                  <div className="relative group">
-                    <img
+                {/* Image Side */}
+                <motion.div 
+                  className={`${index % 2 === 1 ? "lg:order-2" : ""}`}
+                  initial={{ opacity: 0, x: index % 2 === 1 ? 50 : -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.2 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <motion.div 
+                    className="relative group"
+                    whileHover="hover"
+                  >
+                    <motion.img
                       src={program.image}
                       alt={program.title}
-                      className="rounded-[24px] shadow-soft w-full aspect-[4/3] object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="rounded-[24px] shadow-soft w-full aspect-[4/3] object-cover"
+                      whileHover={{ scale: 1.03 }}
+                      transition={{ duration: 0.5 }}
                     />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-[24px] transition-all duration-500"></div>
-                  </div>
-                </div>
+                    <motion.div 
+                      className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-[24px] opacity-0"
+                      whileHover={{ opacity: 1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                  </motion.div>
+                </motion.div>
 
-                <div className={`${index % 2 === 1 ? "lg:order-1" : ""} transition-all duration-700 delay-500 ${
-                  visiblePrograms.includes(index)
-                    ? "opacity-100 translate-x-0"
-                    : "opacity-0 translate-x-12"
-                }`}>
-                  <p className="text-sm font-bold uppercase tracking-[2px] text-muted-foreground mb-4 transition-all duration-300 hover:text-primary">
-                    {program.tagline}
-                  </p>
-                  <h2 className="text-3xl lg:text-[40px] font-bold text-foreground leading-tight mb-4 transition-all duration-300 hover:scale-105 hover:text-primary inline-block">
+                {/* Content Side */}
+                <motion.div 
+                  className={`${index % 2 === 1 ? "lg:order-1" : ""}`}
+                  initial={{ opacity: 0, x: index % 2 === 1 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.7, delay: 0.3 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                >
+                  <motion.div
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium mb-4"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <program.icon className="w-4 h-4" />
+                    <span>{program.tagline}</span>
+                  </motion.div>
+                  
+                  <motion.h2 
+                    className="text-3xl lg:text-[40px] font-bold text-foreground leading-tight mb-4"
+                    whileHover={{ scale: 1.02, color: "hsl(var(--primary))" }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {program.title}
-                  </h2>
-                  <p className="text-muted-foreground leading-relaxed mb-8 text-lg">
+                  </motion.h2>
+                  
+                  <motion.p 
+                    className="text-muted-foreground leading-relaxed mb-8 text-lg"
+                    initial={{ opacity: 0.8 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6 }}
+                  >
                     {program.description}
-                  </p>
+                  </motion.p>
 
                   {/* Key Projects */}
-                  <div className="mb-8">
-                    <h4 className="font-bold text-foreground mb-4 uppercase tracking-[1px] text-sm flex items-center gap-2">
+                  <motion.div 
+                    className="mb-8"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    <motion.h4 
+                      className="font-bold text-foreground mb-4 uppercase tracking-[1px] text-sm flex items-center gap-2"
+                      whileHover={{ x: 5 }}
+                    >
                       <program.icon className="w-4 h-4 text-primary" />
                       Key Projects
-                    </h4>
-                    <ul className="space-y-3">
+                    </motion.h4>
+                    <motion.ul 
+                      className="space-y-3"
+                      initial="hidden"
+                      whileInView="visible"
+                      variants={containerVariants}
+                      viewport={{ once: true }}
+                    >
                       {program.projects.map((project, idx) => (
-                        <li 
+                        <motion.li 
                           key={project} 
-                          className="flex items-start gap-3 text-muted-foreground text-sm transition-all duration-300 hover:translate-x-2 hover:text-primary group/project"
-                          style={{ transitionDelay: `${idx * 50}ms` }}
+                          className="flex items-start gap-3 text-muted-foreground text-sm group/project"
+                          variants={itemVariants}
+                          custom={idx}
+                          whileHover={{ x: 8, color: "hsl(var(--primary))" }}
                         >
-                          <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0 transition-transform duration-300 group-hover/project:scale-110" />
-                          <span className="transition-colors duration-300">{project}</span>
-                        </li>
+                          <motion.div
+                            whileHover={{ scale: 1.2, rotate: 10 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <CheckCircle className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                          </motion.div>
+                          <span>{project}</span>
+                        </motion.li>
                       ))}
-                    </ul>
-                  </div>
+                    </motion.ul>
+                  </motion.div>
 
-                  <Link to="/donate">
-                    <Button className="w-full sm:w-auto font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-lg group" size="lg">
-                      Support This Program
-                      <ArrowRight className="w-4 h-4 ml-2 transition-transform duration-300 group-hover:translate-x-1" />
-                    </Button>
-                  </Link>
-                </div>
-              </div>
+                  <motion.div
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
+                  >
+                    <Link to="/donate">
+                      <Button className="w-full sm:w-auto font-medium rounded shadow-lg" size="lg">
+                        Support This Program
+                        <motion.span
+                          className="ml-2"
+                          whileHover={{ x: 5 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <ArrowRight className="w-4 h-4" />
+                        </motion.span>
+                      </Button>
+                    </Link>
+                  </motion.div>
+                </motion.div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* CTA with animation */}
-      <section className="py-24">
+      {/* CTA Section with Animation */}
+      <motion.section 
+        className="py-24"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
-          <div
+          <motion.div
             ref={ctaRef}
-            className="relative overflow-hidden min-h-[384px] flex items-center justify-center text-center px-8 py-16 rounded-[20px] transition-all duration-1000 ease-out"
+            className="relative overflow-hidden min-h-[384px] flex items-center justify-center text-center px-8 py-16 rounded-[20px]"
             style={{ 
               backgroundImage: `url(${img7})`, 
               backgroundSize: 'cover', 
               backgroundPosition: 'center',
-              opacity: visiblePrograms.length === programs.length ? 1 : 0,
-              transform: visiblePrograms.length === programs.length ? 'translateY(0)' : 'translateY(50px)'
             }}
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
           >
-            <div className="absolute inset-0 bg-black/60 transition-all duration-500 group-hover:bg-black/50"></div>
+            <motion.div 
+              className="absolute inset-0 bg-black/60"
+              initial={{ opacity: 0.6 }}
+              whileHover={{ opacity: 0.5 }}
+              transition={{ duration: 0.3 }}
+            />
+            
             <div className="relative z-10">
-              <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8 transition-all duration-500 hover:scale-105">
+              <motion.h2 
+                className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
                 You can help us rebuild bridges and restore hope in the DRC
-              </h2>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link 
-                  to="/donate" 
-                  className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-xl group"
-                >
-                  Donate Now 
-                  <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-                <Link 
-                  to="/contact" 
-                  className="flex items-center gap-2 px-8 py-4 bg-white text-black font-medium rounded transition-all duration-300 hover:scale-105 hover:shadow-xl hover:bg-gray-100"
-                >
-                  Get in Touch
-                </Link>
-              </div>
+              </motion.h2>
+              
+              <motion.div 
+                className="flex flex-wrap justify-center gap-4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+              >
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    to="/donate" 
+                    className="flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded shadow-lg"
+                  >
+                    Donate Now 
+                    <motion.span
+                      whileHover={{ x: 5 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ArrowRight className="w-5 h-5" />
+                    </motion.span>
+                  </Link>
+                </motion.div>
+                
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  <Link 
+                    to="/contact" 
+                    className="flex items-center gap-2 px-8 py-4 bg-white text-black font-medium rounded shadow-lg hover:bg-gray-100 transition-colors"
+                  >
+                    Get in Touch
+                  </Link>
+                </motion.div>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </Layout>
   );
 };
+
+// Add AnimatePresence import at the top
+import { AnimatePresence } from "framer-motion";
 
 export default Programs;

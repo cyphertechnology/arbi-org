@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Target, Eye, Heart, Users, Calendar, Award, ArrowRight, Globe, HandHeart, Shield, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { containerVariants, itemVariants, cardHoverVariants, pulseVariants } from "@/lib/animationVariants";
 
 // Import hero images for slideshow
 import img1 from "@/assets/kids 2.jpg";
@@ -65,8 +67,11 @@ const About = () => {
   return (
     <Layout>
       {/* Hero Section with Slideshow Background */}
-      <section 
-        className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
+      <motion.section 
+        className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8 }}
         style={{ 
           backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
           backgroundSize: 'cover', 
@@ -75,46 +80,95 @@ const About = () => {
       >
         <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
         
-        <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full animate-fade-in-up">
-          <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-0.5 bg-primary"></div>
+        <motion.div
+          className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <motion.div
+            className="flex items-center gap-3 mb-5"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <motion.div className="w-8 h-0.5 bg-primary" layoutId="accent-line" />
             <span className="text-sm font-bold text-white tracking-[2px] uppercase">About Us</span>
-          </div>
-          <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
+          </motion.div>
+          <motion.h1
+            className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
             Our Story of Healing & Restoration
-          </h1>
-          <p className="text-white/75 text-xl max-w-xl">
+          </motion.h1>
+          <motion.p
+            className="text-white/75 text-xl max-w-xl"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
             Since 2011, ARBI has been rebuilding bridges within and between communities in North Kivu, DRC.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2">
+        <motion.div
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 flex gap-2"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
           {HERO_IMAGES.map((_, index) => (
-            <button
+            <motion.button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentImageIndex
-                  ? "w-8 h-2 bg-primary"
-                  : "w-2 h-2 bg-white/50 hover:bg-white/80"
-              }`}
+              className="rounded-full transition-all"
+              animate={{
+                width: index === currentImageIndex ? 32 : 8,
+                height: 8,
+                backgroundColor: index === currentImageIndex ? "var(--primary-color)" : "rgba(255, 255, 255, 0.5)",
+              }}
+              transition={{ duration: 0.3 }}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
-        </div>
-      </section>
+        </motion.div>
+      </motion.section>
 
       {/* Story Section */}
       <section className="py-20">
         <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <img
+          <motion.div
+            className="grid lg:grid-cols-2 gap-12 items-center"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true, amount: 0.2 }}
+          >
+            <motion.div
+              className="relative"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <motion.img
                 src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?w=800&auto=format&fit=crop&q=80"
                 alt="Community healing in North Kivu"
                 className="rounded-3xl shadow-card"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.3 }}
               />
-              <div className="absolute -bottom-6 -right-6 bg-card p-6 rounded-2xl shadow-card">
+              <motion.div
+                className="absolute -bottom-6 -right-6 bg-card p-6 rounded-2xl shadow-card"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                viewport={{ once: true }}
+                variants={pulseVariants}
+                animate="pulse"
+              >
                 <div className="flex items-center gap-4">
                   <Calendar className="w-10 h-10 text-primary" />
                   <div>
@@ -122,71 +176,141 @@ const About = () => {
                     <p className="text-sm text-muted-foreground">Years of Service</p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
-            <div className="space-y-6">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium">
+            <motion.div
+              className="space-y-6"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <motion.div
+                className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium"
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.2 }}
+              >
                 <Heart className="w-4 h-4" />
                 Africa Restoring Bridges Initiative
-              </div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+              </motion.div>
+              <motion.h2
+                className="text-3xl md:text-4xl font-serif font-bold text-foreground"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.1 }}
+                viewport={{ once: true }}
+              >
                 Restoring Bridges Within and Between Communities
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
+              </motion.h2>
+              <motion.p
+                className="text-muted-foreground leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                viewport={{ once: true }}
+              >
               In 2011, Dr. Mary Mosetorozoro witnessed the devastating impact of conflict on communities in North Kivu. 
               Driven by a vision of healed, reconciled, and prosperous communities, she founded ARBI to rebuild the 
               bridges that violence had broken.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
+              </motion.p>
+              <motion.p
+                className="text-muted-foreground leading-relaxed"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.3 }}
+                viewport={{ once: true }}
+              >
               Today, we've grown into a comprehensive organization serving 4+ regions across North Kivu, 
               empowering over 3,950 people and impacting more than 2 million lives. Our programs touch every 
               aspect of community healing – from mental health and peace-building to leadership development 
               and youth resilience.
-              </p>
-              <div className="flex gap-4">
-                <div className="text-center p-3 bg-muted/20 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">3,950+</p>
-                  <p className="text-xs text-muted-foreground">People Empowered</p>
-                </div>
-                <div className="text-center p-3 bg-muted/20 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">2M+</p>
-                  <p className="text-xs text-muted-foreground">People Impacted</p>
-                </div>
-                <div className="text-center p-3 bg-muted/20 rounded-xl">
-                  <p className="text-2xl font-bold text-primary">6+</p>
-                  <p className="text-xs text-muted-foreground">Partners</p>
-                </div>
-              </div>
-              <Link to="/programs">
-                <Button variant="hero">
-                  Explore Our Programs
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-            </div>
-          </div>
+              </motion.p>
+              <motion.div
+                className="flex gap-4"
+                variants={containerVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+              >
+                {[
+                  { value: "3,950+", label: "People Empowered" },
+                  { value: "2M+", label: "People Impacted" },
+                  { value: "6+", label: "Partners" },
+                ].map((stat, idx) => (
+                  <motion.div
+                    key={idx}
+                    className="text-center p-3 bg-muted/20 rounded-xl"
+                    variants={itemVariants}
+                    whileHover={{ scale: 1.05, backgroundColor: "rgba(var(--primary), 0.1)" }}
+                  >
+                    <p className="text-2xl font-bold text-primary">{stat.value}</p>
+                    <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  </motion.div>
+                ))}
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                viewport={{ once: true }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Link to="/programs">
+                  <Button variant="hero">
+                    Explore Our Programs
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
       </section>
 
       {/* Timeline */}
-      <section className="py-20 bg-secondary/30">
+      <motion.section
+        className="py-20 bg-secondary/30"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
               Our Journey of Impact
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Since our founding in 2011, we have worked tirelessly to bring healing and peace to communities in Eastern DRC.
             </p>
-          </div>
+          </motion.div>
           <div className="max-w-3xl mx-auto">
             {milestones.map((milestone, index) => (
-              <div key={milestone.year} className="flex gap-6 mb-8 last:mb-0">
+              <motion.div
+                key={milestone.year}
+                className="flex gap-6 mb-8 last:mb-0"
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                viewport={{ once: true }}
+                whileHover={{ x: 10 }}
+              >
                 <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
+                  <motion.div
+                    className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold"
+                    whileHover={{ scale: 1.2 }}
+                    transition={{ duration: 0.3 }}
+                  >
                     {milestone.year.slice(2)}
-                  </div>
+                  </motion.div>
                   {index < milestones.length - 1 && (
                     <div className="w-0.5 h-full bg-border mt-2" />
                   )}
@@ -195,16 +319,28 @@ const About = () => {
                   <p className="text-sm text-primary font-semibold mb-1">{milestone.year}</p>
                   <p className="text-foreground">{milestone.event}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Mission, Vision, Purpose */}
-      <section className="py-20">
+      <motion.section
+        className="py-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
+          <motion.div
+            className="grid md:grid-cols-3 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {[
               {
                 icon: Eye,
@@ -228,11 +364,14 @@ const About = () => {
                 color: "gold",
               },
             ].map((item) => (
-              <div
+              <motion.div
                 key={item.title}
                 className="bg-card p-8 rounded-2xl shadow-soft hover:shadow-card transition-shadow"
+                variants={itemVariants}
+                whileHover="hover"
+                custom={cardHoverVariants}
               >
-                <div
+                <motion.div
                   className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
                     item.color === "primary"
                       ? "bg-primary/10"
@@ -240,6 +379,8 @@ const About = () => {
                         ? "bg-teal/10"
                         : "bg-gold/10"
                     }`}
+                  whileHover={{ rotate: 15, scale: 1.1 }}
+                  transition={{ duration: 0.3 }}
                 >
                   <item.icon
                     className={`w-8 h-8 ${
@@ -250,29 +391,47 @@ const About = () => {
                           : "text-gold"
                     }`}
                   />
-                </div>
+                </motion.div>
                 <h3 className="text-xl font-serif font-semibold text-foreground mb-3">
                   {item.title}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">{item.description}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Our Reach Section */}
-      <section className="py-20 bg-muted/20">
+      <motion.section
+        className="py-20 bg-muted/20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
               Our Reach Across North Kivu
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Making a difference across five territories in Eastern DRC
             </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          </motion.div>
+          <motion.div
+            className="grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {[
               { location: "Goma", desc: "Headquarters & main operational center", icon: MapPin },
               { location: "Rutshuru", desc: "Community development & peace-building", icon: Shield },
@@ -280,41 +439,68 @@ const About = () => {
               { location: "Walikale", desc: "Environmental protection & community health", icon: Globe },
               { location: "Beni", desc: "Relief operations & community empowerment", icon: HandHeart },
             ].map((item) => (
-              <div key={item.location} className="text-center p-4 bg-card rounded-xl border border-border">
-                <item.icon className="w-8 h-8 text-primary mx-auto mb-2" />
+              <motion.div
+                key={item.location}
+                className="text-center p-4 bg-card rounded-xl border border-border"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, borderColor: "var(--primary-color)" }}
+              >
+                <motion.div whileHover={{ rotate: 20, scale: 1.2 }} transition={{ duration: 0.3 }}>
+                  <item.icon className="w-8 h-8 text-primary mx-auto mb-2" />
+                </motion.div>
                 <h4 className="font-bold text-foreground">{item.location}</h4>
                 <p className="text-xs text-muted-foreground mt-1">{item.desc}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Team Section */}
-      <section className="py-20 bg-gradient-hero">
+      <motion.section
+        className="py-20 bg-gradient-hero"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
+          <motion.div
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
               Meet Our Team
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Dedicated individuals working tirelessly to bring healing and restoration to communities in North Kivu.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {teamMembers.map((member) => (
-              <div
+              <motion.div
                 key={member.name}
                 className="bg-card rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all group"
+                variants={itemVariants}
+                whileHover={{ y: -10 }}
               >
-                <div className="aspect-square overflow-hidden">
+                <motion.div className="aspect-square overflow-hidden" whileHover={{ scale: 1.05 }}>
                   <img
                     src={member.image}
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-full object-cover"
                   />
-                </div>
+                </motion.div>
                 <div className="p-6">
                   <h3 className="font-serif font-semibold text-foreground mb-1">
                     {member.name}
@@ -322,22 +508,46 @@ const About = () => {
                   <p className="text-sm text-primary font-medium mb-3">{member.role}</p>
                   <p className="text-sm text-muted-foreground">{member.bio}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Our Values Section */}
-      <section className="py-20">
+      <motion.section
+        className="py-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+          <motion.h2
+            className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Our Core Values
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground max-w-2xl mx-auto mb-12"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             These values guide everything we do as we work towards healed, reconciled, and prosperous communities.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto">
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap justify-center gap-4 max-w-3xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {[
               "Dedication with excellence",
               "Humanity and compassion",
@@ -346,72 +556,160 @@ const About = () => {
               "Transparency",
               "Stewardship",
             ].map((value, idx) => (
-              <span key={idx} className="px-6 py-3 bg-primary/10 text-primary rounded-full text-sm font-medium">
+              <motion.span
+                key={idx}
+                className="px-6 py-3 bg-primary/10 text-primary rounded-full text-sm font-medium"
+                variants={itemVariants}
+                whileHover={{ scale: 1.1, backgroundColor: "var(--primary-color)", color: "var(--primary-foreground)" }}
+              >
                 {value}
-              </span>
+              </motion.span>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Partners Section */}
-      <section className="py-20 bg-secondary/30">
+      <motion.section
+        className="py-20 bg-secondary/30"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+          <motion.h2
+            className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             Our Partners
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto mb-12">
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground max-w-2xl mx-auto mb-12"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             We work together with like-minded organizations to maximize our impact
-          </p>
-          <div className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto">
+          </motion.p>
+          <motion.div
+            className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+          >
             {["CPA", "IICBS", "Rucher", "MICAH", "PDD"].map((partner, idx) => (
-              <div key={idx} className="bg-card px-8 py-4 rounded-xl shadow-soft border border-border">
+              <motion.div
+                key={idx}
+                className="bg-card px-8 py-4 rounded-xl shadow-soft border border-border"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
+              >
                 <p className="font-bold text-foreground text-xl">{partner}</p>
-              </div>
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Scripture Verse */}
-      <section className="py-16 bg-primary/5">
+      <motion.section
+        className="py-16 bg-primary/5"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4 text-center">
-          <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
-          <p className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto">
+          <motion.div
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
+          </motion.div>
+          <motion.p
+            className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
-          </p>
-          <p className="text-md text-primary mt-3">— Isaiah 58:12</p>
+          </motion.p>
+          <motion.p
+            className="text-md text-primary mt-3"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            — Isaiah 58:12
+          </motion.p>
         </div>
-      </section>
+      </motion.section>
 
       {/* CTA */}
-      <section className="py-20">
+      <motion.section
+        className="py-20"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
         <div className="container mx-auto px-4">
-          <div className="bg-card rounded-3xl p-8 md:p-12 shadow-card text-center">
-            <Award className="w-16 h-16 text-primary mx-auto mb-6" />
+          <motion.div
+            className="bg-card rounded-3xl p-8 md:p-12 shadow-card text-center"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+            whileHover={{ scale: 1.02 }}
+          >
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              className="w-16 h-16 text-primary mx-auto mb-6"
+            >
+              <Award className="w-full h-full" />
+            </motion.div>
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
               Join Our Mission
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto mb-8">
               Together, we can rebuild bridges, restore hope, and create lasting peace in North Kivu and beyond.
             </p>
-            <div className="flex flex-wrap gap-4 justify-center">
-              <Link to="/donate">
-                <Button variant="hero" size="lg">
-                  <Heart className="w-4 h-4 mr-2" />
-                  Donate Now
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="outline" size="lg">
-                  <Users className="w-4 h-4 mr-2" />
-                  Become a Partner
-                </Button>
-              </Link>
-            </div>
-          </div>
+            <motion.div
+              className="flex flex-wrap gap-4 justify-center"
+              variants={containerVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+            >
+              <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/donate">
+                  <Button variant="hero" size="lg">
+                    <Heart className="w-4 h-4 mr-2" />
+                    Donate Now
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link to="/contact">
+                  <Button variant="outline" size="lg">
+                    <Users className="w-4 h-4 mr-2" />
+                    Become a Partner
+                  </Button>
+                </Link>
+              </motion.div>
+            </motion.div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
     </Layout>
   );
 };

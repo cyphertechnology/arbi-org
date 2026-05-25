@@ -1,6 +1,7 @@
 // TestimonialsSection.tsx
 import { useState } from "react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const testimonials = [
   {
@@ -44,82 +45,170 @@ const TestimonialsSection = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
+  const slideVariants = {
+    enter: (direction: number) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+    },
+    exit: (direction: number) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+    }),
+  };
+
+  const dotVariants = {
+    inactive: { width: 8, opacity: 0.5, backgroundColor: "var(--border-color)" },
+    active: {
+      width: 32,
+      opacity: 1,
+      backgroundColor: "var(--primary-color)",
+      transition: { duration: 0.3 },
+    },
+  };
+
   return (
-    <section className="py-20">
+    <motion.section
+      className="py-20"
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4">
+        <motion.div
+          className="text-center mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          viewport={{ once: true }}
+        >
+          <motion.h2
+            className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
             Stories of Healing and Restoration
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          </motion.h2>
+          <motion.p
+            className="text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
             Hear from community members, leaders, and partners whose lives have been transformed through ARBI's programs.
-          </p>
-        </div>
+          </motion.p>
+        </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="relative bg-card rounded-3xl p-8 md:p-12 shadow-card">
+          <motion.div
+            className="relative bg-card rounded-3xl p-8 md:p-12 shadow-card overflow-hidden"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
             <Quote className="w-12 h-12 text-primary/20 absolute top-8 left-8" />
 
-            <div className="relative z-10">
-              <p className="text-xl md:text-2xl text-foreground leading-relaxed mb-8 font-serif italic">
-                "{testimonials[currentIndex].quote}"
-              </p>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                custom={1}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.4, ease: "easeInOut" }}
+                className="relative z-10"
+              >
+                <motion.p
+                  className="text-xl md:text-2xl text-foreground leading-relaxed mb-8 font-serif italic"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                >
+                  "{testimonials[currentIndex].quote}"
+                </motion.p>
 
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].author}
-                  className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
-                />
-                <div>
-                  <p className="font-semibold text-foreground">
-                    {testimonials[currentIndex].author}
-                  </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonials[currentIndex].role}
-                  </p>
-                </div>
-              </div>
-            </div>
+                <motion.div
+                  className="flex items-center gap-4"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                >
+                  <motion.img
+                    src={testimonials[currentIndex].image}
+                    alt={testimonials[currentIndex].author}
+                    className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ duration: 0.3 }}
+                  />
+                  <div>
+                    <p className="font-semibold text-foreground">
+                      {testimonials[currentIndex].author}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonials[currentIndex].role}
+                    </p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
 
             {/* Navigation */}
-            <div className="flex items-center justify-between mt-8 pt-8 border-t border-border">
+            <motion.div
+              className="flex items-center justify-between mt-8 pt-8 border-t border-border"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              viewport={{ once: true }}
+            >
               <div className="flex gap-2">
                 {testimonials.map((_, index) => (
-                  <button
+                  <motion.button
                     key={index}
                     onClick={() => setCurrentIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                      index === currentIndex
-                        ? "w-8 bg-primary"
-                        : "bg-border hover:bg-muted-foreground"
-                    }`}
+                    className="h-2 rounded-full transition-all duration-300"
+                    variants={dotVariants}
+                    animate={index === currentIndex ? "active" : "inactive"}
                     aria-label={`Go to testimonial ${index + 1}`}
                   />
                 ))}
               </div>
 
               <div className="flex gap-2">
-                <button
+                <motion.button
                   onClick={prev}
                   className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   aria-label="Previous testimonial"
                 >
                   <ChevronLeft className="w-5 h-5" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
                   onClick={next}
                   className="w-10 h-10 rounded-full border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                   aria-label="Next testimonial"
                 >
                   <ChevronRight className="w-5 h-5" />
-                </button>
+                </motion.button>
               </div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 };
 
