@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LogoARBI from "@/assets/LogoARBIPNG.png";
 import { motion, AnimatePresence } from "framer-motion";
@@ -15,6 +15,8 @@ const Navbar = () => {
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
   const publicationsDropdownRef = useRef<HTMLDivElement>(null);
   const programsDropdownRef = useRef<HTMLDivElement>(null);
+  const publicationsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const programsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
   // Program items for dropdown
@@ -38,18 +40,36 @@ const Navbar = () => {
     setIsProgramsOpen(false);
   }, [location.pathname]);
 
-  // Close dropdowns when clicking outside
+  // Handle hover for Publications dropdown (works on all devices)
+  const handlePublicationsMouseEnter = () => {
+    if (publicationsTimeoutRef.current) clearTimeout(publicationsTimeoutRef.current);
+    setIsPublicationsOpen(true);
+  };
+
+  const handlePublicationsMouseLeave = () => {
+    publicationsTimeoutRef.current = setTimeout(() => {
+      setIsPublicationsOpen(false);
+    }, 150);
+  };
+
+  // Handle hover for Programs dropdown (works on all devices)
+  const handleProgramsMouseEnter = () => {
+    if (programsTimeoutRef.current) clearTimeout(programsTimeoutRef.current);
+    setIsProgramsOpen(true);
+  };
+
+  const handleProgramsMouseLeave = () => {
+    programsTimeoutRef.current = setTimeout(() => {
+      setIsProgramsOpen(false);
+    }, 150);
+  };
+
+  // Cleanup timeouts
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (publicationsDropdownRef.current && !publicationsDropdownRef.current.contains(event.target as Node)) {
-        setIsPublicationsOpen(false);
-      }
-      if (programsDropdownRef.current && !programsDropdownRef.current.contains(event.target as Node)) {
-        setIsProgramsOpen(false);
-      }
+    return () => {
+      if (publicationsTimeoutRef.current) clearTimeout(publicationsTimeoutRef.current);
+      if (programsTimeoutRef.current) clearTimeout(programsTimeoutRef.current);
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   useEffect(() => {
@@ -143,21 +163,16 @@ const Navbar = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: i * 0.1, duration: 0.5 }}
                   whileHover={{ y: -2 }}
-                  ref={link.isProgramsDropdown ? programsDropdownRef : link.isDropdown ? publicationsDropdownRef : null}
                 >
                   {link.isDropdown ? (
-                    <div className="relative">
+                    <div 
+                      className="relative"
+                      ref={link.isProgramsDropdown ? programsDropdownRef : publicationsDropdownRef}
+                      onMouseEnter={link.isProgramsDropdown ? handleProgramsMouseEnter : handlePublicationsMouseEnter}
+                      onMouseLeave={link.isProgramsDropdown ? handleProgramsMouseLeave : handlePublicationsMouseLeave}
+                    >
                       <button
-                        onClick={() => {
-                          if (link.isProgramsDropdown) {
-                            setIsProgramsOpen(!isProgramsOpen);
-                            setIsPublicationsOpen(false);
-                          } else {
-                            setIsPublicationsOpen(!isPublicationsOpen);
-                            setIsProgramsOpen(false);
-                          }
-                        }}
-                        className={`nav-link-item flex items-center gap-1 text-sm font-medium transition-colors duration-300 ${
+                        className={`nav-link-item text-sm font-medium transition-colors duration-300 ${
                           (link.isProgramsDropdown && isProgramsActive) ||
                           (link.isProgramsDropdown && location.pathname === "/programs") ||
                           (!link.isProgramsDropdown && (location.pathname === "/news" || location.pathname === "/events"))
@@ -166,9 +181,6 @@ const Navbar = () => {
                         }`}
                       >
                         {link.name}
-                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${
-                          (link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen) ? "rotate-180" : ""
-                        }`} />
                       </button>
                       
                       <AnimatePresence>
@@ -268,7 +280,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - Now also supports hover for dropdowns */}
           <AnimatePresence>
             {isOpen && (
               <motion.div
@@ -288,35 +300,49 @@ const Navbar = () => {
                         transition={{ delay: i * 0.05, duration: 0.3 }}
                       >
                         {link.isDropdown ? (
-                          <>
-                            <div className="px-4 py-2 text-sm font-medium text-foreground/70">
+                          <div 
+                            className="relative"
+                            onMouseEnter={link.isProgramsDropdown ? handleProgramsMouseEnter : handlePublicationsMouseEnter}
+                            onMouseLeave={link.isProgramsDropdown ? handleProgramsMouseLeave : handlePublicationsMouseLeave}
+                          >
+                            <div className="px-4 py-2 text-sm font-medium text-foreground/70 cursor-pointer">
                               {link.name}
                             </div>
-                            <div className="pl-6 flex flex-col gap-1">
-                              {link.items.map((item) => (
-                                <Link
-                                  key={item.path}
-                                  to={item.path}
-                                  onClick={() => setIsOpen(false)}
-                                  className={`px-4 py-2 rounded-lg transition-colors text-sm ${
-                                    (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
-                                    (!link.isProgramsDropdown && location.pathname === item.path)
-                                      ? "bg-primary/10 text-primary font-medium"
-                                      : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                                  }`}
+                            <AnimatePresence>
+                              {((link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen)) && (
+                                <motion.div
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: "auto" }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  transition={{ duration: 0.2 }}
+                                  className="pl-6 flex flex-col gap-1 overflow-hidden"
                                 >
-                                  <div>
-                                    <div>{item.shortName || item.name}</div>
-                                    {link.isProgramsDropdown && item.name !== item.shortName && (
-                                      <div className="text-xs text-muted-foreground mt-0.5">
-                                        {item.name}
+                                  {link.items.map((item) => (
+                                    <Link
+                                      key={item.path}
+                                      to={item.path}
+                                      onClick={() => setIsOpen(false)}
+                                      className={`px-4 py-2 rounded-lg transition-colors text-sm ${
+                                        (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
+                                        (!link.isProgramsDropdown && location.pathname === item.path)
+                                          ? "bg-primary/10 text-primary font-medium"
+                                          : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                                      }`}
+                                    >
+                                      <div>
+                                        <div>{item.shortName || item.name}</div>
+                                        {link.isProgramsDropdown && item.name !== item.shortName && (
+                                          <div className="text-xs text-muted-foreground mt-0.5">
+                                            {item.name}
+                                          </div>
+                                        )}
                                       </div>
-                                    )}
-                                  </div>
-                                </Link>
-                              ))}
-                            </div>
-                          </>
+                                    </Link>
+                                  ))}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          </div>
                         ) : (
                           <Link
                             to={link.path!}
