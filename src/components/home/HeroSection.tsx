@@ -14,7 +14,6 @@ import img4 from "@/assets/21.jpg";
 import img7 from "@/assets/7.jpg";
 import img6 from "@/assets/19.jpg";
 
-
 const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const HeroSection = () => {
@@ -95,11 +94,11 @@ const HeroSection = () => {
         backgroundPosition: 'center'
       }}
     >
-      {/* Dark overlay for better text readability */}
+      {/* Dark overlay for better text readability - Made darker to match About page (bg-black/65) */}
       <motion.div
-        className="absolute inset-0 bg-black/60"
+        className="absolute inset-0 bg-black/65"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.6 }}
+        animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       />
       
@@ -113,7 +112,7 @@ const HeroSection = () => {
           {/* Content */}
           <div className="space-y-8">
             <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 my-5 bg-primary/20 backdrop-blur-sm rounded-full text-primary-foreground text-sm font-medium text-white/90"
+              className="inline-flex items-center gap-2 px-4 py-2 my-5 bg-primary/20 backdrop-blur-sm rounded-full text-white text-sm font-medium"
               variants={itemVariants}
               whileHover={{ scale: 1.05 }}
             >
@@ -199,7 +198,7 @@ const HeroSection = () => {
             </motion.div>
           </div>
 
-          {/* Right side - empty now since we removed the static image */}
+          {/* Right side - empty since we removed the static image */}
           <div className="hidden lg:block">
             {/* This space is intentionally left empty - the slideshow is full width */}
           </div>
@@ -216,7 +215,9 @@ const HeroSection = () => {
             variants={dotVariants}
             animate={index === currentImageIndex ? "active" : "inactive"}
             style={{
-              backgroundColor: index === currentImageIndex ? "var(--primary-color)" : "rgba(255, 255, 255, 0.5)",
+              backgroundColor: index === currentImageIndex ? "hsl(var(--primary))" : "rgba(255, 255, 255, 0.5)",
+              width: index === currentImageIndex ? 32 : 8,
+              height: 8,
             }}
             aria-label={`Go to slide ${index + 1}`}
           />
