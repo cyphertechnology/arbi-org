@@ -1,3 +1,11 @@
+import  School from "@/assets/7.jpg";
+import  Peace from "@/assets/9.jpg";
+import  Health from "@/assets/18.jpg";
+import Workers from "@/assets/11.jpg";
+import Grants from "@/assets/21.jpg";
+import Gathering from "@/assets/4.jpg";
+import Conference from "@/assets/20.jpg";
+
 export interface Publication {
   id: string;
   title: string;
@@ -18,7 +26,7 @@ export const newsPosts: Publication[] = [
     excerpt: "A comprehensive psychosocial support initiative reaches 500+ community members in conflict-affected areas.",
     content: "Full content here...",
     date: "March 15, 2024",
-    image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&auto=format",
+    image: Health,
     category: "News",  // Changed from "news" to "News"
     featured: true,
   },
@@ -28,7 +36,7 @@ export const newsPosts: Publication[] = [
     excerpt: "Over 100 local leaders gather in Goma to discuss reconciliation strategies.",
     content: "Full content here...",
     date: "February 28, 2024",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format",
+    image: Peace,
     category: "News",  // Changed from "news" to "News"
   },
   {
@@ -37,7 +45,7 @@ export const newsPosts: Publication[] = [
     excerpt: "New initiative focuses on preventing delinquency and substance abuse among youth.",
     content: "Full content here...",
     date: "February 10, 2024",
-    image: "https://images.unsplash.com/photo-1528605105345-5344ea20e269?w=800&auto=format",
+    image: School,
     category: "News",  // Changed from "news" to "News"
   },
   {
@@ -46,7 +54,7 @@ export const newsPosts: Publication[] = [
     excerpt: "45 new community health workers certified to provide essential care in remote areas.",
     content: "Full content here...",
     date: "January 25, 2024",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format",
+    image: Health,
     category: "News",
   },
   {
@@ -55,7 +63,7 @@ export const newsPosts: Publication[] = [
     excerpt: "New funding will expand reconciliation programs across North Kivu.",
     content: "Full content here...",
     date: "January 10, 2024",
-    image: "https://images.unsplash.com/photo-1528605105345-5344ea20e269?w=800&auto=format",
+    image: Grants,
     category: "News",
   },
 ];
@@ -67,7 +75,7 @@ export const events: Publication[] = [
     excerpt: "Join us for a three-day conference on peace-building and reconciliation in North Kivu.",
     content: "Full content here...",
     date: "April 20-22, 2024",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&auto=format",
+    image: Conference,
     category: "Events",  // Changed from "event" to "Events"
     featured: true,
     location: "Goma, DRC",
@@ -79,7 +87,7 @@ export const events: Publication[] = [
     excerpt: "Online session on trauma healing and psychosocial support for community workers.",
     content: "Full content here...",
     date: "May 5, 2024",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&auto=format",
+    image: Health,
     category: "Events",
     location: "Online (Zoom)",
     time: "2:00 PM CAT",
@@ -90,7 +98,7 @@ export const events: Publication[] = [
     excerpt: "A 5-day intensive training for young leaders from across North Kivu.",
     content: "Full content here...",
     date: "June 10-14, 2024",
-    image: "https://images.unsplash.com/photo-1528605105345-5344ea20e269?w=800&auto=format",
+    image: School,
     category: "Events",
     location: "Rutshuru, DRC",
     time: "8:00 AM - 6:00 PM",
@@ -101,7 +109,7 @@ export const events: Publication[] = [
     excerpt: "Monthly gathering of community leaders to discuss peace and development strategies.",
     content: "Full content here...",
     date: "April 10, 2024",
-    image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format",
+    image: Gathering,
     category: "Events",
     location: "Masisi, DRC",
     time: "10:00 AM - 3:00 PM",
@@ -112,7 +120,7 @@ export const events: Publication[] = [
     excerpt: "An evening of celebration to support youth resilience initiatives.",
     content: "Full content here...",
     date: "May 20, 2024",
-    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&auto=format",
+    image: Grants,
     category: "Events",
     location: "Goma, DRC",
     time: "6:00 PM - 10:00 PM",
