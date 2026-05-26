@@ -6,13 +6,14 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 // Import your hero images
-import img1 from "@/assets/kids 2.jpg";
-import img2 from "@/assets/kids 3.jpg";
-import img3 from "@/assets/kids 4.jpg";
-import img4 from "@/assets/kids 5.jpg";
-import img5 from "@/assets/kids 6.jpg";
-import img6 from "@/assets/kids.jpg";
-import img7 from "@/assets/kids7.jpg";
+import img1 from "@/assets/1.jpg";
+import img2 from "@/assets/20.jpg";
+import img3 from "@/assets/3.jpg";
+import img5 from "@/assets/5.jpg";
+import img4 from "@/assets/21.jpg";
+import img7 from "@/assets/7.jpg";
+import img6 from "@/assets/19.jpg";
+
 
 const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 

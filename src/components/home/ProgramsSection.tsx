@@ -3,10 +3,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Heart, Users, Globe, GraduationCap, ArrowRight, HandHeart, Shield } from "lucide-react";
 import { motion } from "framer-motion";
-import ProgramImage1 from "@/assets/kids 2.jpg";
-import ProgramImage2 from "@/assets/kids 4.jpg";
-import ProgramImage3 from "@/assets/kids 3.jpg";
-import ProgramImage4 from "@/assets/kids 6.jpg";
+import  Healing from "@/assets/17.jpg";
+import  Leadership from "@/assets/20.jpg";
+import  Community from "@/assets/2.jpg";
+import  Resilience from "@/assets/6.jpg";
 
 const ProgramsSection = () => {
   const programs = [
@@ -15,7 +15,7 @@ const ProgramsSection = () => {
       title: "Healing, Peace-Building & Reconciliation",
       description:
         "Facilitating genuine healing through Mental Health and Psycho-social Support projects, empowering influential leaders and community members.",
-      image: ProgramImage1,
+      image: Healing,
       color: "primary",
     },
     {
@@ -23,7 +23,7 @@ const ProgramsSection = () => {
       title: "Abundant Leadership Development",
       description:
         "Equipping communities with servant leaders who promote unity, innovate economic opportunities, and fight corruption.",
-      image: ProgramImage2,
+      image: Leadership,
       color: "teal",
     },
     {
@@ -31,7 +31,7 @@ const ProgramsSection = () => {
       title: "Integral Community Development",
       description:
         "Empowering community members as assets and resources of their own communities through holistic development approaches.",
-      image: ProgramImage3,
+      image: Community,
       color: "gold",
     },
     {
@@ -39,7 +39,7 @@ const ProgramsSection = () => {
       title: "Promoting Resilience Among Youth",
       description:
         "Preventing delinquency, addressing substance abuse, and creating reintegration pathways for vulnerable young people.",
-      image: ProgramImage4,
+      image: Resilience,
       color: "destructive",
     },
   ];
