@@ -138,7 +138,7 @@ const About = () => {
       </motion.section>
 
       {/* Story Section */}
-      <section className="py-20">
+      <section id="story" className="py-20 scroll-mt-20">
         <div className="container mx-auto px-4">
           <motion.div
             className="grid lg:grid-cols-2 gap-12 items-center"
@@ -270,14 +270,8 @@ const About = () => {
         </div>
       </section>
 
-      {/* Timeline */}
-      <motion.section
-        className="py-20 bg-secondary/30"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      {/* Timeline / History Section */}
+      <section id="timeline" className="py-20 bg-secondary/30 scroll-mt-20">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -324,16 +318,10 @@ const About = () => {
             ))}
           </div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Mission, Vision, Purpose */}
-      <motion.section
-        className="py-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <section id="mission-vision" className="py-20 scroll-mt-20">
         <div className="container mx-auto px-4">
           <motion.div
             className="grid md:grid-cols-3 gap-8"
@@ -401,7 +389,7 @@ const About = () => {
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Our Reach Section */}
       <motion.section
@@ -458,13 +446,7 @@ const About = () => {
       </motion.section>
 
       {/* Team Section */}
-      <motion.section
-        className="py-20 bg-gradient-hero"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <section id="team" className="py-20 bg-gradient-hero scroll-mt-20">
         <div className="container mx-auto px-4">
           <motion.div
             className="text-center mb-12"
@@ -513,16 +495,10 @@ const About = () => {
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Our Values Section */}
-      <motion.section
-        className="py-20"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
+      <section id="values" className="py-20 scroll-mt-20">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             className="text-3xl md:text-4xl font-serif font-bold text-foreground mb-4"
@@ -568,7 +544,7 @@ const About = () => {
             ))}
           </motion.div>
         </div>
-      </motion.section>
+      </section>
 
       {/* Partners Section */}
       <motion.section
