@@ -13,10 +13,13 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isPublicationsOpen, setIsPublicationsOpen] = useState(false);
   const [isProgramsOpen, setIsProgramsOpen] = useState(false);
+  const [isAboutOpen, setIsAboutOpen] = useState(false);
   const publicationsDropdownRef = useRef<HTMLDivElement>(null);
   const programsDropdownRef = useRef<HTMLDivElement>(null);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const publicationsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const programsTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
   // Program items for dropdown
@@ -25,6 +28,15 @@ const Navbar = () => {
     { name: "Abundant Leadership Development", path: "/programs#leadership", shortName: "Leadership" },
     { name: "Integral Community Development", path: "/programs#community-dev", shortName: "Community Development" },
     { name: "Promoting Resilience Among Youth (PRAY)", path: "/programs#youth-resilience", shortName: "Youth Resilience" },
+  ];
+
+  // About Us dropdown items (removed "Where We Work")
+  const aboutItems = [
+    { name: "Our Story", path: "/about#story", shortName: "Our Story" },
+    { name: "Mission & Vision", path: "/about#mission-vision", shortName: "Mission & Vision" },
+    { name: "Our Team", path: "/about#team", shortName: "Our Team" },
+    { name: "History & Milestones", path: "/about#timeline", shortName: "History" },
+    { name: "Our Values", path: "/about#values", shortName: "Values" },
   ];
 
   useEffect(() => {
@@ -38,9 +50,10 @@ const Navbar = () => {
     setIsOpen(false);
     setIsPublicationsOpen(false);
     setIsProgramsOpen(false);
+    setIsAboutOpen(false);
   }, [location.pathname]);
 
-  // Handle hover for Publications dropdown (works on all devices)
+  // Handle hover for Publications dropdown
   const handlePublicationsMouseEnter = () => {
     if (publicationsTimeoutRef.current) clearTimeout(publicationsTimeoutRef.current);
     setIsPublicationsOpen(true);
@@ -52,7 +65,7 @@ const Navbar = () => {
     }, 150);
   };
 
-  // Handle hover for Programs dropdown (works on all devices)
+  // Handle hover for Programs dropdown
   const handleProgramsMouseEnter = () => {
     if (programsTimeoutRef.current) clearTimeout(programsTimeoutRef.current);
     setIsProgramsOpen(true);
@@ -64,11 +77,24 @@ const Navbar = () => {
     }, 150);
   };
 
+  // Handle hover for About dropdown
+  const handleAboutMouseEnter = () => {
+    if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
+    setIsAboutOpen(true);
+  };
+
+  const handleAboutMouseLeave = () => {
+    aboutTimeoutRef.current = setTimeout(() => {
+      setIsAboutOpen(false);
+    }, 150);
+  };
+
   // Cleanup timeouts
   useEffect(() => {
     return () => {
       if (publicationsTimeoutRef.current) clearTimeout(publicationsTimeoutRef.current);
       if (programsTimeoutRef.current) clearTimeout(programsTimeoutRef.current);
+      if (aboutTimeoutRef.current) clearTimeout(aboutTimeoutRef.current);
     };
   }, []);
 
@@ -102,21 +128,25 @@ const Navbar = () => {
     }
   };
 
-  // Check if any program route is active
+  // Check if any about page route is active
+  const isAboutActive = location.pathname === "/about";
   const isProgramsActive = location.pathname === "/programs";
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
+    {
+      name: "About",
+      isDropdown: true,
+      isAboutDropdown: true,
+      items: aboutItems,
+    },
     {
       name: "Programs",
       isDropdown: true,
       isProgramsDropdown: true,
       items: programItems,
     },
-    { name: "Where We Work", path: "/where-we-work" },
-    { name: "Partners", path: "/partners" },
-    {
+     {
       name: "Publications",
       isDropdown: true,
       items: [
@@ -124,6 +154,9 @@ const Navbar = () => {
         { name: "Events", path: "/events" },
       ],
     },
+    { name: "Where We Work", path: "/where-we-work" },
+    { name: "Partners", path: "/partners" },
+   
     { name: "Contact", path: "/contact" },
   ];
 
@@ -167,15 +200,27 @@ const Navbar = () => {
                   {link.isDropdown ? (
                     <div 
                       className="relative"
-                      ref={link.isProgramsDropdown ? programsDropdownRef : publicationsDropdownRef}
-                      onMouseEnter={link.isProgramsDropdown ? handleProgramsMouseEnter : handlePublicationsMouseEnter}
-                      onMouseLeave={link.isProgramsDropdown ? handleProgramsMouseLeave : handlePublicationsMouseLeave}
+                      ref={
+                        link.isProgramsDropdown ? programsDropdownRef : 
+                        link.isAboutDropdown ? aboutDropdownRef : 
+                        publicationsDropdownRef
+                      }
+                      onMouseEnter={
+                        link.isProgramsDropdown ? handleProgramsMouseEnter : 
+                        link.isAboutDropdown ? handleAboutMouseEnter : 
+                        handlePublicationsMouseEnter
+                      }
+                      onMouseLeave={
+                        link.isProgramsDropdown ? handleProgramsMouseLeave : 
+                        link.isAboutDropdown ? handleAboutMouseLeave : 
+                        handlePublicationsMouseLeave
+                      }
                     >
                       <button
                         className={`nav-link-item text-sm font-medium transition-colors duration-300 ${
                           (link.isProgramsDropdown && isProgramsActive) ||
-                          (link.isProgramsDropdown && location.pathname === "/programs") ||
-                          (!link.isProgramsDropdown && (location.pathname === "/news" || location.pathname === "/events"))
+                          (link.isAboutDropdown && isAboutActive) ||
+                          (!link.isProgramsDropdown && !link.isAboutDropdown && (location.pathname === "/news" || location.pathname === "/events"))
                             ? "text-primary"
                             : "text-foreground/70 hover:text-foreground"
                         }`}
@@ -184,7 +229,9 @@ const Navbar = () => {
                       </button>
                       
                       <AnimatePresence>
-                        {((link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen)) && (
+                        {((link.isProgramsDropdown && isProgramsOpen) || 
+                          (link.isAboutDropdown && isAboutOpen) || 
+                          (!link.isProgramsDropdown && !link.isAboutDropdown && isPublicationsOpen)) && (
                           <motion.div
                             initial={{ opacity: 0, y: -10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -198,11 +245,13 @@ const Navbar = () => {
                                 to={item.path}
                                 onClick={() => {
                                   if (link.isProgramsDropdown) setIsProgramsOpen(false);
+                                  else if (link.isAboutDropdown) setIsAboutOpen(false);
                                   else setIsPublicationsOpen(false);
                                 }}
                                 className={`block px-4 py-3 text-sm transition-colors ${
                                   (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
-                                  (!link.isProgramsDropdown && location.pathname === item.path)
+                                  (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
+                                  (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
                                     ? "bg-primary/10 text-primary font-medium"
                                     : "text-foreground/70 hover:bg-secondary hover:text-foreground"
                                 }`}
@@ -280,7 +329,7 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile Menu - Now also supports hover for dropdowns */}
+          {/* Mobile Menu */}
           <AnimatePresence>
             {isOpen && (
               <motion.div
@@ -302,14 +351,24 @@ const Navbar = () => {
                         {link.isDropdown ? (
                           <div 
                             className="relative"
-                            onMouseEnter={link.isProgramsDropdown ? handleProgramsMouseEnter : handlePublicationsMouseEnter}
-                            onMouseLeave={link.isProgramsDropdown ? handleProgramsMouseLeave : handlePublicationsMouseLeave}
+                            onMouseEnter={
+                              link.isProgramsDropdown ? handleProgramsMouseEnter : 
+                              link.isAboutDropdown ? handleAboutMouseEnter : 
+                              handlePublicationsMouseEnter
+                            }
+                            onMouseLeave={
+                              link.isProgramsDropdown ? handleProgramsMouseLeave : 
+                              link.isAboutDropdown ? handleAboutMouseLeave : 
+                              handlePublicationsMouseLeave
+                            }
                           >
                             <div className="px-4 py-2 text-sm font-medium text-foreground/70 cursor-pointer">
                               {link.name}
                             </div>
                             <AnimatePresence>
-                              {((link.isProgramsDropdown && isProgramsOpen) || (!link.isProgramsDropdown && isPublicationsOpen)) && (
+                              {((link.isProgramsDropdown && isProgramsOpen) || 
+                                (link.isAboutDropdown && isAboutOpen) || 
+                                (!link.isProgramsDropdown && !link.isAboutDropdown && isPublicationsOpen)) && (
                                 <motion.div
                                   initial={{ opacity: 0, height: 0 }}
                                   animate={{ opacity: 1, height: "auto" }}
@@ -324,7 +383,8 @@ const Navbar = () => {
                                       onClick={() => setIsOpen(false)}
                                       className={`px-4 py-2 rounded-lg transition-colors text-sm ${
                                         (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
-                                        (!link.isProgramsDropdown && location.pathname === item.path)
+                                        (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
+                                        (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
                                           ? "bg-primary/10 text-primary font-medium"
                                           : "text-foreground/70 hover:bg-secondary hover:text-foreground"
                                       }`}
