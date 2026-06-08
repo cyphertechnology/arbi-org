@@ -4,6 +4,7 @@ import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LogoARBI from "@/assets/LogoARBIPNG.png";
 import { motion, AnimatePresence } from "framer-motion";
+import { programNavItems } from "@/data/programs";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -131,7 +132,7 @@ const Navbar = () => {
 
   // Check if any about page route is active
   const isAboutActive = location.pathname === "/about";
-  const isProgramsActive = location.pathname === "/programs";
+  const isProgramsActive = location.pathname.startsWith("/programs");
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -145,7 +146,7 @@ const Navbar = () => {
       name: "Programs",
       isDropdown: true,
       isProgramsDropdown: true,
-      items: programItems,
+      items: programNavItems,
     },
      {
       name: "Publications",
@@ -238,7 +239,7 @@ const Navbar = () => {
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: -10, scale: 0.95 }}
                             transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-64 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50"
+                            className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50 max-h-[480px] overflow-y-auto"
                           >
                             {link.items.map((item) => (
                               <Link
