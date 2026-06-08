@@ -23,12 +23,21 @@ const Navbar = () => {
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  // About Us dropdown items (removed "Where We Work")
+  // Program items for dropdown
+  const programItems = [
+    { name: "Healing, Peace-Building & Reconciliation", path: "/programs#healing-peace", shortName: "Healing & Peace" },
+    { name: "Abundant Leadership Development", path: "/programs#leadership", shortName: "Leadership" },
+    { name: "Integral Community Development", path: "/programs#community-dev", shortName: "Community Development" },
+    { name: "Promoting Resilience Among Youth (PRAY)", path: "/programs#youth-resilience", shortName: "Youth Resilience" },
+  ];
+
+  // About Us dropdown items (includes History)
   const aboutItems = [
     { name: "Our Story", path: "/about#story", shortName: "Our Story" },
-    { name: "Mission & Vision", path: "/about#mission-vision", shortName: "Mission & Vision" },
+    { name: "Vision & Mission", path: "/about#mission-vision", shortName: "Vision & Mission" },
+    { name: "History", path: "/about#history", shortName: "History" },
     { name: "Our Team", path: "/about#team", shortName: "Our Team" },
-    { name: "History & Milestones", path: "/about#timeline", shortName: "History" },
+    { name: "Journey & Milestones", path: "/about#timeline", shortName: "Our Journey" },
     { name: "Our Values", path: "/about#values", shortName: "Values" },
   ];
 
