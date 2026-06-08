@@ -123,13 +123,10 @@ const HeroSection = () => {
             </motion.div>
 
             <motion.h1
-              className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold text-white leading-tight"
+              className="text-3xl md:text-3xl lg:text-3xl font-serif font-bold text-white leading-tight"
               variants={itemVariants}
             >
-              Touching{" "}
-              <span className="text-primary">Hearts</span>
-              <br />
-              Transforming Nations
+              Touching Lives, Transforming Communities 
             </motion.h1>
 
             <motion.p className="text-xl text-white/90 italic" variants={itemVariants}>
@@ -143,7 +140,14 @@ const HeroSection = () => {
               className="text-lg text-white/90 leading-relaxed max-w-lg"
               variants={itemVariants}
             >
-              Impacting Hearts — Heads — Hands. Rebuilding bridges within and between communities in the DRC and other regions of Africa affected by violence.
+              Impacting <span className="text-red-500 font-bold">Hearts</span> — <span className="text-primary font-bold">Heads</span> — <span className="text-orange-300 font-bold">Hands</span>.
+              <br />
+              Fostering integral transformation across communities in the
+               Democratic Republic of the Congo and other violence-affected regions of Africa. <br />
+
+              <br />
+Since 2011, ARBI has led transformative initiatives that foster healing, empowerment, 
+and resilience across communities in North Kivu, DRC.
             </motion.p>
 
             <motion.div className="flex flex-wrap gap-4" variants={itemVariants}>
