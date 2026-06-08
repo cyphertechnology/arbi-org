@@ -8,35 +8,30 @@ const values = [
     description: "We are committed to restoring broken relationships and fostering unity among divided communities.",
     icon: Heart,
     color: "rose",
-    longDescription: "We believe that true peace begins with reconciled relationships. Through dialogue, forgiveness, and mutual understanding, we help communities heal from past wounds and build bridges across ethnic and social divides."
   },
   {
     title: "Human Dignity",
     description: "We uphold the inherent worth of every person and promote respect, inclusion, and justice for all.",
     icon: Shield,
     color: "blue",
-    longDescription: "Every individual is created with inherent value and deserves to be treated with respect. We advocate for the marginalized, amplify voices that have been silenced, and work to ensure that justice and inclusion are realities for all community members."
   },
   {
     title: "Peacebuilding",
     description: "We actively pursue nonviolence and sustainable solutions to conflict through dialogue and cooperation.",
     icon: Users,
     color: "emerald",
-    longDescription: "Violence is not the answer. We equip communities with tools for nonviolent conflict resolution, facilitate difficult conversations, and build sustainable peace through cooperation, understanding, and shared goals for the future."
   },
   {
     title: "Community Empowerment",
     description: "We believe lasting transformation is driven by communities themselves and invest in local ownership and capacity.",
     icon: Globe,
     color: "amber",
-    longDescription: "Sustainable change comes from within. We don't impose solutions—we partner with communities, strengthen local leadership, and invest in capacity building so that communities can drive their own transformation journeys."
   },
   {
     title: "Holistic Transformation",
     description: "We address the spiritual, social, psychological, and structural dimensions of healing for lasting change.",
     icon: Sparkles,
     color: "purple",
-    longDescription: "Healing is multi-dimensional. We address not only visible conflicts but also the deep spiritual wounds, social fractures, psychological trauma, and structural inequalities that perpetuate suffering and division."
   }
 ];
 
@@ -92,7 +87,7 @@ const ValuesSection = () => {
                   expandedValue === idx ? "shadow-xl" : "hover:shadow-md hover:border-primary/30"
                 }`}
               >
-                {/* Header - Always Visible */}
+                {/* Header - Shows only title and icon */}
                 <button
                   onClick={() => toggleValue(idx)}
                   className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-secondary/30 transition-colors duration-200"
@@ -109,9 +104,6 @@ const ValuesSection = () => {
                       <h3 className="text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                         {value.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground mt-1 line-clamp-1">
-                        {value.description}
-                      </p>
                     </div>
                   </div>
                   <motion.div
@@ -123,7 +115,7 @@ const ValuesSection = () => {
                   </motion.div>
                 </button>
 
-                {/* Expanded Content */}
+                {/* Expanded Content - Shows description when expanded */}
                 <AnimatePresence>
                   {expandedValue === idx && (
                     <motion.div
@@ -138,16 +130,8 @@ const ValuesSection = () => {
                           <div className={`w-1 bg-${value.color} rounded-full`} />
                           <div className="flex-1">
                             <p className="text-foreground/80 leading-relaxed">
-                              {value.longDescription}
+                              {value.description}
                             </p>
-                            <div className="mt-4 flex items-center gap-2">
-                              <div className={`text-xs font-medium text-${value.color} bg-${value.color}/10 px-3 py-1 rounded-full`}>
-                                Core Value
-                              </div>
-                              <div className={`text-xs font-medium text-${value.color} bg-${value.color}/10 px-3 py-1 rounded-full`}>
-                                {value.title}
-                              </div>
-                            </div>
                           </div>
                         </div>
                       </div>
@@ -158,8 +142,6 @@ const ValuesSection = () => {
             </motion.div>
           ))}
         </div>
-
-        
       </div>
     </section>
   );
