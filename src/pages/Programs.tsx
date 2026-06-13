@@ -310,7 +310,7 @@ const Programs = () => {
               <div className="w-8 h-0.5 bg-primary" />
             </div>
             <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">
-              Our Six Programs
+              Our Programs & Projects
             </h2>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               Since 2011, ARBI has run comprehensive initiatives designed to
