@@ -79,11 +79,12 @@ const StorySection = () => {
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
             >
-              Since the 1990s, communities in North Kivu have endured the devastating and
-              ongoing impact of cycles of ethnic-based violence and trauma, shaping
-              generations with deep wounds and persistent divisions. Out of this long
-              history of suffering and resilience, a vision emerged—one of healed,
-              reconciled, and thriving communities where broken relationships could be restored and peace made possible.
+              Since the 1990s, communities in North Kivu have endured the devastating 
+              and ongoing impact of cycles of ethnic-based violence and trauma, 
+              shaping generations with deep wounds and persistent divisions.
+               Out of this long history of suffering and resilience, a vision 
+               emerged—one of healed, reconciled, and thriving communities where 
+               broken relationships could be restored and peace made possible.
             </motion.p>
             <motion.p
               className="text-muted-foreground leading-relaxed"
@@ -92,11 +93,11 @@ const StorySection = () => {
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
             >
-              Today, ARBI has grown into a comprehensive organization working across the
-              territories of Goma, Nyiragongo, Rutshuru, Masisi, and Walikale in North Kivu.
-              Its programs support holistic community healing, spanning mental health,
-              peacebuilding, leadership development, and community development—working
-              toward lasting restoration and renewed hope for communities across the region.
+              In response to this lived reality, ARBI was founded to help rebuild the bridges 
+              that violence had broken. Rooted in a commitment to healing and restoration,
+               the initiative was born as a faith-driven and community-centered response 
+               to pain, carrying a vision that transformation is possible even in 
+               the most affected contexts.
             </motion.p>
             <motion.p
               className="text-muted-foreground leading-relaxed"
@@ -105,11 +106,11 @@ const StorySection = () => {
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
             >
-              In response to this lived reality, ARBI was founded to help rebuild
-              the bridges that violence had broken. Rooted in a commitment to healing
-              and restoration, the initiative was born as a faith-driven and
-              community-centered response to pain, carrying a vision that
-              transformation is possible even in the most affected contexts.
+             Today, ARBI has grown into a comprehensive organization working
+              across the territories of Goma, Nyiragongo, Rutshuru, Masisi, and 
+              Walikale in North Kivu. Its programs support holistic community healing, 
+              spanning mental health, peacebuilding, leadership development, and
+               community development—working toward lasting restoration and renewed hope for communities across the region.
             </motion.p>
             <motion.div
               className="flex gap-4"
