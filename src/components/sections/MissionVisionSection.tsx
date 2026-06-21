@@ -32,7 +32,8 @@ const items = [
 const MissionVisionSection = () => {
   return (
     <section id="mission-vision" className="py-20 scroll-mt-20">
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .mv-flip-wrapper {
           perspective: 1200px;
           height: 360px;
