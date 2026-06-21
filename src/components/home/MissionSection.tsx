@@ -1,77 +1,69 @@
-// MissionSection.tsx
-import { Target, Eye, Heart, Shield, Users, HandHeart } from "lucide-react";
 import { motion } from "framer-motion";
+import { containerVariants, itemVariants } from "@/lib/animationVariants";
+
+import visionImg from "@/assets/vision.png";
+import missionImg from "@/assets/mission.png";
+import whoWeAreImg from "@/assets/who we are.png";
+
+const items = [
+  {
+    title: "Our Vision",
+    description:
+      "To see healed, reconciled, and prosperous communities living in peace in the DRC and other regions of Africa affected through violence.",
+    image: visionImg,
+    accent: "hsl(var(--primary))",
+  },
+  {
+    title: "Our Mission",
+    description:
+      "To rebuild bridges within and between affected communities through integral community-based approaches fostering inclusive cooperation, capacity building for sustainable healing, peace building, and development.",
+    image: missionImg,
+    accent: "hsl(var(--teal))",
+  },
+  {
+    title: "Who We Are",
+    description:
+      "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
+    image: whoWeAreImg,
+    accent: "hsl(var(--gold))",
+  },
+];
 
 const MissionSection = () => {
-  const items = [
-    {
-      icon: Eye,
-      title: "Our Vision",
-      description:
-        "To see healed, reconciled, and prosperous communities living in peace in the DRC and other regions of Africa affected through violence.",
-      color: "primary",
-    },
-    {
-      icon: Target,
-      title: "Our Mission",
-      description:
-        "To rebuild bridges within and between affected communities through integral community-based approaches fostering inclusive cooperation, capacity building for sustainable healing, peace building, and development.",
-      color: "teal",
-    },
-    {
-      icon: Heart,
-      title: "Who We Are",
-      description:
-        "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
-      color: "gold",
-    },
-  ];
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.1,
-      },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-    hover: {
-      y: -10,
-      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
-      transition: { duration: 0.3 },
-    },
-  };
-
-  const iconVariants = {
-    initial: { scale: 1, rotate: 0 },
-    hover: {
-      scale: 1.2,
-      rotate: 15,
-      transition: { duration: 0.3 },
-    },
-  };
-
   return (
-    <motion.section
-      className="py-20 bg-secondary/30"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true, amount: 0.2 }}
-    >
+    <section className="py-20 bg-secondary/30">
       <div className="container mx-auto px-4">
+        <style dangerouslySetInnerHTML={{ __html: `
+          .mv-flip-wrapper {
+            perspective: 1200px;
+            height: 380px;
+          }
+          .mv-flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.7s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+          }
+          .mv-flip-wrapper:hover .mv-flip-inner {
+            transform: rotateY(180deg);
+          }
+          .mv-flip-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 1.25rem;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            overflow: hidden;
+          }
+          .mv-flip-back {
+            transform: rotateY(180deg);
+          }
+        `}} />
+
+        {/* ── Section Header ─────────────────────────────────────── */}
         <motion.div
-          className="text-center mb-12"
+          className="text-center mb-14"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -93,10 +85,12 @@ const MissionSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            Since 2011, ARBI has worked tirelessly to bring healing and peace to communities torn apart by violence in Eastern DRC.
+            Since 2011, ARBI has worked tirelessly to bring healing and peace to
+            communities torn apart by violence in Eastern DRC.
           </motion.p>
         </motion.div>
 
+        {/* ── Flip Cards Grid ────────────────────────────────────── */}
         <motion.div
           className="grid md:grid-cols-3 gap-8"
           variants={containerVariants}
@@ -104,68 +98,85 @@ const MissionSection = () => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.2 }}
         >
-          {items.map((item, index) => (
+          {items.map((item) => (
             <motion.div
               key={item.title}
-              className="bg-card p-8 rounded-2xl shadow-soft hover:shadow-card transition-all duration-300 group"
-              variants={cardVariants}
-              whileHover="hover"
+              variants={itemVariants}
+              className="mv-flip-wrapper"
             >
-              <motion.div
-                className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform duration-300 ${
-                  item.color === "primary"
-                    ? "bg-primary/10"
-                    : item.color === "teal"
-                    ? "bg-teal/10"
-                    : "bg-gold/10"
-                }`}
-                variants={iconVariants}
-                initial="initial"
-                whileHover="hover"
-              >
-                <item.icon
-                  className={`w-8 h-8 ${
-                    item.color === "primary"
-                      ? "text-primary"
-                      : item.color === "teal"
-                      ? "text-teal"
-                      : "text-gold"
-                  }`}
-                />
-              </motion.div>
-              <motion.h3
-                className="text-xl font-serif font-semibold text-foreground mb-3"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                {item.title}
-              </motion.h3>
-              <motion.p
-                className="text-muted-foreground leading-relaxed"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-              >
-                {item.description}
-              </motion.p>
+              <div className="mv-flip-inner">
+                {/* ── FRONT: Image + Title ────────────────────────── */}
+                <div className="mv-flip-face bg-card border border-border shadow-soft">
+                  <div className="h-full flex flex-col items-center justify-center px-8 gap-6">
+                    <div className="w-40 h-40 flex items-center justify-center">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-contain drop-shadow-sm"
+                        draggable={false}
+                      />
+                    </div>
+
+                    <div className="text-center">
+                      <h3 className="text-xl font-serif font-semibold text-foreground">
+                        {item.title}
+                      </h3>
+                      <div
+                        className="mt-2 mx-auto h-[2px] w-10 rounded-full opacity-70"
+                        style={{ background: item.accent }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* ── BACK: Description ───────────────────────────── */}
+                <div
+                  className="mv-flip-back mv-flip-face bg-card border shadow-card"
+                  style={{ borderColor: `${item.accent.replace(")", " / 0.2)")}` }}
+                >
+                  <div
+                    className="absolute top-0 left-0 right-0 h-[3px] rounded-t-[1.25rem]"
+                    style={{ background: item.accent }}
+                  />
+
+                  <div className="h-full flex flex-col items-center justify-center px-8 text-center gap-5">
+                    <div
+                      className="w-2.5 h-2.5 rounded-full"
+                      style={{ background: item.accent }}
+                    />
+
+                    <h3
+                      className="text-xl font-serif font-semibold"
+                      style={{ color: item.accent }}
+                    >
+                      {item.title}
+                    </h3>
+
+                    <p className="text-muted-foreground leading-relaxed text-sm">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              </div>
             </motion.div>
           ))}
         </motion.div>
 
+        {/* ── Scripture Quote ────────────────────────────────────── */}
         <motion.div
-          className="text-center mt-12"
+          className="text-center mt-14"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.4 }}
           viewport={{ once: true }}
         >
           <p className="text-sm italic text-muted-foreground">
-            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings." — Isaiah 58:12
+            &ldquo;You will be called Repairer of Broken Walls, Restorer of
+            Streets with Dwellings.&rdquo; — Isaiah 58:12
           </p>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 
