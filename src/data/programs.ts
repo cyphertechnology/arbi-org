@@ -131,9 +131,10 @@ export const programs: Program[] = [
     color: "coral",
     image: imgLeadership,
     projects: [
-      "Servant leadership — ARBI promotes values-based servant leadership that encourages leaders and public officials to prioritize ethical service, humility, accountability, and the well-being of communities above personal or political interests.",
-      "Active Bystandership Development-SINDEBERA — ARBI promotes a culture of courage, compassion, and active bystandership rooted in the Good Samaritan attitude, encouraging individuals to support others, respond to those in need, and take responsible action against harm and injustice.",
-      "Transparency and Human rights watching — ARBI promotes transparency and the protection of human rights by monitoring, documenting, and reporting human rights violations and corruption with integrity, justice, and accountability.",
+      "Servant Leadership — ARBI promotes values-based servant leadership that encourages leaders and public officials to prioritize ethical service, humility, accountability, and the well-being of communities above personal or political interests.",
+      "Active Bystandership Development (SINDEBERA) — ARBI promotes a culture of courage, compassion, and active bystandership rooted in the Good Samaritan attitude, encouraging individuals to support others, respond to those in need, and take responsible action against harm and injustice.",
+      "Transparency and Human Rights Watching — ARBI promotes transparency and the protection of human rights by monitoring, documenting, and reporting human rights violations and corruption with integrity, justice, and accountability.",
+      "Africa Peace and Development Academy (APDA) — A proposed multidisciplinary institution dedicated to advancing peacebuilding, ethical leadership, education, and sustainable development in North Kivu, DRC. See dedicated APDA page for full details.",
     ],
   },
   {
@@ -145,20 +146,20 @@ export const programs: Program[] = [
     summary:
       "A proposed multidisciplinary institution advancing peacebuilding, ethical leadership, education, and sustainable development in North Kivu, DRC.",
     description:
-      "The Africa Peace and Development Academy (APDA) is a proposed multidisciplinary institution dedicated to advancing peacebuilding, ethical leadership, education, economic empowerment, and sustainable development in North Kivu Province, Democratic Republic of Congo.",
+      "The Africa Peace and Development Academy (APDA) is a proposed multidisciplinary institution dedicated to advancing peacebuilding, ethical leadership, education, economic empowerment, and sustainable development in North Kivu Province, Democratic Republic of Congo. APDA envisions transforming a region affected by conflict and instability into a center for learning, innovation, entrepreneurship, reconciliation, and regional cooperation.\n\nRooted in the principle of integral development, APDA seeks to promote the holistic growth of individuals and communities by strengthening education, livelihoods, social cohesion, health, environmental stewardship, and civic responsibility. The academy aims to equip young people, women, community leaders, and vulnerable populations with the skills, knowledge, and opportunities needed to build resilient and self-sustaining communities.\n\nSupported by modern infrastructure including research facilities, student housing, renewable energy systems, clean water services, and innovation hubs, APDA aims to serve as a model for community transformation and sustainable development across the region.",
     color: "accent",
     image: imgApda,
     readMorePath: "/programs/apda",
     isSpecialPage: true,
     projects: [
-      "A School of Peace, Governance and Leadership focused on peacebuilding, mediation, human rights, and accountable governance;",
-      "A Technical and Vocational Training Center providing practical skills for employment and entrepreneurship;",
-      "An Agricultural Innovation and Food Security Institute promoting sustainable agriculture and rural development;",
-      "A Women and Youth Empowerment Center supporting entrepreneurship, leadership, and social inclusion;",
-      "A Health and Trauma Healing Center addressing physical and psychological recovery from conflict;",
-      "A Center for Science, Technology and Innovation preparing youth for the digital economy;",
-      "An Environmental and Natural Resource Institute advancing conservation and sustainable resource management; and",
-      "A Cultural and Arts Center promoting identity, unity, creativity, and healing through culture.",
+      "A School of Peace, Governance and Leadership — focused on peacebuilding, mediation, human rights, and accountable governance.",
+      "A Technical and Vocational Training Center — providing practical skills for employment and entrepreneurship.",
+      "An Agricultural Innovation and Food Security Institute — promoting sustainable agriculture and rural development.",
+      "A Women and Youth Empowerment Center — supporting entrepreneurship, leadership, and social inclusion.",
+      "A Health and Trauma Healing Center — addressing physical and psychological recovery from conflict.",
+      "A Center for Science, Technology and Innovation — preparing youth for the digital economy.",
+      "An Environmental and Natural Resource Institute — advancing conservation and sustainable resource management.",
+      "A Cultural and Arts Center — promoting identity, unity, creativity, and healing through culture.",
     ],
   },
 ];
