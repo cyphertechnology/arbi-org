@@ -20,11 +20,12 @@ import img7 from "@/assets/7.jpg";
 
 const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
-const APDA_EXTENDED = `APDA envisions transforming a region affected by conflict and instability into a center for learning, innovation, entrepreneurship, reconciliation, and regional cooperation.
-
-Rooted in the principle of integral development, APDA seeks to promote the holistic growth of individuals and communities by strengthening education, livelihoods, social cohesion, health, environmental stewardship, and civic responsibility. The academy aims to equip young people, women, community leaders, and vulnerable populations with the skills, knowledge, and opportunities needed to build resilient and self-sustaining communities.
-
-Supported by modern infrastructure including research facilities, student housing, renewable energy systems, clean water services, and innovation hubs, APDA aims to serve as a model for community transformation and sustainable development across the region.`;
+// Helper: split "Title — description" project strings for styled rendering
+const splitProject = (text: string): { title: string; body: string } | null => {
+  const idx = text.indexOf(" — ");
+  if (idx === -1) return null;
+  return { title: text.slice(0, idx), body: text.slice(idx + 3) };
+};
 
 const getLabel = (id: string) => {
   if (id === "apda") return "APDA's Proposed Institutions";
@@ -116,17 +117,10 @@ const ProgramModal = ({
 
           {/* Scrollable body */}
           <div className="flex-1 overflow-y-auto p-6 sm:p-8">
-            {/* Description */}
-            <p className="text-muted-foreground leading-relaxed text-base mb-6">
+            {/* Description — supports \n\n paragraph breaks */}
+            <p className="text-muted-foreground leading-relaxed text-base mb-6 whitespace-pre-line">
               {program.description}
             </p>
-
-            {/* Extra APDA block */}
-            {program.id === "apda" && (
-              <p className="text-muted-foreground leading-relaxed text-sm whitespace-pre-line mb-6 border-l-4 border-primary/30 pl-4 italic">
-                {APDA_EXTENDED}
-              </p>
-            )}
 
             {/* Divider */}
             <div className="flex items-center gap-3 mb-5">
@@ -138,20 +132,32 @@ const ProgramModal = ({
 
             {/* Projects list */}
             <ul className="space-y-4 mb-8">
-              {program.projects.map((project) => (
-                <motion.li
-                  key={project}
-                  className="flex items-start gap-3 text-foreground/80 text-sm"
-                  initial={{ opacity: 0, x: -12 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <CheckCircle
-                    className={`w-4 h-4 mt-0.5 shrink-0 ${cc.text}`}
-                  />
-                  <span className="leading-relaxed">{project}</span>
-                </motion.li>
-              ))}
+              {program.projects.map((project) => {
+                const split = splitProject(project);
+                return (
+                  <motion.li
+                    key={project}
+                    className="flex items-start gap-3 text-foreground/80 text-sm"
+                    initial={{ opacity: 0, x: -12 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <CheckCircle
+                      className={`w-4 h-4 mt-0.5 shrink-0 ${cc.text}`}
+                    />
+                    <span className="leading-relaxed">
+                      {split ? (
+                        <>
+                          <strong className="font-semibold text-foreground">{split.title}</strong>
+                          {" — "}{split.body}
+                        </>
+                      ) : (
+                        project
+                      )}
+                    </span>
+                  </motion.li>
+                );
+              })}
             </ul>
 
             {/* Footer row */}
