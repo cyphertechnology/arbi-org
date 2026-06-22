@@ -265,11 +265,6 @@ const ProgramsSection = () => {
                       alt={program.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    <div
-                      className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold backdrop-blur-sm ${cc.bg} ${cc.text}`}
-                    >
-                      {program.tagline}
-                    </div>
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col">
