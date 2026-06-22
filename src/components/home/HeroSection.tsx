@@ -140,7 +140,7 @@ const HeroSection = () => {
               className="text-lg text-white/90 leading-relaxed max-w-lg"
               variants={itemVariants}
             >
-              Impacting <span className="text-red-500 font-bold">Hearts</span> — <span className="text-primary font-bold">Heads</span> — <span className="text-orange-300 font-bold">Hands</span>.
+             <p className="text-center text-xl">Impacting <span className="text-red-600 font-bold">Hearts</span> — <span className="text-primary font-bold">Heads</span> — <span className="text-orange-300 font-bold">Hands</span>.</p> 
               <br />
               Fostering integral transformation across communities in the
                Democratic Republic of the Congo and other violence-affected regions of Africa. <br />
@@ -158,7 +158,7 @@ and resilience across communities in North Kivu, DRC.
               >
                 <Link to="/donate">
                   <Button size="xl" className="shadow-lg">
-                    Donate Now
+                    Donate Us
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </Link>
@@ -168,7 +168,7 @@ and resilience across communities in North Kivu, DRC.
                 whileHover="hover"
                 whileTap="tap"
               >
-                <Link to="/about">
+                <Link to="/about#history">
                   <Button variant="hero-outline" size="xl" className="bg-white/10 backdrop-blur-sm border-white/20 hover:bg-white/20">
                     Learn More About Us
                   </Button>

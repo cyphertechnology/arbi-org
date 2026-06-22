@@ -98,7 +98,7 @@ const ProgramModal = ({
                 className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${cc.bg} ${cc.text} backdrop-blur-sm`}
               >
                 <program.icon className="w-3.5 h-3.5" />
-                {program.tagline}
+             
               </div>
               <h2 className="text-white text-2xl sm:text-3xl font-bold leading-tight">
                 {program.title}
@@ -348,12 +348,7 @@ const Programs = () => {
                       alt={prog.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                    {/* Number badge */}
-                    <div
-                      className={`absolute top-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold backdrop-blur-sm ${cc.bg} ${cc.text}`}
-                    >
-                      {prog.tagline}
-                    </div>
+                 
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col">
