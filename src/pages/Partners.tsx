@@ -40,42 +40,49 @@ const ALL_PARTNERS = [
     img: partnerCPA,
     title: "Community Partners Alliance",
     desc: "Supporting community development and peace-building across North Kivu.",
+    href: "#",
   },
   {
     key: "iicbs",
     img: partnerIICBS,
     title: "International Institute for Community-Based Support",
     desc: "Providing expertise in psychosocial support and conflict transformation.",
+    href: "https://icbs.ngo",
   },
   {
     key: "rucher",
     img: partnerRucher,
     title: "Rucher Organization",
     desc: "Collaborating on economic empowerment and livelihoods programs.",
+    href: "https://lerucher.org",
   },
   {
     key: "micah",
     img: partnerMicah,
     title: "MICAH Global Network",
     desc: "Faith-based partner advancing integral mission and holistic development.",
+    href: "https://micahglobal.org",
   },
   {
     key: "pdd",
     img: partnerPDD,
     title: "Program for Durable Development",
     desc: "Working together on sustainable development and environmental initiatives.",
+    href: "#",
   },
   {
     key: "prison",
     img: partnerPrison,
     title: "Prison Fellowship",
     desc: "Partnering on reconciliation and reintegration programs for ex-combatants.",
+    href: "https://pfrwanda.org",
   },
   {
     key: "way",
     img: partnerWay,
     title: "Way of Peace",
     desc: "Collaborating on peace education and community healing initiatives.",
+    href: "https://waypeace.org",
   },
 ];
 
@@ -128,7 +135,7 @@ const Partners = () => {
               </motion.div>
               
               <motion.h1 
-                className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+                className="text-3xl sm:text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -180,7 +187,7 @@ const Partners = () => {
           viewport={{ once: true, amount: 0.2 }}
         >
           <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
               <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -191,7 +198,7 @@ const Partners = () => {
                   <div className="w-8 h-0.5 bg-primary" />
                   <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Our Partners</span>
                 </div>
-                <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight mb-6">
+                <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-foreground leading-tight mb-6">
                   Building a network of change-makers
                 </h2>
                 <p className="text-muted-foreground leading-relaxed mb-4">
@@ -203,7 +210,7 @@ const Partners = () => {
                 
                 {/* Quick stats */}
                 <motion.div 
-                  className="flex gap-6 mt-8"
+                  className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8"
                   variants={containerVariants}
                   initial="hidden"
                   whileInView="visible"
@@ -242,19 +249,19 @@ const Partners = () => {
                       {PARTNER_LOGOS.map((l) => (
                         <motion.div 
                           key={l.src} 
-                          className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
+                          className="flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
                           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
                         >
-                          <img src={l.src} alt={l.alt} className="max-h-20 max-w-full object-contain" />
+                          <img src={l.src} alt={l.alt} className="max-h-16 sm:max-h-20 max-w-full object-contain" />
                         </motion.div>
                       ))}
                       {PARTNER_LOGOS.map((l) => (
                         <motion.div 
                           key={l.src + "-dup"} 
-                          className="flex-shrink-0 w-40 h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
+                          className="flex-shrink-0 w-32 h-32 sm:w-40 sm:h-40 flex items-center justify-center bg-white rounded-[20px] border border-border shadow-soft"
                           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(0,0,0,0.1)" }}
                         >
-                          <img src={l.src} alt={l.alt} className="max-h-20 max-w-full object-contain" />
+                          <img src={l.src} alt={l.alt} className="max-h-16 sm:max-h-20 max-w-full object-contain" />
                         </motion.div>
                       ))}
                     </div>
@@ -305,7 +312,7 @@ const Partners = () => {
                 <div className="w-8 h-0.5 bg-primary" />
                 <span className="text-sm font-bold text-white tracking-[2px] uppercase">All Partners</span>
               </div>
-              <h2 className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-xl mx-auto">
+              <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-xl mx-auto">
                 Our partner organizations
               </h2>
             </motion.div>
@@ -318,9 +325,12 @@ const Partners = () => {
               viewport={{ once: true, amount: 0.2 }}
             >
               {ALL_PARTNERS.map((p, idx) => (
-                <motion.div 
+                <motion.a 
                   key={p.key} 
-                  className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft"
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft block"
                   variants={itemVariants}
                   whileHover={{ 
                     y: -8, 
@@ -336,7 +346,7 @@ const Partners = () => {
                   </motion.div>
                   <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
-                </motion.div>
+                </motion.a>
               ))}
             </motion.div>
           </div>
@@ -361,7 +371,7 @@ const Partners = () => {
                 <div className="w-8 h-0.5 bg-primary" />
                 <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Join Us</span>
               </div>
-              <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight max-w-xl mx-auto mt-2 mb-6">
+              <h2 className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-foreground leading-tight max-w-xl mx-auto mt-2 mb-6">
                 Interested in Partnership?
               </h2>
               <p className="text-muted-foreground text-lg max-w-xl mx-auto mb-10">
@@ -418,7 +428,7 @@ const Partners = () => {
               
               <div className="relative z-10">
                 <motion.h2 
-                  className="text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8"
+                  className="text-3xl sm:text-4xl lg:text-[48px] font-bold text-white leading-tight max-w-[805px] mx-auto mb-8"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
