@@ -32,7 +32,7 @@ const PartnersSection = () => {
           We work together with like-minded organizations to maximize our impact
         </motion.p>
         <motion.div
-          className="flex flex-wrap justify-center gap-8 max-w-4xl mx-auto"
+          className="flex flex-wrap justify-center gap-4 sm:gap-8 max-w-4xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -41,11 +41,11 @@ const PartnersSection = () => {
           {partners.map((partner, idx) => (
             <motion.div
               key={idx}
-              className="bg-card px-8 py-4 rounded-xl shadow-soft border border-border"
+              className="bg-card px-6 py-3 sm:px-8 sm:py-4 rounded-xl shadow-soft border border-border"
               variants={itemVariants}
               whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(0,0,0,0.1)" }}
             >
-              <p className="font-bold text-foreground text-xl">{partner}</p>
+              <p className="font-bold text-foreground text-lg sm:text-xl">{partner}</p>
             </motion.div>
           ))}
         </motion.div>
