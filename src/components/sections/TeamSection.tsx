@@ -8,6 +8,7 @@ import mulangiKashawa from "@/assets/Mulangi_Kashawa_Moise_Executive_Director-re
 import ngendoLucien from "@/assets/Ngendo_Lucien-removebg-preview.png";
 import sewimfuraTheophile from "@/assets/Sewimfura Theophile Founder.jpg.jpeg";
 import bahatiGrace from "@/assets/Bahati Kazingufu Grace.png";
+import Esther from "@/assets/PP-Esther.jpg.jpeg";
 
 const teamMembers = [
   {
@@ -56,6 +57,13 @@ const teamMembers = [
     name: "Ngendo Lucien",
     role: "Public Relations & Communication Officer",
     image: ngendoLucien,
+    bio: "Amplifying the organization's voice and sharing stories of hope, healing, and transformation.",
+    initials: "NL",
+  },
+    {
+    name: "Uwase Mushonga Esther",
+    role: "Director of Finance and administration",
+    image: Esther,
     bio: "Amplifying the organization's voice and sharing stories of hope, healing, and transformation.",
     initials: "NL",
   },
