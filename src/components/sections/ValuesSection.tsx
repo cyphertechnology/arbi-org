@@ -1,12 +1,12 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
-import { ChevronDown, Heart, Shield, Users, Globe, Sparkles } from "lucide-react";
+import { ChevronDown, HandHeart, Shield, Users, Globe, Sparkles } from "lucide-react";
 
 const values = [
   {
     title: "Reconciliation",
     description: "We are committed to restoring broken relationships and fostering unity among divided communities.",
-    icon: Heart,
+    icon: HandHeart,
     color: "rose",
   },
   {

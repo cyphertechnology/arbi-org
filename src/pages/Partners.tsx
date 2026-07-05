@@ -46,7 +46,7 @@ const ALL_PARTNERS = [
   {
     key: "rucher",
     img: partnerRucher,
-    title: "Rucher Organization",
+    title: "Le Rucher Ministries",
     desc: "Collaborating on economic empowerment and livelihoods programs.",
     href: "https://lerucher.org",
   },
@@ -71,13 +71,13 @@ const ALL_PARTNERS = [
     desc: "Collaborating on peace education and community healing initiatives.",
     href: "https://waypeace.org",
   },
-    {
-    key: "cpa",
-    img: partnerCPA,
-    title: "Community Partners Alliance",
-    desc: "Supporting community development and peace-building across North Kivu.",
-    href: "",
-  },
+  //   {
+  //   key: "cpa",
+  //   img: partnerCPA,
+  //   title: "Community Partners Alliance",
+  //   desc: "Supporting community development and peace-building across North Kivu.",
+  //   href: "",
+  // },
     {
     key: "pdd",
     img: partnerPDD,
@@ -102,7 +102,7 @@ const Partners = () => {
       <main className="pt-24">
         {/* Hero Section with Slideshow Background */}
         <motion.section
-          className="relative min-h-[500px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed -mt-24"
+          className="relative min-h-[500px] flex items-center justify-center transition-all duration-1000 ease-in-out bg-fixed -mt-24"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
@@ -114,14 +114,15 @@ const Partners = () => {
         >
           <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out" />
           
-          <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full">
+          <div className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full flex items-center justify-center">
             <motion.div
+              className="w-full max-w-[760px] text-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <motion.div 
-                className="flex items-center gap-3 mb-5"
+                className="flex items-center justify-center gap-3 mb-5"
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6 }}
@@ -136,7 +137,7 @@ const Partners = () => {
               </motion.div>
               
               <motion.h1 
-                className="text-3xl sm:text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+                className="text-3xl sm:text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mx-auto mt-2 mb-4"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1 }}
@@ -145,7 +146,7 @@ const Partners = () => {
               </motion.h1>
               
               <motion.p 
-                className="text-white/75 text-xl max-w-xl"
+                className="text-white/75 text-xl max-w-xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
@@ -497,7 +498,7 @@ const Partners = () => {
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
+              {/* <Heart className="w-12 h-12 text-primary mx-auto mb-4" /> */}
             </motion.div>
             <motion.p 
               className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto"
