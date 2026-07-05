@@ -45,7 +45,7 @@ const CTASection = () => {
             <motion.div variants={itemVariants} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link to="/donate">
                 <Button variant="hero" size="lg">
-                  <Heart className="w-4 h-4 mr-2" />
+                  {/* <Heart className="w-4 h-4 mr-2" /> */}
                   Donate Now
                 </Button>
               </Link>
