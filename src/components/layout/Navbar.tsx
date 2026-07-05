@@ -184,7 +184,7 @@ const Navbar = () => {
               <Link to="/" className="flex items-center gap-3 group">
                 <img src={LogoARBI} alt="ARBI logo" className="h-8 w-auto rounded-lg" />
                 <span className="text-xl font-bold text-foreground tracking-tight transition-all duration-300 group-hover:text-primary">
-                  ARBI
+                  Africa Restoring  Bridges Initiative
                 </span>
               </Link>
             </motion.div>
