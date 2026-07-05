@@ -53,7 +53,7 @@ const HeroSection = () => {
 
   return (
     <motion.section
-      className="relative min-h-[500px] flex flex-col justify-center overflow-hidden"
+      className="relative min-h-[500px] flex items-center justify-center overflow-hidden"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.8 }}
@@ -72,32 +72,34 @@ const HeroSection = () => {
       />
 
       <motion.div
-        className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full z-10"
+        className="relative max-w-[1280px] mx-auto px-4 sm:px-8 py-20 w-full z-10 flex items-center justify-center"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div
-          className="flex items-center gap-3 mb-5"
-          variants={itemVariants}
-        >
-          <motion.div className="w-8 h-0.5 bg-primary" />
-          <span className="text-sm font-bold text-white tracking-[2px] uppercase">About Us</span>
-        </motion.div>
-        
-        <motion.h1
-          className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
-          variants={itemVariants}
-        >
-          Our Story of Healing & Restoration
-        </motion.h1>
-        
-        <motion.p
-          className="text-white/90 text-xl max-w-xl leading-relaxed"
-          variants={itemVariants}
-        >
-          Since 2011, ARBI has led transformative initiatives that foster healing, empowerment, and resilience across communities in North Kivu, DRC.
-        </motion.p>
+        <div className="flex flex-col items-center text-center max-w-[760px]">
+          <motion.div
+            className="flex items-center justify-center gap-3 mb-5"
+            variants={itemVariants}
+          >
+            <motion.div className="w-8 h-0.5 bg-primary" />
+            <span className="text-sm font-bold text-white tracking-[2px] uppercase">About Us</span>
+          </motion.div>
+          
+          <motion.h1
+            className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4"
+            variants={itemVariants}
+          >
+            Our Story of Healing & Restoration
+          </motion.h1>
+          
+          <motion.p
+            className="text-white/90 text-xl max-w-xl leading-relaxed"
+            variants={itemVariants}
+          >
+            Since 2011, ARBI has led transformative initiatives that foster healing, empowerment, and resilience across communities in North Kivu, DRC.
+          </motion.p>
+        </div>
       </motion.div>
 
       {/* Slideshow indicator dots - styled like home page */}

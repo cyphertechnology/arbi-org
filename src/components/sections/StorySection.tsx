@@ -55,14 +55,7 @@ const StorySection = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 rounded-full text-primary text-sm font-medium"
-              whileHover={{ scale: 1.05 }}
-              transition={{ duration: 0.2 }}
-            >
-              <Heart className="w-4 h-4" />
-              Africa Restoring Bridges Initiative
-            </motion.div>
+            
             <motion.h2
               className="text-3xl md:text-4xl font-serif font-bold text-foreground"
               initial={{ opacity: 0 }}
@@ -70,7 +63,11 @@ const StorySection = () => {
               transition={{ delay: 0.1 }}
               viewport={{ once: true }}
             >
-              Our Story of Healing and Restoration
+
+              <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+                Our Story of Healing and Restoration
+              </span>
+             
             </motion.h2>
             <motion.p
               className="text-muted-foreground leading-relaxed"

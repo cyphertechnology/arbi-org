@@ -34,11 +34,11 @@ const Navbar = () => {
   // About Us dropdown items (includes History)
   const aboutItems = [
     { name: "Our Story", path: "/about#story", shortName: "Our Story" },
-    { name: "Vision & Mission", path: "/about#mission-vision", shortName: "Vision & Mission" },
-    { name: "History", path: "/about#history", shortName: "History" },
+    { name: "Vision & Mission", path: "/about#mission-vision", shortName: "Our Vision & Mission" },
+    { name: "History", path: "/about#history", shortName: "Our History" },
     { name: "Our Team", path: "/about#team", shortName: "Our Team" },
     { name: "Journey & Milestones", path: "/about#timeline", shortName: "Our Journey" },
-    { name: "Our Values", path: "/about#values", shortName: "Values" },
+    { name: "Our Values", path: "/about#values", shortName: "Our Values" },
   ];
 
   useEffect(() => {

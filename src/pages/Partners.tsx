@@ -35,13 +35,7 @@ const PARTNER_LOGOS = [
 ];
 
 const ALL_PARTNERS = [
-  {
-    key: "cpa",
-    img: partnerCPA,
-    title: "Community Partners Alliance",
-    desc: "Supporting community development and peace-building across North Kivu.",
-    href: "#",
-  },
+
   {
     key: "iicbs",
     img: partnerIICBS,
@@ -64,13 +58,6 @@ const ALL_PARTNERS = [
     href: "https://micahglobal.org",
   },
   {
-    key: "pdd",
-    img: partnerPDD,
-    title: "Program for Durable Development",
-    desc: "Working together on sustainable development and environmental initiatives.",
-    href: "#",
-  },
-  {
     key: "prison",
     img: partnerPrison,
     title: "Prison Fellowship",
@@ -83,6 +70,20 @@ const ALL_PARTNERS = [
     title: "Way of Peace",
     desc: "Collaborating on peace education and community healing initiatives.",
     href: "https://waypeace.org",
+  },
+    {
+    key: "cpa",
+    img: partnerCPA,
+    title: "Community Partners Alliance",
+    desc: "Supporting community development and peace-building across North Kivu.",
+    href: "",
+  },
+    {
+    key: "pdd",
+    img: partnerPDD,
+    title: "Program for Durable Development",
+    desc: "Working together on sustainable development and environmental initiatives.",
+    href: "",
   },
 ];
 
@@ -324,30 +325,46 @@ const Partners = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
             >
-              {ALL_PARTNERS.map((p, idx) => (
-                <motion.a 
-                  key={p.key} 
-                  href={p.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft block"
-                  variants={itemVariants}
-                  whileHover={{ 
-                    y: -8, 
-                    boxShadow: "0 20px 40px -12px rgba(0,0,0,0.2)",
-                    transition: { duration: 0.3 }
-                  }}
-                >
-                  <motion.div 
-                    className="h-20 flex items-center justify-center mb-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 shadow-sm"
-                    whileHover={{ scale: 1.02 }}
+              {ALL_PARTNERS.map((p) => {
+                const content = (
+                  <>
+                    <motion.div 
+                      className="h-20 flex items-center justify-center mb-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 shadow-sm"
+                      whileHover={{ scale: 1.02 }}
+                    >
+                      <img src={p.img} alt={p.title} className="max-h-full max-w-full object-contain" />
+                    </motion.div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
+                  </>
+                );
+
+                return p.href ? (
+                  <motion.a 
+                    key={p.key} 
+                    href={p.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft block"
+                    variants={itemVariants}
+                    whileHover={{ 
+                      y: -8, 
+                      boxShadow: "0 20px 40px -12px rgba(0,0,0,0.2)",
+                      transition: { duration: 0.3 }
+                    }}
                   >
-                    <img src={p.img} alt={p.title} className="max-h-full max-w-full object-contain" />
+                    {content}
+                  </motion.a>
+                ) : (
+                  <motion.div
+                    key={p.key}
+                    className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft"
+                    variants={itemVariants}
+                  >
+                    {content}
                   </motion.div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
-                </motion.a>
-              ))}
+                );
+              })}
             </motion.div>
           </div>
         </motion.section>

@@ -59,7 +59,10 @@ const ValuesSection = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: true }}
           >
-            Our Core Values
+
+            <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+             Our Core Vafflues </span>
+            
           </motion.h2>
           <motion.p
             className="text-muted-foreground max-w-2xl mx-auto mb-12"
