@@ -16,8 +16,8 @@ const AboutUsPage = () => {
   return (
     <Layout>
       <HeroSection />
-      <StorySection />
       <HistorySection />
+      <StorySection />
       <MissionVisionSection />
       <TimelineSection />
       {/* <ReachSection /> */}

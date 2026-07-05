@@ -3,7 +3,7 @@ import { containerVariants, itemVariants } from "@/lib/animationVariants";
 
 import visionImg from "@/assets/vision.png";
 import missionImg from "@/assets/mission.png";
-import whoWeAreImg from "@/assets/who we are.png";
+// import whoWeAreImg from "@/assets/who we are.png";
 
 const items = [
   {
@@ -20,13 +20,13 @@ const items = [
     image: missionImg,
     accent: "#0d9488",
   },
-  {
-    title: "Who We Are",
-    description:
-      "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
-    image: whoWeAreImg,
-    accent: "#e11d48",
-  },
+  // {
+  //   title: "Who We Are",
+  //   description:
+  //     "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
+  //   image: whoWeAreImg,
+  //   accent: "#e11d48",
+  // },
 ];
 
 const MissionVisionSection = () => {
@@ -63,7 +63,7 @@ const MissionVisionSection = () => {
 
       <div className="container mx-auto px-4">
         <motion.div
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
