@@ -8,11 +8,7 @@ import mulangiKashawa from "@/assets/Mulangi_Kashawa_Moise_Executive_Director-re
 import ngendoLucien from "@/assets/Ngendo_Lucien-removebg-preview.png";
 import sewimfuraTheophile from "@/assets/Sewimfura Theophile Founder.jpg.jpeg";
 import bahatiGrace from "@/assets/Bahati Kazingufu Grace.png";
-<<<<<<< HEAD
-import Esther from "@/assets/PP-Esther.jpg.jpeg";
-=======
 import Esther from "@/assets/PP-Esther.jpeg";
->>>>>>> 9fcfe7c (feat: add Uwase Mushonga Esther to the team section with profile image)
 
 const teamMembers = [
   {

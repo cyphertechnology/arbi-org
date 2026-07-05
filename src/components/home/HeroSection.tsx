@@ -138,7 +138,7 @@ const HeroSection = () => {
               className="text-lg text-white/90 leading-relaxed"
               variants={itemVariants}
             >
-             <p className="text-center text-xl">Impacting <span className="text-red-600 font-bold">Hearts</span> — <span className="text-primary font-bold">Heads</span> — <span className="text-orange-300 font-bold">Hands</span>.</p> 
+             <h1 className="text-center text-4xl font-family-[serif] font-bold">Impacting <span className="text-red-600 font-bold">Hearts</span> — <span className="text-primary font-bold">Heads</span> — <span className="text-orange-300 font-bold">Hands</span>.</h1> 
               <br />
               Fostering integral transformation across communities in the
                Democratic Republic of the Congo and other violence-affected regions of Africa. <br />
