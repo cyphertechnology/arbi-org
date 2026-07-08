@@ -1,13 +1,19 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
-import { Button } from "@/components/ui/button";
-import { Calendar, ArrowRight, Tag, Heart, MapPin, Clock } from "lucide-react";
-import { events } from "@/data/publications";
-import { motion } from "framer-motion";
+import {
+  Calendar,
+  Heart,
+  MapPin,
+  Clock,
+  CheckCircle2,
+  Hourglass,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { containerVariants, itemVariants } from "@/lib/animationVariants";
+import { client, urlFor } from "@/lib/sanity/client";
 
 // Import hero images for slideshow
 import img1 from "@/assets/1.jpg";
@@ -17,38 +23,116 @@ import img5 from "@/assets/5.jpg";
 import img4 from "@/assets/21.jpg";
 import img7 from "@/assets/7.jpg";
 import img6 from "@/assets/19.jpg";
-;
 
 const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
+const PAGE_SIZE = 6;
+
+interface SanityEvent {
+  id: string;
+  title: string;
+  description: string;
+  eventStatus: "upcoming" | "past";
+  date: string;
+  time: string;
+  location: string;
+  image: any;
+  category: string;
+}
 
 const Events = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Get all events (no filtering)
-  const allEvents = events;
-  const featuredEvent = allEvents.find((event) => event.featured);
-  const regularEvents = allEvents.filter((event) => !event.featured);
+  const [allEvents, setAllEvents] = useState<SanityEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const gridRef = useRef<HTMLDivElement>(null);
 
   // Slideshow effect
-  useState(() => {
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % HERO_IMAGES.length);
     }, 5000);
     return () => clearInterval(timer);
   }, []);
 
+  // Fetch events from Sanity CMS (latest created first)
+  useEffect(() => {
+    client
+      .fetch(
+        `*[_type == "event"] | order(_createdAt desc) {
+          "id": _id,
+          title,
+          description,
+          eventStatus,
+          date,
+          time,
+          location,
+          image,
+          category
+        }`
+      )
+      .then((data) => {
+        setAllEvents(data || []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching events:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  // The most recently added event is automatically shown as featured
+  const featuredEvent = allEvents.length > 0 ? allEvents[0] : null;
+  // All remaining events go into the paginated grid
+  const gridEvents = allEvents.slice(1);
+  const totalPages = Math.ceil(gridEvents.length / PAGE_SIZE);
+  const pagedEvents = gridEvents.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+    setTimeout(() => {
+      gridRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 50);
+  };
+
+  // Safe image URL resolver
+  const getImageUrl = (imageSource: any) => {
+    if (!imageSource) return "/placeholder.svg";
+    try {
+      return urlFor(imageSource).url() || "/placeholder.svg";
+    } catch (error) {
+      console.error("Error generating image URL", error);
+      return "/placeholder.svg";
+    }
+  };
+
+  // Status badge config
+  const getStatusBadge = (status: string) => {
+    if (status === "upcoming") {
+      return {
+        label: "Upcoming",
+        icon: <Hourglass className="w-3 h-3" />,
+        className: "bg-emerald-100 text-emerald-700",
+      };
+    }
+    return {
+      label: "Past Event",
+      icon: <CheckCircle2 className="w-3 h-3" />,
+      className: "bg-slate-100 text-slate-600",
+    };
+  };
+
   return (
     <Layout>
       {/* Hero Section with Slideshow */}
-      <motion.section 
-        className="relative min-h-[400px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed" 
+      <motion.section
+        className="relative min-h-[400px] flex flex-col justify-center transition-all duration-1000 ease-in-out bg-fixed"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        style={{ 
-          backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`, 
-          backgroundSize: 'cover', 
-          backgroundPosition: 'center'
+        style={{
+          backgroundImage: `url(${HERO_IMAGES[currentImageIndex]})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
         }}
       >
         <div className="absolute inset-0 bg-black/65 transition-opacity duration-1000 ease-in-out"></div>
@@ -63,7 +147,7 @@ const Events = () => {
               <span className="text-sm font-bold text-white tracking-[2px] uppercase">Events</span>
             </div>
             <h1 className="text-5xl lg:text-[56px] font-bold text-white leading-tight max-w-[640px] mt-2 mb-4">
-              Upcoming <span className="text-primary">Events</span>
+              Our <span className="text-primary">Events</span>
             </h1>
             <p className="text-white/75 text-xl max-w-xl">
               Join us in our mission through these upcoming events and opportunities.
@@ -77,147 +161,232 @@ const Events = () => {
             <button
               key={index}
               onClick={() => setCurrentImageIndex(index)}
-              className={`transition-all duration-300 rounded-full ${
-                index === currentImageIndex
+              className={`transition-all duration-300 rounded-full ${index === currentImageIndex
                   ? "w-8 h-2 bg-primary"
                   : "w-2 h-2 bg-white/50 hover:bg-white/80"
-              }`}
+                }`}
               aria-label={`Go to slide ${index + 1}`}
             />
           ))}
         </div>
       </motion.section>
 
-      {/* Featured Event */}
-      {featuredEvent && (
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <motion.div 
-              className="grid lg:grid-cols-2 gap-8 items-center"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative aspect-[4/3] rounded-3xl overflow-hidden">
-                <motion.img
-                  src={featuredEvent.image}
-                  alt={featuredEvent.title}
-                  className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 0.5 }}
-                />
-                <span className="absolute top-4 left-4 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
-                  Featured Event
-                </span>
-              </div>
-              <div>
-                <div className="flex flex-wrap items-center gap-4 mb-4">
-                  <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4" />
-                    {featuredEvent.date}
-                  </span>
-                  {featuredEvent.location && (
-                    <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
-                      <MapPin className="w-4 h-4" />
-                      {featuredEvent.location}
+      {loading ? (
+        <div className="flex flex-col items-center justify-center min-h-[400px] bg-secondary/10">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+          <p className="mt-4 text-muted-foreground animate-pulse">Loading events...</p>
+        </div>
+      ) : (
+        <>
+          {/* Featured Event — latest published event */}
+          {featuredEvent && (
+            <section className="py-16">
+              <div className="container mx-auto px-4">
+                <motion.div
+                  className="grid lg:grid-cols-2 gap-8 items-center"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <Link
+                    to={`/events/${featuredEvent.id}`}
+                    className="relative aspect-[4/3] rounded-3xl overflow-hidden block"
+                  >
+                    <motion.img
+                      src={getImageUrl(featuredEvent.image)}
+                      alt={featuredEvent.title}
+                      className="w-full h-full object-cover"
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.5 }}
+                    />
+                    <span className="absolute top-4 left-4 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
+                      Latest Event
                     </span>
-                  )}
-                  {featuredEvent.time && (
-                    <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
-                      <Clock className="w-4 h-4" />
-                      {featuredEvent.time}
-                    </span>
-                  )}
-                </div>
-                <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4">
-                  {featuredEvent.title}
-                </h2>
-                <p className="text-muted-foreground leading-relaxed mb-6">
-                  {featuredEvent.excerpt}
-                </p>
-                <Link to={`/events/${featuredEvent.id}`}>
-                  <Button variant="hero">
-                    Register Now
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-      )}
-
-      {/* Events Grid */}
-      <section className="py-16 bg-secondary/30">
-        <div className="container mx-auto px-4">
-          <h2 className="text-2xl font-serif font-bold text-foreground mb-8">
-            Upcoming Events
-          </h2>
-
-          {regularEvents.length === 0 && (
-            <p className="text-center text-muted-foreground">
-              No events found.
-            </p>
-          )}
-
-          <motion.div 
-            className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-          >
-            {regularEvents.map((event) => (
-              <motion.article
-                key={event.id}
-                className="bg-card rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all group"
-                variants={itemVariants}
-                whileHover={{ y: -8 }}
-              >
-                <div className="aspect-[16/10] overflow-hidden">
-                  <motion.img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.5 }}
-                  />
-                </div>
-                <div className="p-6">
-                  <div className="flex flex-wrap items-center gap-3 mb-3">
-                    <span className="text-xs text-muted-foreground flex items-center gap-1">
-                      <Calendar className="w-3 h-3" />
-                      {event.date}
-                    </span>
-                    {event.location && (
-                      <span className="text-xs text-muted-foreground flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {typeof event.location === 'string' ? event.location.substring(0, 20) : event.location}
+                    {featuredEvent.eventStatus && (
+                      <span
+                        className={`absolute top-4 right-4 inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${getStatusBadge(featuredEvent.eventStatus).className}`}
+                      >
+                        {getStatusBadge(featuredEvent.eventStatus).icon}
+                        {getStatusBadge(featuredEvent.eventStatus).label}
                       </span>
                     )}
-                  </div>
-                  <h3 className="font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
-                    {event.title}
-                  </h3>
-                  <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
-                    {event.excerpt}
-                  </p>
-                  <Link to={`/events/${event.id}`}>
-                    <Button variant="hero" size="sm">
-                      Learn More
-                      <ArrowRight className="w-4 h-4" />
-                    </Button>
                   </Link>
+                  <div>
+                    <div className="flex flex-wrap items-center gap-4 mb-4">
+                      <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                        <Calendar className="w-4 h-4" />
+                        {featuredEvent.date}
+                      </span>
+                      {featuredEvent.location && (
+                        <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                          <MapPin className="w-4 h-4" />
+                          {featuredEvent.location}
+                        </span>
+                      )}
+                      {featuredEvent.time && (
+                        <span className="inline-flex items-center gap-1 text-sm text-muted-foreground">
+                          <Clock className="w-4 h-4" />
+                          {featuredEvent.time}
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4">
+                      {featuredEvent.title}
+                    </h2>
+                    <p className="text-muted-foreground leading-relaxed mb-6 line-clamp-2">
+                      {featuredEvent.description}
+                    </p>
+                    <Link to={`/events/${featuredEvent.id}`}>
+                      <span className="inline-flex items-center gap-2 text-primary font-semibold hover:underline">
+                        View Details →
+                      </span>
+                    </Link>
+                  </div>
+                </motion.div>
+              </div>
+            </section>
+          )}
+
+          {/* Events Grid with Pagination */}
+          <section className="py-16 bg-secondary/30" ref={gridRef}>
+            <div className="container mx-auto px-4">
+              {/* Section header */}
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-serif font-bold text-foreground">All Events</h2>
+                {totalPages > 1 && (
+                  <p className="text-sm text-muted-foreground">
+                    Page {currentPage} of {totalPages}
+                  </p>
+                )}
+              </div>
+
+              {allEvents.length === 0 && (
+                <p className="text-center text-muted-foreground py-12">
+                  No events found. Visit Sanity Studio to add new events.
+                </p>
+              )}
+
+              {/* Animated grid — re-mounts on page change to trigger entrance animation */}
+              {pagedEvents.length > 0 && (
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentPage}
+                    className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    variants={containerVariants}
+                    initial="hidden"
+                    animate="visible"
+                    exit={{ opacity: 0, y: -10, transition: { duration: 0.2 } }}
+                  >
+                    {pagedEvents.map((event) => {
+                      const statusBadge = getStatusBadge(event.eventStatus || "upcoming");
+                      return (
+                        <motion.article
+                          key={event.id}
+                          className="bg-card rounded-2xl overflow-hidden shadow-soft hover:shadow-card transition-all group cursor-pointer"
+                          variants={itemVariants}
+                          whileHover={{ y: -8 }}
+                        >
+                          <Link to={`/events/${event.id}`} className="block">
+                            <div className="aspect-[16/10] overflow-hidden relative">
+                              <motion.img
+                                src={getImageUrl(event.image)}
+                                alt={event.title}
+                                className="w-full h-full object-cover"
+                                whileHover={{ scale: 1.1 }}
+                                transition={{ duration: 0.5 }}
+                              />
+                              {/* Status Badge on the image */}
+                              <span
+                                className={`absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-full ${statusBadge.className}`}
+                              >
+                                {statusBadge.icon}
+                                {statusBadge.label}
+                              </span>
+                            </div>
+                            <div className="p-6">
+                              <div className="flex flex-wrap items-center gap-3 mb-3">
+                                <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                  <Calendar className="w-3 h-3" />
+                                  {event.date}
+                                </span>
+                                {event.location && (
+                                  <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                    <MapPin className="w-3 h-3" />
+                                    {typeof event.location === "string"
+                                      ? event.location.substring(0, 20)
+                                      : event.location}
+                                  </span>
+                                )}
+                              </div>
+                              <h3 className="font-serif font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                {event.title}
+                              </h3>
+                              <p className="text-sm text-muted-foreground line-clamp-2 mb-3">
+                                {event.description}
+                              </p>
+                              {event.time && (
+                                <p className="text-xs text-muted-foreground flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  {event.time}
+                                </p>
+                              )}
+                            </div>
+                          </Link>
+                        </motion.article>
+                      );
+                    })}
+                  </motion.div>
+                </AnimatePresence>
+              )}
+
+              {/* Pagination Controls */}
+              {totalPages > 1 && (
+                <div className="flex items-center justify-center gap-2 mt-12">
+                  {/* Prev button */}
+                  <button
+                    onClick={() => goToPage(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className="flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-medium border border-border bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    aria-label="Previous page"
+                  >
+                    <ChevronLeft className="w-4 h-4" /> Prev
+                  </button>
+
+                  {/* Page number buttons */}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => goToPage(page)}
+                      className={`w-10 h-10 rounded-xl text-sm font-semibold border transition-all duration-200 ${page === currentPage
+                          ? "bg-primary text-primary-foreground border-primary shadow-md scale-110"
+                          : "bg-card text-foreground border-border hover:bg-primary/10 hover:border-primary/40"
+                        }`}
+                      aria-label={`Go to page ${page}`}
+                      aria-current={page === currentPage ? "page" : undefined}
+                    >
+                      {page}
+                    </button>
+                  ))}
+
+                  {/* Next button */}
+                  <button
+                    onClick={() => goToPage(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className="flex items-center gap-1 px-4 py-2 rounded-xl text-sm font-medium border border-border bg-card hover:bg-primary hover:text-primary-foreground hover:border-primary disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    aria-label="Next page"
+                  >
+                    Next <ChevronRight className="w-4 h-4" />
+                  </button>
                 </div>
-              </motion.article>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+              )}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* Scripture Verse */}
-      <motion.section 
+      <motion.section
         className="py-16 bg-primary/5"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
