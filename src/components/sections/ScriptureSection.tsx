@@ -15,7 +15,7 @@ const ScriptureSection = () => {
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         >
-          <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
+          {/* <Heart className="w-12 h-12 text-primary mx-auto mb-4" /> */}
         </motion.div>
         <motion.p
           className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto"
