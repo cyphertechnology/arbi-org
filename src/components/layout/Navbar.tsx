@@ -4,7 +4,7 @@ import { Menu, X, Moon, Sun } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import LogoARBI from "@/assets/LogoARBIPNG.png";
 import { motion, AnimatePresence } from "framer-motion";
-import { programNavItems } from "@/data/programs";
+import { programs } from "@/data/programs";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,22 +23,20 @@ const Navbar = () => {
   const aboutTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const location = useLocation();
 
-  // Program items for dropdown
-  const programItems = [
-    { name: "Healing, Peace-Building & Reconciliation", path: "/programs#healing-peace", shortName: "Healing & Peace" },
-    { name: "Abundant Leadership Development", path: "/programs#leadership", shortName: "Leadership" },
-    { name: "Integral Community Development", path: "/programs#community-dev", shortName: "Community Development" },
-    { name: "Promoting Resilience Among Youth (PRAY)", path: "/programs#youth-resilience", shortName: "Youth Resilience" },
-  ];
+  // Program items for dropdown - generated from programs data, only program names
+  const programItems = programs.map((program) => ({
+    name: program.title, // Use full title only
+    path: program.readMorePath ?? `/programs#${program.id}`,
+  }));
 
-  // About Us dropdown items (includes History)
+  // About Us dropdown items - only names, no shortName
   const aboutItems = [
-    { name: "Our Story", path: "/about#story", shortName: "Our Story" },
-    { name: "Vision & Mission", path: "/about#mission-vision", shortName: "Our Vision & Mission" },
-    { name: "History", path: "/about#history", shortName: "Our History" },
-    { name: "Our Team", path: "/about#team", shortName: "Our Team" },
-    { name: "Journey & Milestones", path: "/about#timeline", shortName: "Our Journey" },
-    { name: "Our Values", path: "/about#values", shortName: "Our Values" },
+    { name: "Our Story", path: "/about#story" },
+    { name: "Vision & Mission", path: "/about#mission-vision" },
+    { name: "History", path: "/about#history" },
+    { name: "Our Team", path: "/about#team" },
+    { name: "Journey & Milestones", path: "/about#timeline" },
+    { name: "Our Values", path: "/about#values" },
   ];
 
   useEffect(() => {
@@ -146,9 +144,9 @@ const Navbar = () => {
       name: "Programs",
       isDropdown: true,
       isProgramsDropdown: true,
-      items: programNavItems,
+      items: programItems, // Using program items from programs data
     },
-     {
+    {
       name: "Publications",
       isDropdown: true,
       items: [
@@ -158,7 +156,6 @@ const Navbar = () => {
     },
     { name: "Where We Work", path: "/where-we-work" },
     { name: "Partners", path: "/partners" },
-   
     { name: "Contact", path: "/contact" },
   ];
 
@@ -170,11 +167,10 @@ const Navbar = () => {
         initial={false}
         animate={{ y: isVisible ? 0 : -100 }}
         transition={{ duration: 0.3 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-lg"
-            : "bg-white/80 dark:bg-black/80 backdrop-blur-sm shadow-sm"
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+          ? "bg-white/95 dark:bg-black/95 backdrop-blur-md shadow-lg"
+          : "bg-white/80 dark:bg-black/80 backdrop-blur-sm shadow-sm"
+          }`}
       >
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
@@ -184,7 +180,7 @@ const Navbar = () => {
               <Link to="/" className="flex items-center gap-3 group">
                 <img src={LogoARBI} alt="ARBI logo" className="h-8 w-auto rounded-lg" />
                 <span className="text-xl font-bold text-foreground tracking-tight transition-all duration-300 group-hover:text-primary">
-                  Africa Restoring  Bridges Initiative
+                  Africa Restoring Bridges Initiative
                 </span>
               </Link>
             </motion.div>
@@ -200,86 +196,77 @@ const Navbar = () => {
                   whileHover={{ y: -2 }}
                 >
                   {link.isDropdown ? (
-                    <div 
+                    <div
                       className="relative"
                       ref={
-                        link.isProgramsDropdown ? programsDropdownRef : 
-                        link.isAboutDropdown ? aboutDropdownRef : 
-                        publicationsDropdownRef
+                        link.isProgramsDropdown ? programsDropdownRef :
+                          link.isAboutDropdown ? aboutDropdownRef :
+                            publicationsDropdownRef
                       }
                       onMouseEnter={
-                        link.isProgramsDropdown ? handleProgramsMouseEnter : 
-                        link.isAboutDropdown ? handleAboutMouseEnter : 
-                        handlePublicationsMouseEnter
+                        link.isProgramsDropdown ? handleProgramsMouseEnter :
+                          link.isAboutDropdown ? handleAboutMouseEnter :
+                            handlePublicationsMouseEnter
                       }
                       onMouseLeave={
-                        link.isProgramsDropdown ? handleProgramsMouseLeave : 
-                        link.isAboutDropdown ? handleAboutMouseLeave : 
-                        handlePublicationsMouseLeave
+                        link.isProgramsDropdown ? handleProgramsMouseLeave :
+                          link.isAboutDropdown ? handleAboutMouseLeave :
+                            handlePublicationsMouseLeave
                       }
                     >
                       <button
-                        className={`nav-link-item text-sm font-medium transition-colors duration-300 ${
-                          (link.isProgramsDropdown && isProgramsActive) ||
+                        className={`nav-link-item text-sm font-medium transition-colors duration-300 ${(link.isProgramsDropdown && isProgramsActive) ||
                           (link.isAboutDropdown && isAboutActive) ||
                           (!link.isProgramsDropdown && !link.isAboutDropdown && (location.pathname === "/news" || location.pathname === "/events"))
-                            ? "text-primary"
-                            : "text-foreground/70 hover:text-foreground"
-                        }`}
+                          ? "text-primary"
+                          : "text-foreground/70 hover:text-foreground"
+                          }`}
                       >
                         {link.name}
                       </button>
-                      
+
                       <AnimatePresence>
-                        {((link.isProgramsDropdown && isProgramsOpen) || 
-                          (link.isAboutDropdown && isAboutOpen) || 
+                        {((link.isProgramsDropdown && isProgramsOpen) ||
+                          (link.isAboutDropdown && isAboutOpen) ||
                           (!link.isProgramsDropdown && !link.isAboutDropdown && isPublicationsOpen)) && (
-                          <motion.div
-                            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                            transition={{ duration: 0.2 }}
-                            className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50 max-h-[480px] overflow-y-auto"
-                          >
-                            {link.items.map((item) => (
-                              <Link
-                                key={item.path}
-                                to={item.path}
-                                onClick={() => {
-                                  if (link.isProgramsDropdown) setIsProgramsOpen(false);
-                                  else if (link.isAboutDropdown) setIsAboutOpen(false);
-                                  else setIsPublicationsOpen(false);
-                                }}
-                                className={`block px-4 py-3 text-sm transition-colors ${
-                                  (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
-                                  (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
-                                  (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
+                            <motion.div
+                              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                              animate={{ opacity: 1, y: 0, scale: 1 }}
+                              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                              transition={{ duration: 0.2 }}
+                              className="absolute top-full left-0 mt-2 w-72 bg-card rounded-xl shadow-lg border border-border overflow-hidden z-50 max-h-[480px] overflow-y-auto"
+                            >
+                              {link.items.map((item) => (
+                                <Link
+                                  key={item.path}
+                                  to={item.path}
+                                  onClick={() => {
+                                    if (link.isProgramsDropdown) setIsProgramsOpen(false);
+                                    else if (link.isAboutDropdown) setIsAboutOpen(false);
+                                    else setIsPublicationsOpen(false);
+                                  }}
+                                  className={`block px-4 py-3 text-sm transition-colors ${(link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
+                                    (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
+                                    (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
                                     ? "bg-primary/10 text-primary font-medium"
                                     : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                                }`}
-                              >
-                                <div>
-                                  <div className="font-medium">{item.shortName || item.name}</div>
-                                  {link.isProgramsDropdown && item.name !== item.shortName && (
-                                    <div className="text-xs text-muted-foreground mt-0.5 line-clamp-1">
-                                      {item.name}
-                                    </div>
-                                  )}
-                                </div>
-                              </Link>
-                            ))}
-                          </motion.div>
-                        )}
+                                    }`}
+                                >
+                                  {/* Only display the full name, no shortName */}
+                                  <div className="font-medium">{item.name}</div>
+                                </Link>
+                              ))}
+                            </motion.div>
+                          )}
                       </AnimatePresence>
                     </div>
                   ) : (
                     <Link
                       to={link.path!}
-                      className={`nav-link-item nav-underline relative text-sm font-medium transition-colors duration-300 ${
-                        isActive(link.path!)
-                          ? "text-primary active-link"
-                          : "text-foreground/70 hover:text-foreground"
-                      }`}
+                      className={`nav-link-item nav-underline relative text-sm font-medium transition-colors duration-300 ${isActive(link.path!)
+                        ? "text-primary active-link"
+                        : "text-foreground/70 hover:text-foreground"
+                        }`}
                     >
                       {link.name}
                     </Link>
@@ -351,69 +338,61 @@ const Navbar = () => {
                         transition={{ delay: i * 0.05, duration: 0.3 }}
                       >
                         {link.isDropdown ? (
-                          <div 
+                          <div
                             className="relative"
                             onMouseEnter={
-                              link.isProgramsDropdown ? handleProgramsMouseEnter : 
-                              link.isAboutDropdown ? handleAboutMouseEnter : 
-                              handlePublicationsMouseEnter
+                              link.isProgramsDropdown ? handleProgramsMouseEnter :
+                                link.isAboutDropdown ? handleAboutMouseEnter :
+                                  handlePublicationsMouseEnter
                             }
                             onMouseLeave={
-                              link.isProgramsDropdown ? handleProgramsMouseLeave : 
-                              link.isAboutDropdown ? handleAboutMouseLeave : 
-                              handlePublicationsMouseLeave
+                              link.isProgramsDropdown ? handleProgramsMouseLeave :
+                                link.isAboutDropdown ? handleAboutMouseLeave :
+                                  handlePublicationsMouseLeave
                             }
                           >
                             <div className="px-4 py-2 text-sm font-medium text-foreground/70 cursor-pointer">
                               {link.name}
                             </div>
                             <AnimatePresence>
-                              {((link.isProgramsDropdown && isProgramsOpen) || 
-                                (link.isAboutDropdown && isAboutOpen) || 
+                              {((link.isProgramsDropdown && isProgramsOpen) ||
+                                (link.isAboutDropdown && isAboutOpen) ||
                                 (!link.isProgramsDropdown && !link.isAboutDropdown && isPublicationsOpen)) && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: "auto" }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  transition={{ duration: 0.2 }}
-                                  className="pl-6 flex flex-col gap-1 overflow-hidden"
-                                >
-                                  {link.items.map((item) => (
-                                    <Link
-                                      key={item.path}
-                                      to={item.path}
-                                      onClick={() => setIsOpen(false)}
-                                      className={`px-4 py-2 rounded-lg transition-colors text-sm ${
-                                        (link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
-                                        (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
-                                        (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
+                                  <motion.div
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    exit={{ opacity: 0, height: 0 }}
+                                    transition={{ duration: 0.2 }}
+                                    className="pl-6 flex flex-col gap-1 overflow-hidden"
+                                  >
+                                    {link.items.map((item) => (
+                                      <Link
+                                        key={item.path}
+                                        to={item.path}
+                                        onClick={() => setIsOpen(false)}
+                                        className={`px-4 py-2 rounded-lg transition-colors text-sm ${(link.isProgramsDropdown && location.pathname + location.hash === item.path) ||
+                                          (link.isAboutDropdown && (location.pathname + location.hash === item.path || location.pathname === item.path)) ||
+                                          (!link.isProgramsDropdown && !link.isAboutDropdown && location.pathname === item.path)
                                           ? "bg-primary/10 text-primary font-medium"
                                           : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                                      }`}
-                                    >
-                                      <div>
-                                        <div>{item.shortName || item.name}</div>
-                                        {link.isProgramsDropdown && item.name !== item.shortName && (
-                                          <div className="text-xs text-muted-foreground mt-0.5">
-                                            {item.name}
-                                          </div>
-                                        )}
-                                      </div>
-                                    </Link>
-                                  ))}
-                                </motion.div>
-                              )}
+                                          }`}
+                                      >
+                                        {/* Only display the full name, no shortName */}
+                                        <div>{item.name}</div>
+                                      </Link>
+                                    ))}
+                                  </motion.div>
+                                )}
                             </AnimatePresence>
                           </div>
                         ) : (
                           <Link
                             to={link.path!}
                             onClick={() => setIsOpen(false)}
-                            className={`block px-4 py-2 rounded-lg transition-colors duration-200 ${
-                              isActive(link.path!)
-                                ? "bg-primary/10 text-primary font-medium"
-                                : "text-foreground/70 hover:bg-secondary hover:text-foreground"
-                            }`}
+                            className={`block px-4 py-2 rounded-lg transition-colors duration-200 ${isActive(link.path!)
+                              ? "bg-primary/10 text-primary font-medium"
+                              : "text-foreground/70 hover:bg-secondary hover:text-foreground"
+                              }`}
                           >
                             {link.name}
                           </Link>

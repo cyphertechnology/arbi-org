@@ -44,7 +44,7 @@ export const programs: Program[] = [
     id: "healing-peace",
     icon: Heart,
     title: "Healing, Peace-Building and Reconciliation",
-    shortTitle: "Healing & Peace",
+    shortTitle: "Healing &",
     tagline: "Program 1",
     summary:
       "Facilitating genuine healing and reconciliation through community-based psychosocial support, ethnic conflict healing, and early warning systems.",
@@ -63,7 +63,7 @@ export const programs: Program[] = [
   {
     id: "abcd",
     icon: Users,
-    title: "Asset Based Community Development(ABCD)",
+    title: "Asset Based Community Development",
     shortTitle: "ABCD",
     tagline: "Program 2",
     summary:
@@ -81,7 +81,7 @@ export const programs: Program[] = [
   {
     id: "baho",
     icon: HandHeart,
-    title: "Bridges for Amazing Hope(BAHO)",
+    title: "Bridges for Amazing Hope",
     shortTitle: "BAHO",
     tagline: "Program 3",
     summary:
