@@ -32,10 +32,10 @@ const Navbar = () => {
   // About Us dropdown items - only names, no shortName
   const aboutItems = [
     { name: "Our Story", path: "/about#story" },
-    { name: "Vision & Mission", path: "/about#mission-vision" },
-    { name: "History", path: "/about#history" },
+    { name: "Our Vision & Mission", path: "/about#mission-vision" },
+    { name: "Our History", path: "/about#history" },
     { name: "Our Team", path: "/about#team" },
-    { name: "Journey & Milestones", path: "/about#timeline" },
+    { name: "Our Journey & Milestones", path: "/about#timeline" },
     { name: "Our Values", path: "/about#values" },
   ];
 
