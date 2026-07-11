@@ -313,7 +313,7 @@ const WhereWeWork = () => {
                   whileHover={{ x: 10, borderColor: "hsl(var(--primary))", boxShadow: "0 4px 12px rgba(0,0,0,0.1)" }}
                 >
                   <div className="flex items-start gap-3">
-                    {/* <Heart className="w-5 h-5 text-primary mt-0.5" /> */}
+                    
                     <div>
                       <div className="font-bold text-foreground text-base">{group.group}</div>
                       <div className="text-muted-foreground text-sm mt-0.5">{group.desc}</div>
@@ -326,7 +326,57 @@ const WhereWeWork = () => {
         </div>
       </motion.section>
 
-
+      {/* Our Locations Map Section
+      <motion.section 
+        className="py-24 bg-background"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true, amount: 0.2 }}
+      >
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-8">
+          <motion.div 
+            className="text-center mb-12"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            <div className="flex items-center gap-3 mb-5 justify-center">
+              <div className="w-8 h-0.5 bg-primary" />
+              <span className="text-sm font-bold text-foreground tracking-[2px] uppercase">Our Locations</span>
+            </div>
+            <h2 className="text-4xl lg:text-[48px] font-bold text-foreground leading-tight">
+              Find us across North Kivu
+            </h2>
+            <p className="text-muted-foreground mt-4 text-lg max-w-2xl mx-auto">
+              We operate across multiple territories in North Kivu, with our headquarters located centrally in Goma.
+            </p>
+          </motion.div>
+          
+          <motion.div 
+            className="rounded-[24px] overflow-hidden shadow-soft border border-border bg-card p-2 sm:p-4"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <div className="rounded-[16px] overflow-hidden w-full h-[400px] md:h-[500px] relative bg-muted">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15939.704316239702!2d29.2108!3d-1.6741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x19c6e2b5b8e7c7e7%3A0x7e5a8b9c0d1e2f3a!2sGoma%2C%20Democratic%20Republic%20of%20the%20Congo!5e0!3m2!1sen!2sus!4v1635959562000!5m2!1sen!2sus"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="absolute inset-0"
+                title="ARBI Office Location - Goma, DRC"
+              ></iframe>
+            </div>
+          </motion.div>
+        </div>
+      </motion.section> */}
 
       {/* CTA Section */}
       <motion.section 
@@ -393,41 +443,6 @@ const WhereWeWork = () => {
         </div>
       </motion.section>
 
-      {/* Scripture Verse Section */}
-      <motion.section 
-        className="py-16 bg-primary/5"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true, amount: 0.2 }}
-      >
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            {/* <Heart className="w-12 h-12 text-primary mx-auto mb-4" /> */}
-          </motion.div>
-          <motion.p 
-            className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto"
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            viewport={{ once: true }}
-          >
-            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
-          </motion.p>
-          <motion.p 
-            className="text-md text-primary mt-3"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            — Isaiah 58:12
-          </motion.p>
-        </div>
-      </motion.section>
     </Layout>
   );
 };

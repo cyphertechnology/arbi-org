@@ -89,5 +89,15 @@
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
     "vite": "^8.1.3"
+  },
+  "overrides": {
+    "react-remove-scroll": "2.5.10",
+    "react-remove-scroll-bar": "2.3.6",
+    "react-style-singleton": "2.2.1"
+  },
+  "resolutions": {
+    "react-remove-scroll": "2.5.10",
+    "react-remove-scroll-bar": "2.3.6",
+    "react-style-singleton": "2.2.1"
   }
 }
