@@ -92,13 +92,12 @@ const ProgramModal = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-            {/* Tagline overlay */}
+            {/* Tagline overlay - removed icon */}
             <div className="absolute bottom-5 left-6 right-14">
               <div
-                className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${cc.bg} ${cc.text} backdrop-blur-sm`}
+                className={`inline-flex items-center px-3 py-1.5 rounded-full text-xs font-bold mb-3 ${cc.bg} ${cc.text} backdrop-blur-sm`}
               >
-                <program.icon className="w-3.5 h-3.5" />
-             
+                {/* Icon removed from here */}
               </div>
               <h2 className="text-white text-2xl sm:text-3xl font-bold leading-tight">
                 {program.title}
@@ -124,7 +123,7 @@ const ProgramModal = ({
 
             {/* Divider */}
             <div className="flex items-center gap-3 mb-5">
-              <div className={`w-1 h-6 rounded-full ${cc.bg}`} style={{ background: "hsl(var(--primary))" }} />
+              <div className="w-1 h-6 rounded-full bg-primary" />
               <h3 className="font-bold text-foreground uppercase tracking-widest text-xs">
                 {getLabel(program.id)}
               </h3>
@@ -348,21 +347,13 @@ const Programs = () => {
                       alt={prog.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
-                 
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col">
-                    {/* Icon + title */}
-                    <div className="flex items-start gap-3 mb-3">
-                      <div
-                        className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${cc.bg}`}
-                      >
-                        <prog.icon className={`w-5 h-5 ${cc.text}`} />
-                      </div>
-                      <h3 className="font-serif font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-                        {prog.title}
-                      </h3>
-                    </div>
+                    {/* title - removed icon block */}
+                    <h3 className="font-serif font-semibold text-foreground leading-snug line-clamp-2 group-hover:text-primary transition-colors mb-3">
+                      {prog.title}
+                    </h3>
 
                     {/* Summary */}
                     <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3 mb-4 flex-1">
