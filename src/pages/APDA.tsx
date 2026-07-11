@@ -124,10 +124,6 @@ const APDA = () => {
             
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6 border border-white/20">
-              <GraduationCap className="w-4 h-4" />
-              Special Initiative
-            </div>
 
             <h1 className="text-4xl lg:text-[56px] font-bold text-white leading-tight max-w-[800px] mb-6">
               Africa Peace and Development Academy (APDA)
