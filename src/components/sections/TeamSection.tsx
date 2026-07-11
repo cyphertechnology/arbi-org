@@ -343,12 +343,13 @@ const TeamSection = () => {
             </div>
             {/* Content side */}
             <div className="tm-founder-body p-9 flex-1 flex flex-col justify-center">
-              <span className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-3">
-                {founder.role}
-              </span>
               <h3 className="text-2xl font-serif font-bold text-foreground mb-3">
                 {founder.name}
               </h3>
+              <span className="inline-block px-3 py-1 rounded-full text-[11px] font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-3">
+                {founder.role}
+              </span>
+
               <div className="w-10 h-[3px] bg-gradient-to-r from-primary to-accent-blue rounded-full mb-3" />
               <p className="text-muted-foreground text-[15px] leading-relaxed">
                 {founder.bio}
