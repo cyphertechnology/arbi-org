@@ -282,8 +282,8 @@ const Contact = () => {
                     <h4 className="font-semibold text-foreground mb-1">Office Hours</h4>
                     <p className="text-muted-foreground text-sm">
                       Monday - Friday: 8:00 AM - 5:00 PM (CAT)<br />
-                      Saturday: 9:00 AM - 1:00 PM<br />
-                      Sunday: Closed
+                      Saturday - Sunday: Closed<br />
+                      
                     </p>
                   </div>
                 </motion.div>
