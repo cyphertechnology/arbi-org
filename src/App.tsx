@@ -13,7 +13,10 @@ import NotFound from "./pages/NotFound";
 import Donate from "./pages/Donate";
 import Partners from "./pages/Partners";
 import News from "./pages/News";
+import NewsDetail from "./pages/NewsDetail";
 import Events from "./pages/Events";
+import EventDetail from "./pages/EventDetail";
+import StudioPage from "./pages/Studio";
 
 const queryClient = new QueryClient();
 
@@ -31,9 +34,12 @@ const App = () => (
           <Route path="/donate" element={<Donate />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/news" element={<News />} />
+          <Route path="/news/:id" element={<NewsDetail />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/events/:id" element={<EventDetail />} />
           <Route path="/where-we-work" element={<WhereWeWork />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/studio/*" element={<StudioPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
