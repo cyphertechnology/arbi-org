@@ -7,30 +7,30 @@ const testimonials = [
   {
     quote:
       "ARBI's healing and peace-building program transformed our community. The mental health and psychosocial support we received helped us process trauma and begin the journey of reconciliation. Today, we work together across former divides to rebuild our village.",
-    author: "Marie Uwimana",
+    // author: "Marie Uwimana",
     role: "Community Leader, Masisi",
-    image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80",
+    // image: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
       "The leadership development training equipped me with skills to serve my community with integrity. I've learned to promote unity, create economic opportunities, and fight corruption. ARBI's servant leadership model is changing how we lead in North Kivu.",
-    author: "Jean-Paul Birindwa",
+    // author: "Jean-Paul Birindwa",
     role: "Youth Leader, Goma",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
+    // image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
       "Before ARBI's youth resilience program, I was lost and involved in substance abuse. The mentorship and reintegration support gave me a second chance. Now I'm helping other young people find hope and purpose.",
-    author: "Amani Kabasha",
+    // author: "Amani Kabasha",
     role: "Program Beneficiary, Rutshuru",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
+    // image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
   },
   {
     quote:
       "As a partner organization, we've seen ARBI's commitment to integral community development firsthand. Their holistic approach empowers communities as assets and resources of their own development. Together, we're building sustainable healing and prosperity.",
-    author: "Pastor David Mubake",
+    // author: "Pastor David Mubake",
     role: "Partner Organization, MICAH",
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80",
+    // image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&auto=format&fit=crop&q=80",
   },
 ];
 
@@ -144,16 +144,10 @@ const TestimonialsSection = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
                 >
-                  <motion.img
-                    src={testimonials[currentIndex].image}
-                    alt={testimonials[currentIndex].author}
-                    className="w-14 h-14 rounded-full object-cover ring-2 ring-primary/20"
-                    whileHover={{ scale: 1.1 }}
-                    transition={{ duration: 0.3 }}
-                  />
+                 
                   <div>
                     <p className="font-semibold text-foreground">
-                      {testimonials[currentIndex].author}
+                      {/* {testimonials[currentIndex].author} */}
                     </p>
                     <p className="text-sm text-muted-foreground">
                       {testimonials[currentIndex].role}
