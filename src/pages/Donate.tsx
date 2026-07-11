@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Layout from "@/components/layout/Layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -48,6 +49,7 @@ import img6 from "@/assets/19.jpg";
 const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 
 const Donate = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [donationAmount, setDonationAmount] = useState("");
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -225,17 +227,18 @@ const Donate = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-center"
           >
-            <motion.div
+            {/* <motion.div
               className="inline-flex items-center gap-2 px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full text-primary-foreground text-sm font-medium mb-4"
               whileHover={{ scale: 1.05 }}
             >
               <Heart className="w-4 h-4" />
               Africa Restoring Bridges Initiative
-            </motion.div>
+            </motion.div> */}
 
             <motion.h1 
-              className="text-5xl md:text-6xl font-serif font-bold text-white mb-4"
+              className="text-5xl md:text-6xl font-serif font-bold text-white mb-4 "
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
@@ -244,7 +247,7 @@ const Donate = () => {
             </motion.h1>
             
             <motion.h2 
-              className="text-3xl md:text-4xl font-serif text-primary mb-4"
+              className="text-3xl md:text-4xl font-serif text-primary mb-4  "
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
@@ -253,7 +256,7 @@ const Donate = () => {
             </motion.h2>
             
             <motion.p 
-              className="text-xl text-white/90 mb-4"
+              className="text-xl text-white/90 mb-4 "
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -284,7 +287,12 @@ const Donate = () => {
                 Donate Now
                 <ChevronRight className="ml-2 w-4 h-4" />
               </Button>
-              <Button variant="outline" size="lg" className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20">
+              <Button 
+                onClick={() => navigate("/programs")}
+                variant="outline" 
+                size="lg" 
+                className="bg-white/10 backdrop-blur-sm border-white/20 text-white hover:bg-white/20"
+              >
                 <Shield className="mr-2 w-4 h-4" />
                 Learn More
               </Button>
