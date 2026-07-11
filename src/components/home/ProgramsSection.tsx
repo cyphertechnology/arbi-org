@@ -219,10 +219,9 @@ const ProgramsSection = () => {
                 transition={{ duration: 0.6, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                Six programs transforming communities. Since 2011, ARBI has run
+                ARBI has run
                 comprehensive initiatives designed to heal, empower, and transform
-                communities across North Kivu, DRC. Click{" "}
-                <strong>Read More</strong> to explore each program in full detail.
+                communities across North Kivu, DRC.
               </motion.p>
             </div>
 

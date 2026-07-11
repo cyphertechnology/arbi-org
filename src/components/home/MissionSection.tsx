@@ -3,7 +3,6 @@ import { containerVariants, itemVariants } from "@/lib/animationVariants";
 
 import visionImg from "@/assets/vision.png";
 import missionImg from "@/assets/mission.png";
-import whoWeAreImg from "@/assets/who we are.png";
 
 const items = [
   {
@@ -19,13 +18,6 @@ const items = [
       "To rebuild bridges within and between affected communities through integral community-based approaches fostering inclusive cooperation, capacity building for sustainable healing, peace building, and development.",
     image: missionImg,
     accent: "hsl(var(--teal))",
-  },
-  {
-    title: "Who We Are",
-    description:
-      "Restoring bridges within and between communities. Working towards healed, reconciled, and prosperous communities in the DRC.",
-    image: whoWeAreImg,
-    accent: "hsl(var(--gold))",
   },
 ];
 
@@ -92,7 +84,7 @@ const MissionSection = () => {
 
         {/* ── Flip Cards Grid ────────────────────────────────────── */}
         <motion.div
-          className="grid md:grid-cols-3 gap-8"
+          className="grid md:grid-cols-2 gap-8 max-w-3xl mx-auto"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -172,7 +164,7 @@ const MissionSection = () => {
         >
           <p className="text-sm italic text-muted-foreground">
             &ldquo;You will be called Repairer of Broken Walls, Restorer of
-            Streets with Dwellings.&rdquo; — Isaiah 58:12
+            Streets with Dwellings.
           </p>
         </motion.div>
       </div>
