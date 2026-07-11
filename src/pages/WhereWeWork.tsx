@@ -270,7 +270,7 @@ const WhereWeWork = () => {
                   whileHover={{ x: 10, backgroundColor: "hsl(var(--primary) / 0.1)" }}
                 >
                   <div className="flex items-start gap-3">
-                    <Heart className="w-5 h-5 text-primary mt-0.5" />
+                    
                     <div>
                       <div className="font-bold text-foreground text-base">{group.group}</div>
                       <div className="text-muted-foreground text-sm mt-0.5">{group.desc}</div>
@@ -283,7 +283,7 @@ const WhereWeWork = () => {
         </div>
       </motion.section>
 
-      {/* Our Locations Map Section */}
+      {/* Our Locations Map Section
       <motion.section 
         className="py-24 bg-background"
         initial={{ opacity: 0 }}
@@ -333,7 +333,7 @@ const WhereWeWork = () => {
             </div>
           </motion.div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* CTA Section */}
       <motion.section 
@@ -401,7 +401,7 @@ const WhereWeWork = () => {
       </motion.section>
 
       {/* Scripture Verse Section */}
-      <motion.section 
+      {/* <motion.section 
         className="py-16 bg-primary/5"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
@@ -434,7 +434,7 @@ const WhereWeWork = () => {
             — Isaiah 58:12
           </motion.p>
         </div>
-      </motion.section>
+      </motion.section> */}
     </Layout>
   );
 };

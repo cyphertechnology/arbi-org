@@ -121,10 +121,7 @@ const APDA = () => {
             </Link>
 
             <div className="flex items-center gap-3 mb-5">
-              <div className="w-8 h-0.5 bg-primary" />
-              <span className="text-sm font-bold text-white tracking-[2px] uppercase">
-                Program 6
-              </span>
+            
             </div>
 
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm font-medium mb-6 border border-white/20">
