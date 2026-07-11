@@ -158,7 +158,7 @@ const Contact = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
               >
-                <Heart className="w-4 h-4" />
+                {/* <Heart className="w-4 h-4" /> */}
                 Africa Restoring Bridges Initiative
               </motion.div>
               
@@ -639,7 +639,7 @@ const Contact = () => {
               animate={{ scale: [1, 1.05, 1] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <Heart className="w-6 h-6 text-primary mx-auto mb-2" />
+              {/* <Heart className="w-6 h-6 text-primary mx-auto mb-2" /> */}
             </motion.div>
             <p className="text-sm italic text-muted-foreground">
               "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."

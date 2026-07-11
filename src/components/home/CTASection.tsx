@@ -99,7 +99,7 @@ const CTASection = () => {
                     transition={{ duration: 1.5, repeat: Infinity }}
                     className="mr-2"
                   >
-                    <Heart className="w-5 h-5" />
+                    {/* <Heart className="w-5 h-5" /> */}
                   </motion.div>
                   Make a Donation
                 </Button>

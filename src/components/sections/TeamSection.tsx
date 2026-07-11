@@ -18,13 +18,14 @@ const teamMembers = [
     bio: "Visionary leader dedicated to building peace and restoring hope across conflict-affected communities in North Kivu, DRC.",
     initials: "ST",
   },
-  {
-    name: "Mulangi Kashawa Moise",
-    role: "Executive Director",
-    image: mulangiKashawa,
-    bio: "Leading strategic operations and program implementation to advance community healing and sustainable development.",
-    initials: "MK",
+{
+     name: "Uwase Mushonga Esther",
+    role: "Director of Finance and administration",
+    image: Esther,
+    bio: "Responsible for managing the organization's financial resources and ensuring smooth administrative operations.",
+    initials: "UME",
   },
+ 
   {
     name: "Kivanzanga Kahindo Marlyne",
     role: "Head of Community Development",
@@ -47,11 +48,11 @@ const teamMembers = [
     initials: "AN",
   },
   {
-    name: "Uwase Mushonga Esther",
-    role: "Director of Finance and administration",
-    image: Esther,
-    bio: "Responsible for managing the organization's financial resources and ensuring smooth administrative operations.",
-    initials: "UME",
+    name: "Mulangi Kashawa Moise",
+    role: "Cordinator",
+    image: mulangiKashawa,
+    bio: "Leading strategic operations and program implementation to advance community healing and sustainable development.",
+    initials: "MK",
   },
   {
     name: "Pastor Kastuva Kasereka Jean",
@@ -64,13 +65,6 @@ const teamMembers = [
     name: "Ngendo Lucien",
     role: "Public Relations & Communication Officer",
     image: ngendoLucien,
-    bio: "Amplifying the organization's voice and sharing stories of hope, healing, and transformation.",
-    initials: "NL",
-  },
-    {
-    name: "Uwase Mushonga Esther",
-    role: "Director of Finance and administration",
-    image: Esther,
     bio: "Amplifying the organization's voice and sharing stories of hope, healing, and transformation.",
     initials: "NL",
   },
@@ -289,11 +283,12 @@ const TeamSection = () => {
           transition={{ duration: 0.6 }}
           viewport={{ once: true }}
         >
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-4">
+          {/* <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-4">
             Our People
-          </span>
+          </span> */}
           <h2 className="text-4xl md:text-5xl font-serif font-bold text-foreground mb-4">
-            Meet the Team Behind the Mission
+            <span className="bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent">
+             Meet the Team Behind the Mission </span>
           </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-accent-blue rounded-full mx-auto mb-4" />
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg">
@@ -425,13 +420,15 @@ const TeamSection = () => {
               </div>
 
               {/* Content */}
-              <div className="p-5 pb-6">
-                <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-2.5">
-                  {member.role}
-                </span>
-                <h3 className="text-base font-serif font-bold text-foreground leading-tight">
+              <div className="p-5 pb-6" >
+                 <h3 className="text-base font-serif font-bold text-foreground leading-tight">
                   {member.name}
                 </h3>
+
+                <span  className=" inline-block px-2.5 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-primary/10 text-primary border border-primary/20 mb-2.5">
+                  {member.role}
+                </span>
+               
               </div>
             </motion.div>
           ))}
