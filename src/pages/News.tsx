@@ -333,28 +333,7 @@ const News = () => {
           </section>
         </>
       )}
-
-      {/* Scripture Verse */}
-      <motion.section
-        className="py-16 bg-primary/5"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        viewport={{ once: true }}
-      >
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            animate={{ scale: [1, 1.05, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          >
-            <Heart className="w-12 h-12 text-primary mx-auto mb-4" />
-          </motion.div>
-          <p className="text-xl md:text-2xl italic text-foreground max-w-3xl mx-auto">
-            "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
-          </p>
-          <p className="text-md text-primary mt-3">— Isaiah 58:12</p>
-        </div>
-      </motion.section>
+      
     </Layout>
   );
 };
