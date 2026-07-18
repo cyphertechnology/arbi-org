@@ -744,22 +744,7 @@ const Donate = () => {
                 <p className="text-foreground font-medium mt-1">🌍 Help rebuild communities in North Kivu</p>
               </motion.div>
 
-              {/* Scripture Reminder */}
-              <motion.div 
-                className="mt-5 bg-card rounded-2xl p-5 border border-border text-center"
-                whileHover={{ scale: 1.02 }}
-              >
-                <motion.div
-                  animate={{ scale: [1, 1.05, 1] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  <Heart className="w-6 h-6 text-primary mx-auto mb-2" />
-                </motion.div>
-                <p className="text-sm italic text-muted-foreground">
-                  "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
-                </p>
-                <p className="text-xs text-primary mt-2">— Isaiah 58:12</p>
-              </motion.div>
+              
             </motion.div>
           </div>
         </div>

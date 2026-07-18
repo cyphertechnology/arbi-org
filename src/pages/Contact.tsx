@@ -641,10 +641,6 @@ const Contact = () => {
             >
               {/* <Heart className="w-6 h-6 text-primary mx-auto mb-2" /> */}
             </motion.div>
-            <p className="text-sm italic text-muted-foreground">
-              "You will be called Repairer of Broken Walls, Restorer of Streets with Dwellings."
-            </p>
-            <p className="text-xs text-primary mt-1">— Isaiah 58:12</p>
           </motion.div>
         </div>
       </motion.section>
