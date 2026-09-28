@@ -1,9 +1,10 @@
 import Layout from "@/components/layout/Layout";
 import { Link } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { ArrowRight, Heart, Users, HandHeart, Globe, Target } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowRight, Heart, Users, HandHeart, Globe, Target, ExternalLink, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { containerVariants, itemVariants, cardHoverVariants } from "@/lib/animationVariants";
+import { Button } from "@/components/ui/button";
 
 import img1 from "@/assets/1.jpg";
 import img2 from "@/assets/20.jpg";
@@ -19,76 +20,201 @@ const HERO_IMAGES = [img1, img2, img3, img4, img5, img6, img7];
 import partnerCPA from "@/assets/partnerlog/cpa.jpeg";
 import partnerIICBS from "@/assets/partnerlog/LogoDiapositive.svg";
 import partnerRucher from "@/assets/partnerlog/rucher.png";
-import partnerMicah from "@/assets/partnerlog/micah.jpg";
-import partnerPDD from "@/assets/partnerlog/pdd.jpeg";
-import partnerPrison from "@/assets/partnerlog/prisonfellowship.png";
+import partnerHHTN from "@/assets/partnerlog/HHTN.png";
 import partnerWay from "@/assets/partnerlog/wayofpeace.webp";
 
 const PARTNER_LOGOS = [
-  { src: partnerCPA, alt: "CPA" },
-  { src: partnerIICBS, alt: "IICBS" },
-  { src: partnerRucher, alt: "Rucher" },
-  { src: partnerMicah, alt: "MICAH" },
-  { src: partnerPDD, alt: "PDD" },
-  { src: partnerPrison, alt: "Prison Fellowship" },
-  { src: partnerWay, alt: "Way of Peace" },
+  { src: partnerCPA, alt: "Community Poverty Action (CPA)" },
+  { src: partnerIICBS, alt: "Institute of Community Based Sociotherapy (ICBS)" },
+  { src: partnerRucher, alt: "Le Rucher Ministries" },
+  { src: partnerHHTN, alt: "Healing Hearts, Transforming Nations (HHTN)" },
+  { src: partnerWay, alt: "Heroes of Peace (HoPe)" },
 ];
 
-const ALL_PARTNERS = [
+export interface PartnerItem {
+  key: string;
+  img: string;
+  title: string;
+  desc: string;
+  href: string;
+  tags?: string[];
+}
 
-  {
-    key: "iicbs",
-    img: partnerIICBS,
-    title: "International Institute for Community-Based Support",
-    desc: "Providing expertise in psychosocial support and conflict transformation.",
-    href: "https://icbs.ngo",
-  },
+const ALL_PARTNERS: PartnerItem[] = [
   {
     key: "rucher",
     img: partnerRucher,
     title: "Le Rucher Ministries",
-    desc: "Collaborating on economic empowerment and livelihoods programs.",
+    desc: "Collaborating to deliver specialized trauma healing and equip Congolese community facilitators with integrative, practical, and faith-based frameworks that address deep-seated trauma, foster inter-ethnic reconciliation, and build long-term resilience across conflict-affected regions of eastern DRC.",
     href: "https://lerucher.org",
+    tags: ["Trauma Healing", "Facilitator Training", "Inter-Ethnic Reconciliation"],
   },
   {
-    key: "micah",
-    img: partnerMicah,
-    title: "MICAH Global Network",
-    desc: "Faith-based partner advancing integral mission and holistic development.",
-    href: "https://micahglobal.org",
+    key: "hhtn",
+    img: partnerHHTN,
+    title: "Healing Hearts, Transforming Nations (HHTN)",
+    desc: "Partnering to integrate an experiential trauma healing and reconciliation framework designed to support personal and community recovery across contexts of war, genocide, ethnic conflict, and deep systemic division.",
+    href: "https://hhtnglobal.org",
+    tags: ["Experiential Healing", "Systemic Reconciliation", "Community Recovery"],
   },
   {
-    key: "prison",
-    img: partnerPrison,
-    title: "Prison Fellowship",
-    desc: "Partnering on reconciliation and reintegration programs for ex-combatants.",
-    href: "https://pfrwanda.org",
+    key: "icbs",
+    img: partnerIICBS,
+    title: "Institute of Community Based Sociotherapy (ICBS)",
+    desc: "Our collaboration combines grassroots peacebuilding and community mobilization with evidence-based sociotherapy methodologies to deliver group psychosocial healing, foster inter-ethnic reconciliation, and build sustainable local resilience across conflict-affected communities.",
+    href: "https://icbs.ngo",
+    tags: ["Sociotherapy", "Psychosocial Healing", "Grassroots Peacebuilding"],
   },
   {
-    key: "way",
+    key: "hope",
     img: partnerWay,
-    title: "Way of Peace",
-    desc: "Collaborating on peace education and community healing initiatives.",
+    title: "Heroes of Peace (HoPe)",
+    desc: "Advance transitional justice and socio-economic development by equipping local servant leaders with community-based trauma healing and peacebuilding frameworks to resolve conflict and build lasting resilience.",
     href: "https://waypeace.org",
+    tags: ["Transitional Justice", "Servant Leadership", "Resilience Building"],
   },
-  //   {
-  //   key: "cpa",
-  //   img: partnerCPA,
-  //   title: "Community Partners Alliance",
-  //   desc: "Supporting community development and peace-building across North Kivu.",
-  //   href: "",
-  // },
-    {
-    key: "pdd",
-    img: partnerPDD,
-    title: "Program for Durable Development",
-    desc: "Working together on sustainable development and environmental initiatives.",
+  {
+    key: "cpa",
+    img: partnerCPA,
+    title: "Community Poverty Action (CPA)",
+    desc: "Collaborate on environmental care and socio-economic empowerment to build climate-resilient, economically self-sustaining, and peaceful communities.",
     href: "",
+    tags: ["Environmental Care", "Socio-Economic Empowerment", "Climate Resilience"],
   },
 ];
 
+const PartnerModal = ({
+  partner,
+  onClose,
+}: {
+  partner: PartnerItem;
+  onClose: () => void;
+}) => {
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <AnimatePresence>
+      <motion.div
+        className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.25 }}
+      >
+        <motion.div
+          className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+        />
+
+        <motion.div
+          className="relative z-10 w-full max-w-2xl bg-card rounded-[24px] border border-border shadow-2xl flex flex-col"
+          style={{ maxHeight: "90vh" }}
+          initial={{ opacity: 0, scale: 0.92, y: 30 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.94, y: 20 }}
+          transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+        >
+          {/* Header — fixed, not scrollable */}
+          <div className="flex items-start justify-between gap-4 p-6 sm:p-8 pb-4 flex-shrink-0">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-white dark:bg-gray-800 p-3 flex items-center justify-center border border-border shadow-sm flex-shrink-0">
+                <img
+                  src={partner.img}
+                  alt={partner.title}
+                  className="max-h-full max-w-full object-contain"
+                />
+              </div>
+              <div>
+                <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-semibold bg-primary/10 text-primary mb-1 uppercase tracking-wider">
+                  Partner Organization
+                </span>
+                <h3 className="text-xl sm:text-2xl font-bold text-foreground leading-tight">
+                  {partner.title}
+                </h3>
+              </div>
+            </div>
+
+            <button
+              onClick={onClose}
+              className="w-9 h-9 rounded-full bg-muted/80 hover:bg-muted text-foreground flex items-center justify-center transition-colors flex-shrink-0"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Scrollable Content — grows and scrolls */}
+          <div className="flex-1 overflow-y-auto px-6 sm:px-8 py-4 min-h-0">
+            <div className="mb-6">
+              <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-[1.5px] mb-3">
+                Partnership Overview &amp; Mission
+              </h4>
+              <p className="text-foreground/90 text-base leading-relaxed sm:text-lg">
+                {partner.desc}
+              </p>
+            </div>
+
+            {partner.tags && partner.tags.length > 0 && (
+              <div className="mb-4">
+                <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-[1.5px] mb-2.5">
+                  Core Collaboration Pillars
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {partner.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded-lg text-xs font-medium bg-muted text-muted-foreground border border-border/60"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer Actions — fixed at bottom */}
+          <div className="px-6 sm:px-8 py-5 border-t border-border flex flex-wrap items-center justify-between gap-3 flex-shrink-0">
+            {partner.href ? (
+              <Button asChild variant="default" className="gap-2">
+                <a
+                  href={partner.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Visit Official Website
+                  <ExternalLink className="w-4 h-4" />
+                </a>
+              </Button>
+            ) : (
+              <div />
+            )}
+            <Button variant="outline" onClick={onClose}>
+              Close
+            </Button>
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
 const Partners = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [selectedPartner, setSelectedPartner] = useState<PartnerItem | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -221,7 +347,7 @@ const Partners = () => {
                   {[
                     { icon: Users, value: "3,950+", label: "People Empowered" },
                     { icon: Globe, value: "4+", label: "Regions Reached" },
-                    { icon: HandHeart, value: "7+", label: "Partners" },
+                    { icon: HandHeart, value: "5+", label: "Strategic Partners" },
                   ].map((stat, idx) => (
                     <motion.div
                       key={idx}
@@ -326,46 +452,54 @@ const Partners = () => {
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
             >
-              {ALL_PARTNERS.map((p) => {
-                const content = (
-                  <>
+              {ALL_PARTNERS.map((p) => (
+                <motion.div
+                  key={p.key}
+                  className="bg-white dark:bg-gray-900 p-6 sm:p-7 rounded-[22px] border border-border shadow-soft flex flex-col justify-between"
+                  variants={itemVariants}
+                  whileHover={{ 
+                    y: -6, 
+                    boxShadow: "0 20px 35px -10px rgba(0,0,0,0.15)",
+                    transition: { duration: 0.25 }
+                  }}
+                >
+                  <div>
                     <motion.div 
-                      className="h-20 flex items-center justify-center mb-4 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 shadow-sm"
+                      className="h-20 flex items-center justify-center mb-5 bg-gray-50 dark:bg-gray-800 rounded-xl p-3 shadow-sm border border-border/50 cursor-pointer"
                       whileHover={{ scale: 1.02 }}
+                      onClick={() => setSelectedPartner(p)}
                     >
                       <img src={p.img} alt={p.title} className="max-h-full max-w-full object-contain" />
                     </motion.div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2">{p.title}</h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed">{p.desc}</p>
-                  </>
-                );
+                    <h3 className="text-lg font-bold text-foreground mb-2.5 leading-snug">{p.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-6 line-clamp-3">{p.desc}</p>
+                  </div>
 
-                return p.href ? (
-                  <motion.a 
-                    key={p.key} 
-                    href={p.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft block"
-                    variants={itemVariants}
-                    whileHover={{ 
-                      y: -8, 
-                      boxShadow: "0 20px 40px -12px rgba(0,0,0,0.2)",
-                      transition: { duration: 0.3 }
-                    }}
-                  >
-                    {content}
-                  </motion.a>
-                ) : (
-                  <motion.div
-                    key={p.key}
-                    className="bg-white dark:bg-gray-900 p-8 rounded-[20px] border border-border shadow-soft"
-                    variants={itemVariants}
-                  >
-                    {content}
-                  </motion.div>
-                );
-              })}
+                  <div className="pt-4 border-t border-border/60 flex items-center justify-between gap-2 mt-auto">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="font-medium group/btn hover:border-primary hover:text-primary transition-all rounded-lg text-xs"
+                      onClick={() => setSelectedPartner(p)}
+                    >
+                      Read More
+                      <ArrowRight className="w-3.5 h-3.5 ml-1.5 transition-transform group-hover/btn:translate-x-1" />
+                    </Button>
+
+                    {p.href && (
+                      <a
+                        href={p.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-primary transition-colors py-1.5 px-2.5 rounded-lg hover:bg-primary/5"
+                      >
+                        <span>Website</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    )}
+                  </div>
+                </motion.div>
+              ))}
             </motion.div>
           </div>
         </motion.section>
@@ -502,6 +636,13 @@ const Partners = () => {
           </div>
         </motion.section>
       </main>
+
+      {selectedPartner && (
+        <PartnerModal
+          partner={selectedPartner}
+          onClose={() => setSelectedPartner(null)}
+        />
+      )}
     </Layout>
   );
 };
