@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { containerVariants, itemVariants } from "@/lib/animationVariants";
 
-const partners = ["CPA", "IICBS", "Rucher", "MICAH", "PDD"];
+const partners = ["CPA", "ICBS", "Rucher", "HHTN", "HoPe"];
 
 const PartnersSection = () => {
   return (
